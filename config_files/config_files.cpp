@@ -1,4 +1,7 @@
 #include "config_files.h"
+#include <cstdio>
+#include <cstdlib>
+
 #include <QTextStream>
 #include <QDebug>
 #include <QThread>
@@ -7,12 +10,12 @@ config_Files::config_Files()
 
 }
 
-void config_Files::writeToFile(QString dir, QString path, QString value)
+void config_Files::writeToFile(std::string dir, std::string path, std::string value)
 {
     QDir myDir;
-    qDebug() << " tworze katalog: " << myDir.mkdir(dir);
-    myDir.cd(dir);
-    QFile file (myDir.absoluteFilePath(path) );
+    qDebug() << " tworze katalog: " << myDir.mkdir(QString::fromStdString(dir));
+    myDir.cd(QString::fromStdString(dir));
+    QFile file (myDir.absoluteFilePath(QString::fromStdString(path)) );
 
     file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
 
@@ -21,16 +24,21 @@ void config_Files::writeToFile(QString dir, QString path, QString value)
     }
 
     QTextStream stream(&file);
-    stream << value;
+    stream << QString::fromStdString(value);
 
     file.close();
+
 }
 
-QString config_Files::readFromFile(QString dir,QString path, QString def  )
+std::string config_Files::readFromFile(std::string dir, std::string path, std::string def  )
 {
-    QDir myDir(dir);
+    QString dirQ = QString::fromStdString(dir);
+    QString pathQ = QString::fromStdString(path);
+    QString defQ = QString::fromStdString(def);
 
-    QFile file (myDir.absoluteFilePath(path));
+    QDir myDir(dirQ);
+
+    QFile file (myDir.absoluteFilePath(pathQ));
 
     // możemy tylko czytać dane, oraz wczytujemy je jako tekst:
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -49,5 +57,5 @@ QString config_Files::readFromFile(QString dir,QString path, QString def  )
 
     file.close();
 
-    return text;
+    return text.toStdString();
 }
