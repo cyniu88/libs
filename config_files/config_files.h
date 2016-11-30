@@ -6,7 +6,7 @@
 
 class config_Files
 {
-
+// przzerobic na std::
 public:
     config_Files();
 
