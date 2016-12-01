@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <ctime>
 #include <sstream>
-
+#include <string>
 
 event_counters::event_counters(std::string name) : eventName(name)
 {
@@ -33,10 +33,11 @@ void event_counters::addEvent(    std::string note)
 
 std::string event_counters::getEvent()
 {
-    std::string ret;
+    std::string ret = "Event: "+help()+"\n";
     std::lock_guard < std::mutex > lock ( eventMutex);
+    int k =0;
     for (auto i : eventList){
-        ret += i.date + " "+ i.note + "\n";
+        ret += std::to_string(++k) +"\t"+i.date + "     "+ i.note + "\n";
     }
 
     return ret;
@@ -52,3 +53,4 @@ std::string event_counters::getEventName()
 {
     return eventName;
 }
+
