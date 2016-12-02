@@ -1,6 +1,7 @@
 #include "event_counters_handler.h"
 #include "event/new_connect_event.h"
 #include "event/event_unknown.h"
+#include "event/event_mpd.h"
 
 
 event_counters_handler::event_counters_handler()
@@ -10,6 +11,9 @@ event_counters_handler::event_counters_handler()
 
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown("unknown") );
     eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
+
+    std::shared_ptr <event_counters> eventMPD (new event_mpd("mpd") );
+    eventCountersMap.insert(  std::make_pair( eventMPD->getEventName(),   eventMPD )  );
 }
 
 std::shared_ptr<event_counters> event_counters_handler::run(std::string name)

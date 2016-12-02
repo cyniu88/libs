@@ -7,7 +7,7 @@ class event_unknown : public event_counters
 {
 public:
     event_unknown(std::string name);
-    virtual std::string help();
+    std::string help();
 };
 
 #endif // EVENT_UNKNOWN_H

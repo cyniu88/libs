@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     mainEvent.run("co")->addEvent("16:59, 14-12-2013");
 
     mainEvent.run("unknown")->addEvent("kkskskks");
-    int k = 100;
+    int k = 3;
     for ( auto i =0; i< k; ++i){
         mainEvent.run("connections")->addEvent("iter: "+ std::to_string(i)+" awaria");
     }
