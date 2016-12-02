@@ -14,12 +14,13 @@ struct eventStruct{
 
 class event_counters
 {
-std::mutex eventMutex;
+    std::mutex eventMutex;
 
 protected:
     //int counter = 0;
     std::string eventName;
-     std::vector <eventStruct> eventList;
+    std::vector <eventStruct> eventList;
+
 public:
     event_counters(std::string name);
     virtual std::string help() = 0;
