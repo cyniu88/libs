@@ -2,6 +2,7 @@
 #include "event/new_connect_event.h"
 #include "event/event_unknown.h"
 #include "event/event_mpd.h"
+#include "event/event_pilot.h"
 
 
 event_counters_handler::event_counters_handler()
@@ -14,11 +15,14 @@ event_counters_handler::event_counters_handler()
 
     std::shared_ptr <event_counters> eventMPD (new event_mpd("mpd") );
     eventCountersMap.insert(  std::make_pair( eventMPD->getEventName(),   eventMPD )  );
+
+    std::shared_ptr <event_counters> eventPilot (new event_pilot("pilot") );
+    eventCountersMap.insert(  std::make_pair( eventPilot->getEventName(),   eventPilot )  );
 }
 
 std::shared_ptr<event_counters> event_counters_handler::run(std::string name)
 {
-   // return eventCountersMap[name];
+    // return eventCountersMap[name];
 
     if (eventCountersMap.find(name) == eventCountersMap.end()){
         return eventCountersMap["unknown"];
@@ -34,8 +38,8 @@ std::string event_counters_handler::getListPossibleEvents()
 
     for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
 
-                result+= iter->first;
-                result+= "\n";
+        result+= iter->first;
+        result+= "\n";
     }
 
     return result;
@@ -47,8 +51,8 @@ std::string event_counters_handler::help(std::string name)
 
     if (name == ""){
         for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
-                    result+= iter->second->help();
-                    result+= "\n------------------------------\n";
+            result+= iter->second->help();
+            result+= "\n------------------------------\n";
         }
     }
     else{
