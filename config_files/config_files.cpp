@@ -1,10 +1,13 @@
 #include "config_files.h"
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
 
 #include <QTextStream>
 #include <QDebug>
 #include <QThread>
+
 config_Files::config_Files()
 {
 
@@ -12,21 +15,34 @@ config_Files::config_Files()
 
 void config_Files::writeToFile(std::string dir, std::string path, std::string value)
 {
-    QDir myDir;
-    qDebug() << " tworze katalog: " << myDir.mkdir(QString::fromStdString(dir));
-    myDir.cd(QString::fromStdString(dir));
-    QFile file (myDir.absoluteFilePath(QString::fromStdString(path)) );
+//    QDir myDir;
+//    qDebug() << " tworze katalog: " << myDir.mkdir(QString::fromStdString(dir));
+//    myDir.cd(QString::fromStdString(dir));
+//    QFile file (myDir.absoluteFilePath(QString::fromStdString(path)) );
 
-    file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
+//    file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
 
-    if (file.isOpen()){
-        qDebug() << "plik jest: " << file.isOpen();
+//    if (file.isOpen()){
+//        qDebug() << "plik jest: " << file.isOpen();
+//    }
+
+//    QTextStream stream(&file);
+//    stream << QString::fromStdString(value);
+
+//    file.close();
+
+
+    std::string pathFile = dir+   "/"       +path;
+    std::ofstream myfile (pathFile);
+
+    if (myfile.is_open())
+    {
+     // myfile << "This is a line.\n";
+      myfile << value;
+      myfile.close();
+
     }
-
-    QTextStream stream(&file);
-    stream << QString::fromStdString(value);
-
-    file.close();
+    else qDebug() <<"nie ma :(";
 
 }
 
