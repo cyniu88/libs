@@ -4,6 +4,9 @@
 #include <iostream>
 #include <fstream>
 
+
+#include <sys/stat.h>
+//#include <fstream>
 #include <QTextStream>
 #include <QDebug>
 #include <QThread>
@@ -15,63 +18,53 @@ config_Files::config_Files()
 
 void config_Files::writeToFile(std::string dir, std::string path, std::string value)
 {
-//    QDir myDir;
-//    qDebug() << " tworze katalog: " << myDir.mkdir(QString::fromStdString(dir));
-//    myDir.cd(QString::fromStdString(dir));
-//    QFile file (myDir.absoluteFilePath(QString::fromStdString(path)) );
+    [](std::string d)->int {
+#ifdef _WIN32
+        return  mkdir(d.c_str());
+#else
 
-//    file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text);
-
-//    if (file.isOpen()){
-//        qDebug() << "plik jest: " << file.isOpen();
-//    }
-
-//    QTextStream stream(&file);
-//    stream << QString::fromStdString(value);
-
-//    file.close();
+        return  mkdir(d.c_str(),777);
+#endif
+    }(dir);
 
 
-    std::string pathFile = dir+   "/"       +path;
-    std::ofstream myfile (pathFile);
-
+    std::string pathFile =  path;
+    std::ofstream myfile ;
+    myfile.open(pathFile,std::fstream::in | std::fstream::out | std::fstream::trunc);
     if (myfile.is_open())
     {
-     // myfile << "This is a line.\n";
-      myfile << value;
-      myfile.close();
+        myfile << value;
+        myfile.close();
+        qDebug() <<"JEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:( "<< QString::fromStdString(pathFile);
+        return;
+    }
+    else {
+        qDebug() <<"nie ma !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:( "<< QString::fromStdString(pathFile);
 
     }
-    else qDebug() <<"nie ma :(";
-
 }
 
 std::string config_Files::readFromFile(std::string dir, std::string path, std::string def  )
 {
-    QString dirQ = QString::fromStdString(dir);
-    QString pathQ = QString::fromStdString(path);
-    QString defQ = QString::fromStdString(def);
+    std::string line;
+    std::string ret;
+    std::string pathFile =  path;
+    std::ifstream myfile (pathFile);
+    if (myfile.is_open())
+    {
+        while ( getline (myfile,line) )
+        {
+            ret+= line+"\n";
+        }
+        myfile.close();
+    }
 
-    QDir myDir(dirQ);
-
-    QFile file (myDir.absoluteFilePath(pathQ));
-
-    // możemy tylko czytać dane, oraz wczytujemy je jako tekst:
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-
+    else
+    {
         writeToFile(dir, path,def);
         return def;
-
     }
-    // czyścimy wcześniej zapełnioną zmienną tekstową
-    QString text;
 
-    QTextStream stream(&file);
+    return ret;
 
-    // czytamy wszystkie dane
-    text = stream.readAll();
-
-    file.close();
-
-    return text.toStdString();
 }
