@@ -3,6 +3,7 @@
 #include "event/event_unknown.h"
 #include "event/event_mpd.h"
 #include "event/event_pilot.h"
+#include "event/event_command.h"
 
 
 event_counters_handler::event_counters_handler()
@@ -18,6 +19,9 @@ event_counters_handler::event_counters_handler()
 
     std::shared_ptr <event_counters> eventPilot (new event_pilot("pilot") );
     eventCountersMap.insert(  std::make_pair( eventPilot->getEventName(),   eventPilot )  );
+
+    std::shared_ptr <event_counters> eventCommand (new event_command("command") );
+    eventCountersMap.insert(  std::make_pair( eventCommand->getEventName(),   eventCommand )  );
 }
 
 std::shared_ptr<event_counters> event_counters_handler::run(std::string name)

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     event_counters/event/event_unknown.cpp \
     event_counters/event/new_connect_event.cpp \
     event_counters/event/event_mpd.cpp \
-    event_counters/event/event_pilot.cpp
+    event_counters/event/event_pilot.cpp \
+    event_counters/event/event_command.cpp
 
 HEADERS += \
     event_counters/event_counters.h \
@@ -17,4 +18,5 @@ HEADERS += \
     event_counters/event/event_unknown.h \
     event_counters/event/new_connect_event.h \
     event_counters/event/event_mpd.h \
-    event_counters/event/event_pilot.h
+    event_counters/event/event_pilot.h \
+    event_counters/event/event_command.h

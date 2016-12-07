@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 
     mainEvent.run("connections")->addEvent("dupa");
     mainEvent.run("connections")->addEvent();
+    mainEvent.run("command")->addEvent("jakas komenda");
+
 
     mainEvent.run("co")->addEvent("16:59, 14-12-2013");
 
