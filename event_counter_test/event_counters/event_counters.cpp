@@ -23,7 +23,7 @@ void event_counters::addEvent(    std::string note)
 
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
-    oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+    oss << std::put_time(&tm, "%d-%m-%Y %H:%M:%S");
 //oss << "dupa";
     d.date = oss.str();
     d.note = note;
