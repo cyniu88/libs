@@ -11,6 +11,7 @@ public:
     std::shared_ptr <event_counters> run(std::string name);
     std::string getListPossibleEvents();
     std::string help(std::string name = "");
+    void addEvent(std::string name);
 };
 
 #endif // EVENT_COUNTERS_HANDLER_H

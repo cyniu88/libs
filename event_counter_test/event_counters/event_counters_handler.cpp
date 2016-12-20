@@ -29,7 +29,8 @@ std::shared_ptr<event_counters> event_counters_handler::run(std::string name)
     // return eventCountersMap[name];
 
     if (eventCountersMap.find(name) == eventCountersMap.end()){
-        return eventCountersMap["unknown"];
+        addEvent(name);
+        return eventCountersMap[name];
     }
     else{
         return  eventCountersMap[name];
@@ -64,4 +65,10 @@ std::string event_counters_handler::help(std::string name)
     }
 
     return result;
+}
+
+void event_counters_handler::addEvent(std::string name)
+{
+    std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );
+    eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
 }

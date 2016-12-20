@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     mainEvent.run("connections")->addEvent("dupa");
     mainEvent.run("connections")->addEvent();
     mainEvent.run("command")->addEvent("jakas komenda");
-
-
+    mainEvent.run("ptak")->addEvent("jakas ptak");
+    mainEvent.run("ptak")->addEvent("jakas ptak numer dwa ");
     mainEvent.run("co")->addEvent("16:59, 14-12-2013");
 
     mainEvent.run("unknown")->addEvent("kkskskks");
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     std::cout << "event: " <<mainEvent.run("connections")->howManyEvent()  << std::endl;
     std::cout << "event: " <<mainEvent.run("connections")->getEventName()  << std::endl;
-    std::cout << "get event:\n" <<mainEvent.run("connections")->getEvent()  << std::endl;
+    std::cout << "get event:\n" <<mainEvent.run("ptak")->getEvent()  << std::endl;
     std::cout << "help : " <<mainEvent.run("connections")->help()  << std::endl;
 
     mainEvent.run("connections")->clearEvent();
