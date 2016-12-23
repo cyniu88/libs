@@ -17,6 +17,19 @@ struct Clock{
             throw 0;
         }
     };
+    std::string getString(){
+        std::string ret;
+        if (h<10) {
+            ret+="0";
+        }
+        ret+=std::to_string(h);
+        ret+=":";
+        if (min<10) {
+            ret+="0";
+        }
+        ret+=std::to_string(min);
+        return ret;
+    }
 };
 
 class SunRiseSet

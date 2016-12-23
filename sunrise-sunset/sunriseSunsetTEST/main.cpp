@@ -17,11 +17,11 @@ int main(){
 
     Clock k;
     k = mySunRiseSet.getSunSet();
-    std::cout << "SunSet: " <<k.h <<":"<< k.min<< std::endl;
+    std::cout << "SunSet: " <<k.getString() << std::endl;
     k = mySunRiseSet.getSunRise();
-    std::cout << "SunRise: " <<k.h <<":"<< k.min<< std::endl;
+    std::cout << "SunRise: " <<k.getString() << std::endl;
     k = mySunRiseSet.getDayLength();
-    std::cout << "Day Lenght: " <<k.h <<":"<< k.min<< std::endl;
+    std::cout << "Day Lenght: " <<k.getString() << std::endl;
     return 0;
 }
 
