@@ -27,8 +27,7 @@ void config_Files::writeToFile(std::string dir, std::string path, std::string va
 #endif
     }(dir);
 
-
-    std::string pathFile =  path;
+    std::string pathFile =    path;
     std::ofstream myfile ;
     myfile.open(pathFile,std::fstream::in | std::fstream::out | std::fstream::trunc);
     if (myfile.is_open())
@@ -40,7 +39,6 @@ void config_Files::writeToFile(std::string dir, std::string path, std::string va
     }
     else {
         qDebug() <<"nie ma !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:( "<< QString::fromStdString(pathFile);
-
     }
 }
 
@@ -48,7 +46,7 @@ std::string config_Files::readFromFile(std::string dir, std::string path, std::s
 {
     std::string line;
     std::string ret;
-    std::string pathFile =  path;
+    std::string pathFile =    path;
     std::ifstream myfile (pathFile);
     if (myfile.is_open())
     {
