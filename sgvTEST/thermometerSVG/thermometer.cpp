@@ -8,14 +8,13 @@ Thermometer::Thermometer(QWidget *parent)
 void Thermometer::setColor(QColor c)
 {
     color = c.name();
-
     QSvgWidget::load(getByteArraySVG());
 }
 
 void Thermometer::setBackgroundColor(QColor c)
 {
     backgroundColor = c.name();
-     QSvgWidget::load(getByteArraySVG());
+    QSvgWidget::load(getByteArraySVG());
 }
 
 void Thermometer::setTemperature(double t)
@@ -28,8 +27,7 @@ void Thermometer::setTemperature(double t)
     else{
         color = "#0000ff";
     }
-
-   QSvgWidget::load(getByteArraySVG());
+    QSvgWidget::load(getByteArraySVG());
 }
 
 template<class T>
@@ -39,8 +37,9 @@ T Thermometer::map_f(T value, T from_min, T from_max, T to_min, T to_max)
 }
 
 QByteArray Thermometer::getByteArraySVG()
-{  QString temp  = firstSVG+ backgroundColor+ firstSVG_A + QString::number(degr) + secSVG + color +thirdSVG + color + fourthSVG;
-  return   temp.toUtf8();
+{
+    QString temp  = firstSVG+ backgroundColor+ firstSVG_A + QString::number(degr) + secSVG + color +thirdSVG + color + fourthSVG;
+    return   temp.toUtf8();
 }
 
 
