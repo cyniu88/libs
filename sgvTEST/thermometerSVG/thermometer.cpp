@@ -32,8 +32,8 @@ void Thermometer::setTemperature(double t)
    QSvgWidget::load(getByteArraySVG());
 }
 
-
-auto Thermometer::map_f(auto value, auto from_min, auto from_max, auto to_min, auto to_max)
+template<class T>
+T Thermometer::map_f(T value, T from_min, T from_max, T to_min, T to_max)
 {
     return (value - from_min) * (to_max - to_min)/(from_max - from_min) + to_min;
 }

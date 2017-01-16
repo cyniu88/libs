@@ -1294,7 +1294,8 @@ public slots:
     void setBackgroundColor ( QColor c);
     void setTemperature(double t);
 private:
-    auto map_f(auto value, auto from_min, auto from_max, auto to_min, auto to_max);
+    template<class T>
+    T map_f(T value, T from_min, T from_max, T to_min, T to_max);
     QByteArray getByteArraySVG( );
 };
 
