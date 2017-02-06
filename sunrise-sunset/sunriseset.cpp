@@ -301,9 +301,6 @@ Clock SunRiseSet::getSunRise()
     if (L < pi) LL += tpi;
     double equation = 1440.0 * (1.0 - LL / tpi);
     double ha = f0(latit,delta);
-    double hb = f1(latit,delta);
-    double twx = hb - ha;   // length of twilight in radians
-    twx = 12.0*twx/pi;      // length of twilight in degrees
 
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;
@@ -311,16 +308,15 @@ Clock SunRiseSet::getSunRise()
     // arctic winter   //
 
     double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
-    double settm = 12.0 + 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
 
     if (riset > 24.0) riset-= 24.0;
-    if (settm > 24.0) settm-= 24.0;
+
     return  gethrmn(riset);
 }
 
 Clock SunRiseSet::getDayLength()
 {
-    double y,m,day,h,latit,longit;
+    double y,m,day,h,latit;
 
     time_t sekunnit;
     struct tm *p;
@@ -341,12 +337,7 @@ Clock SunRiseSet::getDayLength()
     day = p->tm_mday;
     h = 12;
 
-    // Timezone hours
-    double tzone=2.0;
-
     latit = LATITUDE;
-    longit = LONGITUDE;
-    tzone = TIMEZONE;
 
     double d = FNday(y, m, day, h);
 
@@ -358,37 +349,19 @@ Clock SunRiseSet::getDayLength()
     // Obliquity of the ecliptic
 
     double obliq = 23.439 * rads - .0000004 * rads * d;
-
-    // Find the RA and DEC of the Sun
-
-    double alpha = atan2(cos(obliq) * sin(lambda), cos(lambda));
     double delta = asin(sin(obliq) * sin(lambda));
 
 
     // Find the Equation of Time in minutes
     // Correction suggested by David Smith
 
-    double LL = L - alpha;
-    if (L < pi) LL += tpi;
-    double equation = 1440.0 * (1.0 - LL / tpi);
-
-
     double ha = f0(latit,delta);
-
-    double hb = f1(latit,delta);
-    double twx = hb - ha;   // length of twilight in radians
-    twx = 12.0*twx/pi;      // length of twilight in degrees
 
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;
     if (daylen<0.0001) {daylen = 0.0;}
     // arctic winter   //
 
-    double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
-    double settm = 12.0 + 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
-
-    if (riset > 24.0) riset-= 24.0;
-    if (settm > 24.0) settm-= 24.0;
     return  gethrmn(daylen);
 }
 
@@ -449,19 +422,15 @@ Clock SunRiseSet::getSunSet()
 
     double ha = f0(latit,delta);
 
-    double hb = f1(latit,delta);
-    double twx = hb - ha;   // length of twilight in radians
-    twx = 12.0*twx/pi;      // length of twilight in degrees
-
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;
     if (daylen<0.0001) {daylen = 0.0;}
     // arctic winter   //
 
-    double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
+    //double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
     double settm = 12.0 + 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
 
-    if (riset > 24.0) riset-= 24.0;
+    //if (riset > 24.0) riset-= 24.0;
     if (settm > 24.0) settm-= 24.0;
     return  gethrmn(settm);
 }
