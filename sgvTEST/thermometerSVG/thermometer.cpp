@@ -1,5 +1,6 @@
 #include "thermometer.h"
 #include <QDebug>
+
 Thermometer::Thermometer(QWidget *parent)
 {
     QSvgWidget::load(getByteArraySVG());
@@ -41,5 +42,3 @@ QByteArray Thermometer::getByteArraySVG()
     QString temp  = firstSVG+ backgroundColor+ firstSVG_A + QString::number(degr) + secSVG + color +thirdSVG + color + fourthSVG;
     return   temp.toUtf8();
 }
-
-

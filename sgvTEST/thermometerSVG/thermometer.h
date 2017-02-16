@@ -1293,6 +1293,7 @@ public slots:
     void setColor (QColor c);
     void setBackgroundColor ( QColor c);
     void setTemperature(double t);
+
 private:
     template<class T>
     T map_f(T value, T from_min, T from_max, T to_min, T to_max);
