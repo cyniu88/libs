@@ -6,7 +6,9 @@
 class event_counters_handler
 {
     std::map <std::string, std::shared_ptr<event_counters> > eventCountersMap;
+
 public:
+    static std::mutex echMutex;
     event_counters_handler();
     std::shared_ptr <event_counters> run(std::string name);
     std::string getListPossibleEvents();
