@@ -41,10 +41,10 @@ class SunRiseSet
     double tpi = 2 * pi;
     double degs = 180.0/pi;
     double rads = pi/180.0;
-
-    double L,g,daylen;
+    double L = 0;
+    double g = 0;
+    double daylen = 0;
     double SunDia = 0.53;  // Sunradius degrees
-
     double AirRefr = 34.0/60.0; // athmospheric refraction degrees //
 
     // Get the days to J2000
