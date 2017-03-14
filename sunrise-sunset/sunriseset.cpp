@@ -95,13 +95,11 @@ void SunRiseSet::printAllData()
     day = p->tm_mday;
     h = 12;
 
-    // Timezone hours
-    double tzone=2.0;
-
     std::cout << "Input latitude, longitude and timezone\n";
     latit = LATITUDE;
     longit = LONGITUDE;
-    tzone = TIMEZONE;
+    // Timezone hours
+    double tzone= TIMEZONE;
 
     double d = FNday(y, m, day, h);
 
@@ -274,12 +272,10 @@ Clock SunRiseSet::getSunRise()
     day = p->tm_mday;
     h = 12;
 
-    // Timezone hours
-    double tzone=2.0;
-
     latit = LATITUDE;
     longit = LONGITUDE;
-    tzone = TIMEZONE;
+    // Timezone hours
+    double tzone = TIMEZONE;
 
     double d = FNday(y, m, day, h);
 
@@ -388,12 +384,10 @@ Clock SunRiseSet::getSunSet()
     day = p->tm_mday;
     h = 12;
 
-    // Timezone hours
-    double tzone=2.0;
-
     latit = LATITUDE;
     longit = LONGITUDE;
-    tzone = TIMEZONE;
+    // Timezone hours
+    double tzone = TIMEZONE;
 
     double d = FNday(y, m, day, h);
 
