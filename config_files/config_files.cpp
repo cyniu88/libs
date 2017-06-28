@@ -56,13 +56,10 @@ std::string config_Files::readFromFile(std::string dir, std::string path, std::s
         }
         myfile.close();
     }
-
     else
     {
         writeToFile(dir, path,def);
         return def;
     }
-
     return ret;
-
 }
