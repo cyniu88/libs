@@ -34,7 +34,7 @@ struct Clock{
 
 class SunRiseSet
 {
-    int TIMEZONE  =  1;
+    int TIMEZONE  =  2;  //summer time 2 winter time 1 ?  check it  //TODO
     double LATITUDE  =  50.019519;
     double LONGITUDE =  19.903498;   //cracow
     double pi = M_PI;

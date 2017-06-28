@@ -100,34 +100,25 @@ void SunRiseSet::printAllData()
     longit = LONGITUDE;
     // Timezone hours
     double tzone= TIMEZONE;
-
     double d = FNday(y, m, day, h);
 
     // Use FNsun to find the ecliptic longitude of the
     // Sun
-
     double lambda = FNsun(d);
 
     // Obliquity of the ecliptic
-
     double obliq = 23.439 * rads - .0000004 * rads * d;
 
     // Find the RA and DEC of the Sun
-
     double alpha = atan2(cos(obliq) * sin(lambda), cos(lambda));
     double delta = asin(sin(obliq) * sin(lambda));
 
-
     // Find the Equation of Time in minutes
     // Correction suggested by David Smith
-
     double LL = L - alpha;
     if (L < pi) LL += tpi;
     double equation = 1440.0 * (1.0 - LL / tpi);
-
-
     double ha = f0(latit,delta);
-
     double hb = f1(latit,delta);
     double twx = hb - ha;   // length of twilight in radians
     twx = 12.0*twx/pi;      // length of twilight in degrees
@@ -154,38 +145,25 @@ void SunRiseSet::printAllData()
 
     std::cout << "\n Sunrise and set\n";
     std::cout << "===============\n";
-
-
-
-
     std::cout << "  year  : " << y << '\n';
     std::cout << "  month : " << m << '\n';
     std::cout << "  day   : " << day << "\n\n";
     std::cout << "Days until Y2K :  " << d << '\n';
-
     std::cout << "Latitude :  " << latit << ", longitude:  " << longit << '\n';
     std::cout << "Timezone :  " << tzone << "\n\n";
     std::cout << "Declination : " << delta * degs << '\n';
     std::cout << "Daylength   : "<< gethrmn(daylen).h<<":"<<gethrmn(daylen).min<< " hours \n";
-
     std::cout << "Begin civil twilight: "<<
                  gethrmn(twam).h<<":"<<gethrmn(twam).min; std::cout << '\n';
 
     std::cout << "Sunrise     : "<< gethrmn(riset).h<<":"<<gethrmn(riset).min; std::cout << '\n';
-
     std::cout << "Sun altitude at noontime ";
 
-    // Correction by D. Smith
-    std::cout << gethrmn(noont).h<<":"<<gethrmn(noont).min; std::cout << " = " << altmax << " degrees"
-                                                                      << (latit>= delta * degs ? "S" : "N")<< std::endl;
 
     std::cout << "Sunset      : "<<
                  gethrmn(settm).h<<":"<<gethrmn(settm).min; std::cout << '\n';
     std::cout << "Civil twilight: "<<
                  gethrmn(twpm).h<<":"<<gethrmn(twpm).min; std::cout << '\n';
-
-
-
 }
 
 void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE, int TIMEZONE)
@@ -250,12 +228,9 @@ int SunRiseSet::getDay()
 
 Clock SunRiseSet::getSunRise()
 {
-
     double y,m,day,h,latit,longit;
-
     time_t sekunnit;
     struct tm *p;
-
     // get the date and time from the user
     // read system date and extract the year
 
@@ -263,57 +238,42 @@ Clock SunRiseSet::getSunRise()
     time(&sekunnit);
 
     /** Next get localtime **/
-
     p=localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
-
     m = p->tm_mon + 1;
     day = p->tm_mday;
     h = 12;
-
     latit = LATITUDE;
     longit = LONGITUDE;
     // Timezone hours
     double tzone = TIMEZONE;
-
     double d = FNday(y, m, day, h);
-
     // Use FNsun to find the ecliptic longitude of the
     // Sun
-
     double lambda = FNsun(d);
-
     // Obliquity of the ecliptic
-
     double obliq = 23.439 * rads - .0000004 * rads * d;
-
     // Find the RA and DEC of the Sun
-
     double alpha = atan2(cos(obliq) * sin(lambda), cos(lambda));
     double delta = asin(sin(obliq) * sin(lambda));
-
     double LL = L - alpha;
     if (L < pi) LL += tpi;
     double equation = 1440.0 * (1.0 - LL / tpi);
     double ha = f0(latit,delta);
-
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;
     if (daylen<0.0001) {daylen = 0.0;}
     // arctic winter   //
-
     double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
 
     if (riset > 24.0) riset-= 24.0;
-
     return  gethrmn(riset);
 }
 
 Clock SunRiseSet::getDayLength()
 {
     double y,m,day,h,latit;
-
     time_t sekunnit;
     struct tm *p;
 
@@ -324,35 +284,24 @@ Clock SunRiseSet::getDayLength()
     time(&sekunnit);
 
     /** Next get localtime **/
-
     p=localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
-
     m = p->tm_mon + 1;
     day = p->tm_mday;
     h = 12;
-
     latit = LATITUDE;
-
     double d = FNday(y, m, day, h);
 
     // Use FNsun to find the ecliptic longitude of the
     // Sun
-
     double lambda = FNsun(d);
-
     // Obliquity of the ecliptic
-
     double obliq = 23.439 * rads - .0000004 * rads * d;
     double delta = asin(sin(obliq) * sin(lambda));
-
-
     // Find the Equation of Time in minutes
     // Correction suggested by David Smith
-
     double ha = f0(latit,delta);
-
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;
     if (daylen<0.0001) {daylen = 0.0;}
