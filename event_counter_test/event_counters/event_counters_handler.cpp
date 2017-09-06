@@ -29,11 +29,9 @@ std::shared_ptr<event_counters> event_counters_handler::run(std::string name)
 
     if (eventCountersMap.find(name) == eventCountersMap.end()){
         addEvent(name);
-        return eventCountersMap[name];
+
     }
-    else{
-        return  eventCountersMap[name];
-    }
+    return  eventCountersMap[name];
 }
 
 std::string event_counters_handler::getListPossibleEvents()
@@ -45,7 +43,6 @@ std::string event_counters_handler::getListPossibleEvents()
         result+= iter->first;
         result+= "\n";
     }
-
     return result;
 }
 
@@ -66,9 +63,11 @@ std::string event_counters_handler::help(std::string name)
     return result;
 }
 std::mutex event_counters_handler::echMutex;
+
 void event_counters_handler::addEvent(std::string name)
 {
     std::lock_guard <std::mutex> lock(event_counters_handler::echMutex);
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );
     eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
 }
+

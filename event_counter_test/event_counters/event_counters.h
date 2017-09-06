@@ -28,6 +28,7 @@ public:
     virtual void addEvent(std::string note = "");
     virtual std::string getEvent ();
     virtual void clearEvent();
+    virtual void clearEvent(unsigned int from, unsigned int to);
     std::string getEventName();
 };
 

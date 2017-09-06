@@ -4,6 +4,7 @@
 #include <ctime>
 #include <sstream>
 #include <string>
+#include <algorithm>
 
 event_counters::event_counters(std::string name) : eventName(name)
 {
@@ -24,7 +25,7 @@ void event_counters::addEvent(    std::string note)
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
     oss << std::put_time(&tm, "%d-%m-%Y %H:%M:%S");
-//oss << "dupa";
+
     d.date = oss.str();
     d.note = note;
     std::lock_guard < std::mutex > lock ( eventMutex);
@@ -43,10 +44,25 @@ std::string event_counters::getEvent()
     return ret;
 }
 
-void event_counters::clearEvent( )
+void event_counters::clearEvent()
 {
     std::lock_guard < std::mutex > lock ( eventMutex);
     eventList.clear();
+}
+
+void event_counters::clearEvent(unsigned int from, unsigned int to)
+{
+    int max = eventList.size();
+
+    if (max < to){
+        to = max;
+    }
+    if(max<from){
+        from = max;
+        to = max;
+    }
+    std::lock_guard < std::mutex > lock ( eventMutex);
+    eventList.erase(eventList.begin()+from, eventList.begin()+to);
 }
 
 std::string event_counters::getEventName()
