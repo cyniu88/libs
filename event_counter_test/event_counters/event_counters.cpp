@@ -40,7 +40,6 @@ std::string event_counters::getEvent()
     for (auto i : eventList){
         ret += std::to_string(++k) +"\t"+i.date + "     "+ i.note + "\n";
     }
-
     return ret;
 }
 
@@ -52,7 +51,10 @@ void event_counters::clearEvent()
 
 void event_counters::clearEvent(unsigned int from, unsigned int to)
 {
-    int max = eventList.size();
+    if (to < from){
+        return;
+    }
+    unsigned int max = eventList.size();
 
     if (max < to){
         to = max;
