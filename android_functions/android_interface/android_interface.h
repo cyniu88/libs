@@ -3,7 +3,7 @@
 
 #include <QObject>
 #ifdef Q_OS_ANDROID
-#include "androidhelper_cyniu.h"
+#include "../libs/android_functions/androidhelper_cyniu.h"
 #endif
 
 class android_interface
