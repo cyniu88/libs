@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\PROGRAMOWANIE\QT\QT_kurs\libs\FANN-2.2.0-Source\CMakeFiles\f9fa3f17b4ce65588b7054d50c2d1c3d\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{493C980D-46BE-3571-B552-E69FE1D5C10F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
