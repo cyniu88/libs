@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <ostream>
+#include <chrono>
+
 struct Clock{
     unsigned int h;
     unsigned int min;
@@ -16,7 +18,7 @@ struct Clock{
         else {
             throw 0;
         }
-    };
+    }
    const std::string getString(){
         std::string ret;
         if (h<10) {
@@ -99,4 +101,12 @@ struct Clock{
             }
            return false;
         }
+   static Clock getTime()
+    {
+        Clock t;
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
+        t.set( ltm->tm_hour ,ltm->tm_min );
+        return t;
+    }
 };

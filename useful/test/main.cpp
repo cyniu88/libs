@@ -5,7 +5,7 @@
 int main()
 {
     std::cout << "Hello World!" << std::endl;
-    Clock c(12,59);
+    Clock c = Clock::getTime();
     Clock k( 12,2);
     std::cout << "godzina "<< c.getString()<< std::endl;
     if (c < k) {
