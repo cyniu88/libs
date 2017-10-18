@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include <ostream>
 struct Clock{
     unsigned int h;
     unsigned int min;
     Clock () {}
-    Clock(int h, int m):h(h),min(m){}
+    Clock(int h, int m) {
+        set(h,m);
+    }
     void set(int h, int m){
         if (h<24 && m <60){
         this->h = h;
@@ -15,7 +17,7 @@ struct Clock{
             throw 0;
         }
     };
-    std::string getString(){
+   const std::string getString(){
         std::string ret;
         if (h<10) {
             ret+="0";
@@ -44,4 +46,57 @@ struct Clock{
             return false;
         }
     }
+
+    friend std::ostream & operator<< (std::ostream &w ,  Clock &c) {
+
+        return w   << c.getString();
+     }
+
+    bool operator < (const Clock& c){
+        if (this->h < c.h){
+             return true;
+        }
+        else{
+            if (this->h == c.h && this->min < c.min){
+               return true;
+            }
+        }
+        return false;
+    }
+    bool operator > (const Clock& c){
+        if (this->h > c.h){
+             return true;
+        }
+        else{
+            if (this->h == c.h && this->min > c.min){
+               return true;
+            }
+        }
+        return false;
+    }
+
+    bool operator >= (const Clock& c){
+        if (this->h > c.h){
+             return true;
+        }
+        else if (this->h == c.h){
+
+            if (this->min >= c.min){
+                return true;
+            }
+        }
+       return false;
+    }
+    bool operator <= (const Clock& c){
+            if (this->h < c.h){
+                 return true;
+            }
+            else if (this->h == c.h){
+
+                if (this->min <= c.min){
+                    return true;
+                }
+            }
+           return false;
+        }
 };
