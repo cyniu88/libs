@@ -61,8 +61,8 @@ Clock SunRiseSet::gethrmn(double dhr)
     hr=(int) dhr;
     mn = (dhr - (double) hr)*60;
 
-    Clock ret;
-    ret.set(hr,mn);
+    Clock ret(hr,mn);
+
     return ret;
 }
 
