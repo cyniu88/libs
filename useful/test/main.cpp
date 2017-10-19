@@ -6,7 +6,7 @@ int main()
 {
     std::cout << "Hello World!" << std::endl;
     Clock c = Clock::getTime();
-    Clock k( 12,2);
+    Clock k( 13,30);
     std::cout << "godzina "<< c.getString()<< std::endl;
     if (c < k) {
         std::cout << "c < k ! " <<std::endl;
