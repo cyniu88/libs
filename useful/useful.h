@@ -4,22 +4,24 @@
 #include <chrono>
 
 struct Clock{
-    unsigned int h;
-    unsigned int min;
+    unsigned int h = 0;
+    unsigned int min = 0;
     Clock () {}
-    Clock(int h, int m) {
+    Clock(unsigned int h, unsigned int m) {
         set(h,m);
     }
-    void set(int h, int m){
+    /////////////////////////////////////////////////////////////////////////////////////
+    void set(unsigned int h, unsigned int m){
         if (h<24 && m <60){
-        this->h = h;
-        this->min = m;
+            this->h = h;
+            this->min = m;
         }
         else {
             throw 0;
         }
     }
-   const std::string getString(){
+    /////////////////////////////////////////////////////////////////////////////////////
+    const std::string getString(){
         std::string ret;
         if (h<10) {
             ret+="0";
@@ -32,6 +34,7 @@ struct Clock{
         ret+=std::to_string(min);
         return ret;
     }
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator ==( const Clock & c){
         if ((this->h == c.h) && (this->min == c.min)){
             return true;
@@ -40,6 +43,7 @@ struct Clock{
             return false;
         }
     }
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator !=( const Clock & c){
         if ((this->h != c.h) || (this->min != c.min)){
             return true;
@@ -48,38 +52,39 @@ struct Clock{
             return false;
         }
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////
     friend std::ostream & operator<< (std::ostream &w ,  Clock &c) {
 
-        return w   << c.getString();
-     }
-
+        return w << c.getString();
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator < (const Clock& c){
         if (this->h < c.h){
-             return true;
+            return true;
         }
         else{
             if (this->h == c.h && this->min < c.min){
-               return true;
+                return true;
             }
         }
         return false;
     }
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator > (const Clock& c){
         if (this->h > c.h){
-             return true;
+            return true;
         }
         else{
             if (this->h == c.h && this->min > c.min){
-               return true;
+                return true;
             }
         }
         return false;
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator >= (const Clock& c){
         if (this->h > c.h){
-             return true;
+            return true;
         }
         else if (this->h == c.h){
 
@@ -87,28 +92,61 @@ struct Clock{
                 return true;
             }
         }
-       return false;
+        return false;
     }
+    /////////////////////////////////////////////////////////////////////////////////////
     bool operator <= (const Clock& c){
-            if (this->h < c.h){
-                 return true;
-            }
-            else if (this->h == c.h){
-
-                if (this->min <= c.min){
-                    return true;
-                }
-            }
-           return false;
+        if (this->h < c.h){
+            return true;
         }
-   static Clock getTime()
+        else if (this->h == c.h){
+
+            if (this->min <= c.min){
+                return true;
+            }
+        }
+        return false;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    Clock  operator + (const Clock& c){
+        unsigned int minutes, hours;
+        minutes = min+ c.min;
+        hours = h + c.h;
+        if (minutes >59){
+             minutes =  minutes % 60 ;
+             hours+=1;
+        }
+        if (hours >= 24){
+            hours-=24;
+        }
+        return  Clock(hours, minutes);
+
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    Clock&  operator += (const Clock& c){
+                unsigned int minutes, hours;
+        minutes = min+ c.min;
+        hours = h + c.h;
+        if (minutes >59){
+             minutes =  minutes % 60 ;
+             hours+=1;
+        }
+        if (hours >= 24){
+            hours-=24;
+        }
+        this->h = hours;
+        this->min = minutes;
+        return *this;
+
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    static Clock getTime()
     {
-        Clock t;
         time_t now = time(0);
         tm *ltm = localtime(&now);
-        t.set( ltm->tm_hour ,ltm->tm_min );
-        return t;
+        return Clock( ltm->tm_hour ,ltm->tm_min );
     }
+    /////////////////////////////////////////////////////////////////////////////////////
 };
 
 enum class STATE {
