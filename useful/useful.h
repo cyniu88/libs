@@ -113,8 +113,8 @@ struct Clock{
         minutes = min+ c.min;
         hours = h + c.h;
         if (minutes >59){
-             minutes =  minutes % 60 ;
-             hours+=1;
+            minutes =  minutes % 60 ;
+            hours+=1;
         }
         if (hours >= 24){
             hours-=24;
@@ -124,12 +124,12 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     Clock&  operator += (const Clock& c){
-                unsigned int minutes, hours;
+        unsigned int minutes, hours;
         minutes = min+ c.min;
         hours = h + c.h;
         if (minutes >59){
-             minutes =  minutes % 60 ;
-             hours+=1;
+            minutes =  minutes % 60 ;
+            hours+=1;
         }
         if (hours >= 24){
             hours-=24;
@@ -165,9 +165,16 @@ enum class STATE {
 
 std::string stateToString(STATE s){
     switch (s) {
-    case STATE::OFF: return "OFF";
-    case STATE::ON:  return "ON";
-
+    case STATE::OFF:        return "OFF";
+    case STATE::ON:         return "ON";
+    case STATE::PLAY:       return "PLAY";
+    case STATE::PAUSE:      return "PAUSE";
+    case STATE::STOP:       return "STOP";
+    case STATE::ACTIVE:     return "ACTIVE";
+    case STATE::DEACTIVE:   return "DEACTIVE";
+    case STATE::WORKING:    return "WORKING";
+    case STATE::DEFINE:     return "DEFINE";
+    case STATE::UNDEFINE:   return "UNDEFINE";
     default:
         return "UNKNOWN";
     }

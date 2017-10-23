@@ -31,5 +31,11 @@ int main()
 
 
     std::cout << " dodawanie " << c << std::endl;
+
+
+    STATE st;
+    st = STATE::UNKNOWN;
+
+    std::cout << "stan " << stateToString(st) << std::endl;
     return 0;
 }
