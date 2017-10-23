@@ -110,3 +110,27 @@ struct Clock{
         return t;
     }
 };
+
+enum class STATE {
+    OFF,
+    ON,
+    UNKNOWN,
+    PLAY,
+    PAUSE,
+    STOP,
+    ACTIVE,
+    DEACTIVE,
+    WORKING,
+    DEFINE,
+    UNDEFINE
+};
+
+std::string stateToString(STATE s){
+    switch (s) {
+    case STATE::OFF: return "OFF";
+    case STATE::ON:  return "ON";
+
+    default:
+        return "UNKNOWN";
+    }
+}
