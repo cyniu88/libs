@@ -11,6 +11,11 @@ FACEBOOK_API::FACEBOOK_API(std::string accessToken): m_accessToken(accessToken)
 
 }
 
+FACEBOOK_API::FACEBOOK_API()
+{
+
+}
+
 std::string FACEBOOK_API::postTxtOnWall(std::string msg, std::string accessToken)
 {
     std::string token = m_accessToken;

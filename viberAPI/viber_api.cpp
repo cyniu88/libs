@@ -11,7 +11,9 @@ viber_API::viber_API()
 
 }
 
-viber_API::viber_API(std::string accessToken, std::string url): m_accessToken(accessToken),m_url(url)
+viber_API::viber_API(std::string accessToken, std::string url, std::string avatar): m_accessToken(accessToken),
+    m_url(url),
+    m_avatar(avatar)
 {
 
 }
@@ -26,7 +28,12 @@ void viber_API::setURL(std::string url)
     m_url = url;
 }
 
-std::string viber_API::sendViberMSG(std::string msg, std::string user, std::string accessToken, std::string url)
+void viber_API::setAvatar(std::string avatar)
+{
+    m_avatar = avatar;
+}
+
+std::string viber_API::sendViberMSG(std::string msg, std::string receiver, std::string senderName, std::string accessToken, std::string url)
 {
     std::string token = m_accessToken;
     std::string Url = m_url;
@@ -38,26 +45,35 @@ std::string viber_API::sendViberMSG(std::string msg, std::string user, std::stri
     }
 
     CURL *curl;
-        CURLcode res;
-        std::string readBuffer;
-        std::string data = "caption="+msg;
-        data += "&url="+url;
-        std::string address = Url+token;
-        curl = curl_easy_init();
-        if(curl) {
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-            curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-            res = curl_easy_perform(curl);
-            /* Check for errors */
-            if(res != CURLE_OK)
-                fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                        curl_easy_strerror(res));
+    CURLcode res;
+    std::string readBuffer;
+    std::string data = "{ \"auth_token\":\"";
+    data += token;
+    data += "\",\"receiver\":\"";
+    data += receiver;
+    data += "\",\"min_api_version\":1,\"sender\":{\"name\":\"";
+    data += senderName;
+    data += "\",\"avatar\":\"";
+    data += m_avatar;
+    data += "\" },\"tracking_data\":\"tracking data\",\"type\":\"text\",\"text\":\"";
+    data += msg;
+    data += "\"  }";
+    std::string address = Url;
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
 
-            /* always cleanup */
-            curl_easy_cleanup(curl);
-        }
-        curl_global_cleanup();
-        return readBuffer;
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+    return readBuffer;
 }
