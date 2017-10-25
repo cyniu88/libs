@@ -18,7 +18,17 @@ public:
     void setAccessToken(std::string accessToken);
     void setURL(std::string url);
     void setAvatar (std::string avatar);
-    std::string sendViberMSG(std::string msg, std::string receiver, std::string senderName,std::string accessToken = "NULL",std::string url = "NULL");
+    std::string sendViberMSG(std::string msg,
+                             std::string receiver,
+                             std::string senderName,
+                             std::string accessToken = "NULL",
+                             std::string url = "NULL");
+    std::string sendViberPicture(std::string msg,
+                                 std::string image,
+                                 std::string receiver,
+                                 std::string senderName,
+                                 std::string accessToken = "NULL",
+                                 std::string url = "NULL");
 };
 
 #endif // VIBER_API_H
