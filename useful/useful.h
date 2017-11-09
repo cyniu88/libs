@@ -1,15 +1,25 @@
-#include <iostream>
-#include <string>
-#include <ostream>
 #ifndef Iusefull_H
 #define Iusefull_H
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <ostream>
 #include <chrono>
+
+std::vector<std::string> split_string(const std::string& s, char separator );
 
 struct Clock{
     unsigned int h = 0;
     unsigned int min = 0;
     Clock () {}
+    Clock(std::string t){
+        std::vector<std::string> vt = split_string(t,':');
+        int h = std::stoi(vt.at(0));
+        int m = std::stoi(vt.at(1));
+        set(h,m);
+    }
+
     Clock(unsigned int h, unsigned int m) {
         set(h,m);
     }

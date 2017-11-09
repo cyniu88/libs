@@ -1,5 +1,24 @@
 #include "useful.h"
 
+std::vector<std::string> split_string(const std::string& s, char separator ){
+    std::vector<std::string> output;
+    std::string::size_type prev_pos = 0, pos = 0;
+
+    while((pos = s.find(separator, pos)) != std::string::npos)
+    {
+        std::string substring( s.substr(prev_pos, pos-prev_pos) );
+        output.push_back(substring);
+        prev_pos = ++pos;
+    }
+    try {
+        output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+    }
+    catch (...){
+
+    }
+    return output;
+}
+
 std::string stateToString(STATE s){
     switch (s) {
     case STATE::OFF:        return "OFF";
