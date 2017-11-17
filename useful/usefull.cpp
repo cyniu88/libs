@@ -31,7 +31,7 @@ std::string stateToString(STATE s){
     case STATE::WORKING:    return "WORKING";
     case STATE::DEFINE:     return "DEFINE";
     case STATE::UNDEFINE:   return "UNDEFINE";
-    case STATE::ERROR:      return "ERROR";
+   // case STATE::ERROR:      return "ERROR";
     default:
         return "UNKNOWN";
     }

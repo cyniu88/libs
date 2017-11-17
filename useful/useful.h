@@ -173,9 +173,9 @@ enum class STATE {
     DEACTIVE,
     WORKING,
     DEFINE,
-    UNDEFINE,
-    ERROR
+    UNDEFINE
 };
+
 
 std::string stateToString(STATE s);
 
