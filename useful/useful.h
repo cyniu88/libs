@@ -6,9 +6,27 @@
 #include <vector>
 #include <ostream>
 #include <chrono>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
 
 std::vector<std::string> split_string(const std::string& s, char separator );
+#ifdef Q_OS_ANDROID
+namespace std {
+template <typename T>
+int stoi(T s){
+    return atoi(s.c_str());
+}
 
+template <typename T>
+std::string to_string(T value)
+{
+    std::ostringstream os ;
+    os << value ;
+    return os.str() ;
+}
+}
+#endif
 struct Clock{
     unsigned int h = 0;
     unsigned int min = 0;
