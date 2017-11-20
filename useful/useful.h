@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 std::vector<std::string> split_string(const std::string& s, char separator );
-#ifdef Q_OS_ANDROID
+//#ifdef Q_OS_ANDROID
 namespace std {
 template <typename T>
 int stoi(T s){
@@ -26,7 +26,7 @@ std::string to_string(T value)
     return os.str() ;
 }
 }
-#endif
+//#endif
 struct Clock{
     unsigned int h = 0;
     unsigned int min = 0;
@@ -35,7 +35,7 @@ struct Clock{
         std::vector<std::string> vt = split_string(t,':');
         int h = std::stoi(vt.at(0));
         int m = std::stoi(vt.at(1));
-        set(h,m);
+        set(static_cast <unsigned int>(h),static_cast <unsigned int>(m));
     }
 
     Clock(unsigned int h, unsigned int m) {
@@ -175,7 +175,7 @@ struct Clock{
     {
         time_t now = time(0);
         tm *ltm = localtime(&now);
-        return Clock( ltm->tm_hour ,ltm->tm_min );
+        return Clock( static_cast <unsigned int>(ltm->tm_hour),static_cast <unsigned int>(ltm->tm_min) );
     }
     /////////////////////////////////////////////////////////////////////////////////////
 };
