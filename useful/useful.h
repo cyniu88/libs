@@ -66,7 +66,7 @@ struct Clock{
         return ret;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator ==( const Clock & c){
+    bool operator == (const Clock & c){
         if ((this->h == c.h) && (this->min == c.min)){
             return true;
         }
@@ -75,7 +75,7 @@ struct Clock{
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator !=( const Clock & c){
+    bool operator != (const Clock & c){
         if ((this->h != c.h) || (this->min != c.min)){
             return true;
         }
@@ -169,6 +169,36 @@ struct Clock{
         this->min = minutes;
         return *this;
 
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    unsigned int toSeconds(){
+        return toSeconds(Clock(this->h, this->min) );
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    static unsigned int toSeconds(Clock t){
+        return ((t.h*60) + t.min)*60;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    static Clock fromSeconds(unsigned int sec){
+        unsigned int h = sec/3600;
+        unsigned int min = sec%3600;
+        min = min/60;
+        return Clock(h,min);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    static Clock periodOfTime(Clock start, Clock end)
+    {
+        if (end >= start){
+            return Clock::fromSeconds(end.toSeconds() - start.toSeconds()  );
+        }
+        else{
+            return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
+        }
+        //return diff;
     }
     /////////////////////////////////////////////////////////////////////////////////////
     static Clock getTime()
