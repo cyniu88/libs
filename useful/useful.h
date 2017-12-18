@@ -11,8 +11,9 @@
 #include <stdlib.h>
 
 std::vector<std::string> split_string(const std::string& s, char separator );
-//#ifdef Q_OS_ANDROID
+
 namespace std {
+
 template <typename T>
 int stoi(T s){
     return atoi(s.c_str());
