@@ -51,7 +51,13 @@ public:
         for (auto a : backup) {
             std::cout << a << ":";
         }
-        return backup[backup.size() / 2];
+        if (backup.size() % 2 != 0){
+            return backup[backup.size() / 2];
+        }
+        else{
+            T m = backup[backup.size() / 2] + backup[(backup.size() / 2)-1];
+            return m /2 ;
+        }
     }
 
     T average(){
