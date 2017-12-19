@@ -38,11 +38,11 @@ public:
     }
     void pop_back(){
         m_dequeue.pop_back();
-       // std::cout <<"pop_back"<<std::endl;
+        // std::cout <<"pop_back"<<std::endl;
     }
     void pop_front(){
         m_dequeue.pop_front();
-       // std::cout <<"pop_front"<<std::endl;
+        // std::cout <<"pop_front"<<std::endl;
     }
     ///////////////////////////////////////////// statistic /////////////////////////////
     T median(){
@@ -86,15 +86,29 @@ public:
         int down = 0;
         int eq = 0;
         int up = 0;
+        int lp = 0;
+        T diff = 0;
         T first = m_dequeue[0];
 
         for (auto i = 1 ; i < m_dequeue.size(); ++i){
-            if (first < m_dequeue[i]){ up++;}
+            if (first < m_dequeue[i]){
+                up++;
+                if (m_dequeue[i] - first > diff){
+                    diff = m_dequeue[i] - first;
+                    lp = i;
+                }
+            }
             if (first == m_dequeue[i]){ eq++;}
-            if (first > m_dequeue[i]){ down++;}
+            if (first > m_dequeue[i]){
+                if (diff < first - m_dequeue[i] ){
+                    diff = first - m_dequeue[i];
+                    lp = i;
+                }
+                down++;
+            }
             first = m_dequeue[i];
         }
-        std::cout <<"up "<<up<<" eq "<< eq << " down "<< down << std::endl;
+        std::cout <<"up "<<up<<" eq "<< eq << " down "<< down <<" max diff "<< diff<<" lp "<<lp << std::endl;
         return 2.2;
     }
     /////////////////////////////////////////////////////////////////////////////////////
