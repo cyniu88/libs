@@ -4,6 +4,7 @@
 #include <deque>
 #include <numeric>
 #include <algorithm>
+#include <sstream>
 
 template <class T>
 class STATISTIC
@@ -117,6 +118,16 @@ public:
             std::cout << ","<< n ;
         }
         std::cout << " " <<std::endl;
+    }
+    std::string stats(){
+
+        std::stringstream ss;
+
+        ss << "min: "<< min() <<std::endl
+           << "max: "<< max()<<std::endl
+           << "srednia " << average() <<std::endl
+           << "mediana " << median()<<std::endl;
+        return ss.str();
     }
 
 private:
