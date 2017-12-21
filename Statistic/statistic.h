@@ -59,7 +59,7 @@ public:
     }
 
     T average(){
-        T av = std::accumulate(m_dequeue.begin(), m_dequeue.end(), 0) / size();
+        T av = std::accumulate(m_dequeue.begin(), m_dequeue.end(), 0) / static_cast<T>(size());
         return av;
     }
 
@@ -119,14 +119,22 @@ public:
         }
         std::cout << " " <<std::endl;
     }
+
+
     std::string stats(){
 
         std::stringstream ss;
 
-        ss << "min: "<< min() <<std::endl
+        ss <<"rozmiar tablicy: "<< m_size <<std::endl
+           << "min: "<< min() <<std::endl
            << "max: "<< max()<<std::endl
            << "srednia " << average() <<std::endl
-           << "mediana " << median()<<std::endl;
+           << "mediana " << median()<<std::endl
+           << "data " <<  std::endl;
+        for(auto n : m_dequeue){
+            ss << "|"<< n ;
+        }
+        ss <<  std::endl;
         return ss.str();
     }
 

@@ -14,10 +14,10 @@ std::vector<std::string> split_string(const std::string& s, char separator );
 
 namespace std {
 
-template <typename T>
-int stoi(T s){
-    return atoi(s.c_str());
-}
+//template <typename T>
+//int stoi(T s){
+//    return atoi(s.c_str());
+//}
 
 template <typename T>
 std::string to_string(T value)
