@@ -59,16 +59,8 @@ public:
     }
 
     T average(){
-       T sum = std::accumulate(m_dequeue.begin(), m_dequeue.end(), static_cast<T>(0));
-       T av =  sum /size();
-       std::cout << "suma " << sum << " srednia " << av << std::endl;
-
-//        T sum = 0;
-//        for ( auto n : m_dequeue){
-//            sum+=n;
-//        }
-//        T av =  sum / static_cast<T>(size());
-//        std::cout << "suma " << sum << " srednia " << av << std::endl;
+        T sum = std::accumulate(m_dequeue.begin(), m_dequeue.end(), static_cast<T>(0));
+        T av  = sum /size();
         return av;
     }
 
@@ -132,16 +124,18 @@ public:
 
     std::string stats(){
 
-        std::stringstream ss;
-
-        ss <<"rozmiar tablicy: "<< size() <<std::endl
-           << "min: "<< min() <<std::endl
-           << "max: "<< max()<<std::endl
-           << "srednia " << average() <<std::endl
-           << "mediana " << median()<<std::endl
-           << "data " <<  std::endl;
-        for(auto n : m_dequeue){
-            ss << "|"<< n ;
+        std::stringstream ss("brak danych =(");
+        if(size()>0)
+        {
+            ss <<"rozmiar tablicy: "<< size() <<std::endl
+              << "min: "<< min() <<std::endl
+              << "max: "<< max()<<std::endl
+              << "srednia " << average() <<std::endl
+              << "mediana " << median()  <<std::endl
+              << "data " <<  std::endl;
+            for(auto n : m_dequeue){
+                ss << "|"<< n ;
+            }
         }
         ss <<  std::endl;
         return ss.str();
