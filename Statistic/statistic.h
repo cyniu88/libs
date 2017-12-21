@@ -59,7 +59,16 @@ public:
     }
 
     T average(){
-        T av = std::accumulate(m_dequeue.begin(), m_dequeue.end(), 0) / static_cast<T>(size());
+       T sum = std::accumulate(m_dequeue.begin(), m_dequeue.end(), static_cast<T>(0));
+       T av =  sum /size();
+       std::cout << "suma " << sum << " srednia " << av << std::endl;
+
+//        T sum = 0;
+//        for ( auto n : m_dequeue){
+//            sum+=n;
+//        }
+//        T av =  sum / static_cast<T>(size());
+//        std::cout << "suma " << sum << " srednia " << av << std::endl;
         return av;
     }
 
@@ -125,7 +134,7 @@ public:
 
         std::stringstream ss;
 
-        ss <<"rozmiar tablicy: "<< m_size <<std::endl
+        ss <<"rozmiar tablicy: "<< size() <<std::endl
            << "min: "<< min() <<std::endl
            << "max: "<< max()<<std::endl
            << "srednia " << average() <<std::endl
