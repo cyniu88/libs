@@ -5,6 +5,7 @@
 #include <numeric>
 #include <algorithm>
 #include <sstream>
+#include <cmath>
 
 template <class T>
 class STATISTIC
@@ -57,10 +58,13 @@ public:
             return m /2 ;
         }
     }
+    T sum(){
+        return std::accumulate(m_dequeue.begin(), m_dequeue.end(), static_cast<T>(0));
+    }
 
     T average(){
-        T sum = std::accumulate(m_dequeue.begin(), m_dequeue.end(), static_cast<T>(0));
-        T av  = sum /size();
+
+        T av  = sum() /size();
         return av;
     }
 
@@ -82,6 +86,20 @@ public:
             }
         }
         return min;
+    }
+
+    T range(){
+        return max() - min();
+    }
+
+    T standardDeviation(){
+        double standardDeviation = 0.0;
+        T _av = average();
+
+        for(int i = 0; i < size(); ++i){
+            standardDeviation += pow(m_dequeue.at(i) - _av, 2);
+        }
+        return sqrt(standardDeviation / size());
     }
 
     float trend(){
@@ -124,14 +142,16 @@ public:
 
     std::string stats(){
 
-        std::stringstream ss("brak danych =(");
+        std::stringstream ss(" brak danych =(");
         if(size()>0)
         {
+            ss.str("");
             ss <<"rozmiar tablicy: "<< size() <<std::endl
               << "min: "<< min() <<std::endl
               << "max: "<< max()<<std::endl
               << "srednia " << average() <<std::endl
               << "mediana " << median()  <<std::endl
+              << "odchylenie st "<< standardDeviation() << std::endl
               << "data " <<  std::endl;
             for(auto n : m_dequeue){
                 ss << "|"<< n ;
