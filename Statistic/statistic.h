@@ -63,7 +63,6 @@ public:
     }
 
     T average(){
-
         T av  = sum() /size();
         return av;
     }
@@ -103,7 +102,35 @@ public:
     }
 
     T coefficientOfVariation(){
-        return (standardDeviation()/average()) * 100;
+
+        return (standardDeviation()/average()) /** 100*/;
+    }
+
+    std::vector<T> mode(){
+        //        int i = 0;
+        std::vector<T> _mode;
+        //        auto backup = m_dequeue;
+        //        std::sort(backup.begin(), backup.end());
+        //        for(b : backup){
+
+        auto backup = m_dequeue;
+        std::sort(backup.begin(), backup.end());
+        T number = backup[0];
+        T max = backup[0];
+        T min = backup[0];
+        T mode;
+        for (int i = 1, countMode = 1, count = 1; i < backup.size(); ++i) {
+            if (backup[i] == number)
+                ++countMode;
+            if (countMode > count) {
+                count = countMode;
+                 mode = number;
+                 std::cout << "srod: " << mode << std::endl;
+            }
+            number = backup[i];
+        }
+        _mode.push_back(mode);
+       return _mode;
     }
 
     float trend(){
@@ -157,6 +184,12 @@ public:
               << "mediana " << median()  <<std::endl
               << "odchylenie st "<< standardDeviation() << std::endl
               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
+              << "Dominanta " ;
+            auto m = mode();
+            for ( n : m){
+                ss << n << "| ";
+            }
+             ss << std::endl
               << "data " <<  std::endl;
             for(auto n : m_dequeue){
                 ss << "|"<< n ;
