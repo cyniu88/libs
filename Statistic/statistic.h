@@ -102,6 +102,10 @@ public:
         return sqrt(standardDeviation / size());
     }
 
+    T coefficientOfVariation(){
+        return (standardDeviation()/average()) * 100;
+    }
+
     float trend(){
         int down = 0;
         int eq = 0;
@@ -152,6 +156,7 @@ public:
               << "srednia " << average() <<std::endl
               << "mediana " << median()  <<std::endl
               << "odchylenie st "<< standardDeviation() << std::endl
+              << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
               << "data " <<  std::endl;
             for(auto n : m_dequeue){
                 ss << "|"<< n ;
