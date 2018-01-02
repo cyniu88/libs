@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
+#include <vector>
 
 template <class T>
 class STATISTIC
@@ -116,16 +117,13 @@ public:
         auto backup = m_dequeue;
         std::sort(backup.begin(), backup.end());
         T number = backup[0];
-        T max = backup[0];
-        T min = backup[0];
         T mode;
-        for (int i = 1, countMode = 1, count = 1; i < backup.size(); ++i) {
+        for (unsigned int i = 1, countMode = 1, count = 1; i < backup.size(); ++i) {
             if (backup[i] == number)
                 ++countMode;
             if (countMode > count) {
                 count = countMode;
                  mode = number;
-                 std::cout << "srod: " << mode << std::endl;
             }
             number = backup[i];
         }
@@ -185,8 +183,8 @@ public:
               << "odchylenie st "<< standardDeviation() << std::endl
               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
               << "Dominanta " ;
-            auto m = mode();
-            for ( n : m){
+            auto mo = mode();
+            for ( auto n : mo){
                 ss << n << "| ";
             }
              ss << std::endl
