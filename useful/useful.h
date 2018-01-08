@@ -9,6 +9,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iomanip>
 
 std::vector<std::string> split_string(const std::string& s, char separator );
 
@@ -27,7 +28,15 @@ std::string to_string(T value)
     return os.str() ;
 }
 }
-//#endif
+
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 4)
+{
+    std::ostringstream out;
+    out << std::setprecision(n) << a_value;
+    return out.str();
+}
+
 struct Clock{
     unsigned int h = 0;
     unsigned int min = 0;

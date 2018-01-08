@@ -18,9 +18,6 @@ std::map<std::string, std::string> read_config  ( const char* file_path    )
     config_file.open(file_path, std::ios::in  );
     if( config_file.good() == false )
     {
-        log_file_mutex.mutex_lock();
-        log_file_cout << "Brak pliku konfiguracyjnego" << std::endl;
-        log_file_mutex.mutex_unlock();
         throw "cannot read config";
     }
 
@@ -46,9 +43,13 @@ std::map<std::string, std::string> read_config  ( const char* file_path    )
                 variable.push_back(content.at(i));  // variable
             }
         }
-        configMAP.insert(std::make_pair(variable, v_value));
+
+        if (v_value.size() > 0){
+            configMAP.insert(std::make_pair(variable, v_value));
+        }
+        variable.clear();
+        v_value.clear();
       }
     config_file.close();
-
     return configMAP;
 }

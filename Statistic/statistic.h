@@ -123,12 +123,12 @@ public:
                 ++countMode;
             if (countMode > count) {
                 count = countMode;
-                 mode = number;
+                mode = number;
             }
             number = backup[i];
         }
         _mode.push_back(mode);
-       return _mode;
+        return _mode;
     }
 
     float trend(){
@@ -160,6 +160,34 @@ public:
         std::cout <<"up "<<up<<" eq "<< eq << " down "<< down <<" max diff "<< diff<<" lp "<<lp << std::endl;
         return 2.2;
     }
+
+    bool isMoreDiff(T diff){
+        if (m_dequeue.size()>2){
+            T d = m_dequeue.at( m_dequeue.size()-2)
+                    - m_dequeue.at( m_dequeue.size() - 1);
+            d = fabs(d);
+            if (d > diff && m_alarm == false){
+                m_alarm = true;
+                return true;
+            }
+            if (d <= diff){
+                m_alarm = false;
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+        return false;
+    }
+    std::pair<double,double> getLast2(){
+        if (m_dequeue.size()>2){
+            return std::make_pair(static_cast<double>(m_dequeue.at( m_dequeue.size()-2)),
+                                  static_cast<double>(m_dequeue.at( m_dequeue.size()-1))    );
+        }
+        return std::make_pair(0.0,0.0);
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
     void print(){
         for(auto n : m_dequeue){
@@ -187,8 +215,8 @@ public:
             for ( auto n : mo){
                 ss << n << "| ";
             }
-             ss << std::endl
-              << "data " <<  std::endl;
+            ss << std::endl
+               << "data " <<  std::endl;
             for(auto n : m_dequeue){
                 ss << "|"<< n ;
             }
@@ -200,6 +228,7 @@ public:
 private:
     unsigned int m_size;
     std::deque <T> m_dequeue;
+    bool m_alarm = false;
 };
 
 #endif // STATISTIC_H
