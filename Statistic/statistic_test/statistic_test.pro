@@ -3,7 +3,9 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    ../../emoji/emoji.cpp
 
 HEADERS += \
-    ../statistic.h
+    ../statistic.h \
+    ../../emoji/emoji.h
