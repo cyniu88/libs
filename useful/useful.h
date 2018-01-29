@@ -220,7 +220,7 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
 };
 
-enum class STATE {
+enum class STATE { // WARNING remember add new state to stateToString() usefull.cpp
     OFF,
     ON,
     UNKNOWN,
@@ -231,7 +231,11 @@ enum class STATE {
     DEACTIVE,
     WORKING,
     DEFINE,
-    UNDEFINE
+    UNDEFINE,
+    LOCK,
+    UNLOCK,
+    EMPTY,
+    FULL
 };
 
 
