@@ -19,7 +19,7 @@ public:
     void resize(unsigned int i){
         if (i < m_size){
             while(m_dequeue.size()> i){
-                pop_back();
+                pop_front();
             }
         }
         m_size = i;

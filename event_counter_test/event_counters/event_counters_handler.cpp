@@ -29,7 +29,6 @@ std::shared_ptr<event_counters> event_counters_handler::run(std::string name)
 
     if (eventCountersMap.find(name) == eventCountersMap.end()){
         addEvent(name);
-
     }
     return  eventCountersMap[name];
 }
@@ -39,7 +38,6 @@ std::string event_counters_handler::getListPossibleEvents()
     std::string result;
 
     for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
-
         result+= iter->first;
         result+= "\n";
     }
