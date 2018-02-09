@@ -16,6 +16,7 @@ TEST(ClockClass, lessThen_Hours)
     Clock f(13,57);
     Clock g(23,59);
     EXPECT_EQ(f<g, true);
+    //EXPECT_LT(f,g);
 }
 
 TEST(ClockClass, plus_operator)

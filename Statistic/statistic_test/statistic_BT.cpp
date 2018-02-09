@@ -2,7 +2,6 @@
 #include <gmock/gmock.h>
 #include "../statistic.h"
 
-
 TEST(StatisticClass, average)
 {
     STATISTIC<double> average(12);
@@ -19,8 +18,7 @@ TEST(StatisticClass, average)
     average.push_back(6);
     average.push_back(6);
 
-    EXPECT_EQ(average.average() > 1.83333,true);
-    EXPECT_EQ(average.average() < 1.83334,true);
+    EXPECT_DOUBLE_EQ(average.average() , 1.8333333333333333);
 }
 
 TEST(StatisticClass, median)
@@ -114,11 +112,10 @@ TEST(StatisticClass, moreDiff)
     average.push_front(45);
     average.print();
 
-    EXPECT_EQ(average.isMoreDiff(2.2),false);
+    EXPECT_FALSE(average.isMoreDiff(2.2));
 
     average.push_back(7.3);
     average.print();
 
-    EXPECT_EQ(average.isMoreDiff(2.2),true);
-
+    EXPECT_TRUE(average.isMoreDiff(2.2));
 }
