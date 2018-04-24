@@ -65,17 +65,17 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     const std::string getString(){
-        std::string ret;
-        if (h<10) {
-            ret+="0";
+        std::stringstream ret;
+        if (h < 10) {
+            ret << "0";
         }
-        ret+=std::to_string(h);
-        ret+=":";
-        if (min<10) {
-            ret+="0";
+        ret << h;
+        ret << ":";
+        if (min < 10) {
+            ret << "0";
         }
-        ret+=std::to_string(min);
-        return ret;
+        ret << min;
+        return ret.str();
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator == (const Clock & c){
