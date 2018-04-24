@@ -34,13 +34,14 @@ void event_counters::addEvent(    std::string note)
 
 std::string event_counters::getEvent()
 {
-    std::string ret = "Event: "+help()+"\n";
+    std::stringstream ret;
+    ret << "Event: " << help() << "\n";
     std::lock_guard < std::mutex > lock ( eventMutex);
     int k =0;
     for (auto i : eventList){
-        ret += std::to_string(++k) +"\t"+i.date + "     "+ i.note + "\n";
+        ret << ++k << "\t" << i.date << "     " <<  i.note << "\n";
     }
-    return ret;
+    return ret.str();
 }
 
 void event_counters::clearEvent()
