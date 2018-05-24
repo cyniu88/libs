@@ -119,3 +119,33 @@ TEST(StatisticClass, moreDiff)
 
     EXPECT_TRUE(average.isMoreDiff(2.2));
 }
+
+TEST(StatisticClass, mode)
+{
+    STATISTIC<double> average(22);
+    average.push_back(29.62);
+    average.push_back(29.69);
+    average.push_back(30.19);
+    average.push_back(30.31);
+    average.push_back(30.81);
+    average.push_back(30.87);
+    average.push_back(31.25);
+    average.push_back(31.31);
+    average.push_back(31.56);
+    average.push_back(31.87);
+    average.push_back(31.94);
+    average.push_back(32.13);
+    average.push_back(32.13);
+    average.push_back(32.63);
+    average.push_back(33.5);
+
+    average.print();
+    std::cout << "MODE: " << average.mode().at(0) << std::endl;
+    EXPECT_DOUBLE_EQ(32.13,average.mode().at(0)) << "ZLA DOMINANTA";
+
+    average.push_back(33.5);
+    //std::cout << "MODE: " << average.mode().at(1) << std::endl;
+    //EXPECT_DOUBLE_EQ(32.13,average.mode().at(1)) << "ZLA DOMINANTA";
+    std::cout << "MODE: " << average.mode().at(0) << std::endl;
+    EXPECT_DOUBLE_EQ(33.5,average.mode().at(0)) << "ZLA DOMINANTA";
+}

@@ -108,11 +108,8 @@ public:
     }
 
     std::vector<T> mode(){
-        //        int i = 0;
+
         std::vector<T> _mode;
-        //        auto backup = m_dequeue;
-        //        std::sort(backup.begin(), backup.end());
-        //        for(b : backup){
 
         auto backup = m_dequeue;
         std::sort(backup.begin(), backup.end());
