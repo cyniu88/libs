@@ -13,6 +13,13 @@
 
 std::vector<std::string> split_string(const std::string& s, char separator );
 
+class useful_F_libs {
+public:
+    static  void write_to_mkfifo(std::string path,std::string msg);
+    static  std::string read_from_mkfifo(std::string path);
+    static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
+    static std::string find_tag (const std::string &temp);
+};
 namespace std {
 
 #ifdef ANDROID
