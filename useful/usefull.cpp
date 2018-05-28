@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <curl/curl.h>
 
 std::vector<std::string> split_string(const std::string& s, char separator ){
     std::vector<std::string> output;
@@ -86,4 +87,91 @@ std::string useful_F_libs::find_tag(const std::string& temp)
         }
     }
     return value;
+}
+
+#ifndef BT_TEST
+std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds)
+{
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    curl = curl_easy_init();
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+
+    return readBuffer;
+}
+#endif
+
+
+void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutSeconds)
+{
+    CURL *curl;
+    FILE *fp;
+    CURLcode res;
+
+    curl = curl_easy_init();
+    if (curl) {
+        fp = fopen(path.c_str(),"wb");
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        res = curl_easy_perform(curl);
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+        fclose(fp);
+    }
+}
+
+std::string useful_F_libs::replaceAll(std::string str, const std::string& from, const std::string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
+std::string useful_F_libs::removeHtmlTag(std::string &data)
+{
+    data = useful_F_libs::replaceAll(data,"</dl>","\n");
+
+    //data = useful_F::replaceAll(data,"    "," ");
+    bool copy = true;
+    std::string plainString = "";
+    std::stringstream convertStream;
+
+    // remove all xml tags
+    for (unsigned int i=0; i < data.length(); i++)
+    {
+        convertStream << data[i];
+
+        if(convertStream.str().compare("<") == 0) copy = false;
+        else if(convertStream.str().compare(">") == 0)
+        {
+            copy = true;
+            convertStream.str(std::string());
+            continue;
+        }
+
+        if(copy) plainString.append(convertStream.str());
+
+        convertStream.str(std::string());
+    }
+
+    return plainString;
 }
