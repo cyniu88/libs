@@ -42,3 +42,13 @@ TEST(ClockClass, from_to_second)
     Clock g = Clock::fromSeconds(sec);
     ASSERT_EQ(f.getString(),g.getString());
 }
+
+TEST(JSON, getJSON)
+{
+    nlohmann::json test_JSON = useful_F_libs::getJson("http://api.gios.gov.pl/pjp-api/rest/data/getData/401");
+    std::string testKey = test_JSON["key"].get<std::string>();
+
+    std::cout << " JSON JEST"<<std::endl << test_JSON.dump(4) << std::endl;
+
+    ASSERT_STREQ("PM10",testKey.c_str());
+}

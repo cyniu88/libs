@@ -10,7 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
-#include "json/single_include/nlohmann/json.hpp"
+#include "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann/json.hpp"
+//#include "json.hpp"
 
 std::vector<std::string> split_string(const std::string& s, char separator );
 
@@ -21,10 +22,12 @@ public:
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static std::string find_tag (const std::string &temp);
     //////////////////// HTTP req //////////////////////////
-    static std::string httpPost(std::string url, int timeoutSeconds );
+    static std::string httpPost(std::string url, int timeoutSeconds);
+    static std::string httpPost(std::string url);
     static void downloadFile(std::string url, std::string path, int timeoutSeconds);
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
+    static nlohmann::json getJson(std::string url, int timeoutSeconds = 10);
 };
 namespace std {
 

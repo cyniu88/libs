@@ -115,8 +115,12 @@ std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds)
 
     return readBuffer;
 }
-#endif
 
+std::string useful_F_libs::httpPost(std::string url)
+{
+    return useful_F_libs::httpPost(url, 10);
+}
+#endif
 
 void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutSeconds)
 {
@@ -174,4 +178,13 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     }
 
     return plainString;
+}
+
+nlohmann::json useful_F_libs::getJson(std::string url, int timeoutSeconds)
+{
+    std::string str = useful_F_libs::httpPost(url);
+
+    nlohmann::json jj = nlohmann::json::parse( str);
+
+    return jj;
 }
