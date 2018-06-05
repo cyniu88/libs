@@ -107,24 +107,30 @@ public:
         return (standardDeviation()/average()) /** 100*/;
     }
 
-    std::vector<T> mode(){
+    T mode(){
 
-        std::vector<T> _mode;
-
+        T _mode = 0;
+        T _modeTemp = 0;
+        int counter = 1;
+        int modeCounter = 1;
         auto backup = m_dequeue;
         std::sort(backup.begin(), backup.end());
-        T number = backup[0];
-        T mode;
-        for (unsigned int i = 1, countMode = 1, count = 1; i < backup.size(); ++i) {
-            if (backup[i] == number)
-                ++countMode;
-            if (countMode > count) {
-                count = countMode;
-                mode = number;
+        _mode = _modeTemp = backup.at(1);
+        for (auto b : backup){
+            if (_modeTemp == b){
+                modeCounter++;
             }
-            number = backup[i];
+            else {
+                _modeTemp = b;
+                modeCounter = 1;
+            }
+
+            if(counter < modeCounter){
+                counter = modeCounter;
+                _mode = _modeTemp;
+            }
         }
-        _mode.push_back(mode);
+        std::cout << " moda: " << _mode << " wystepuje razy " << counter << std::endl;
         return _mode;
     }
 
@@ -207,11 +213,9 @@ public:
               << "mediana " << median()  <<std::endl
               << "odchylenie st "<< standardDeviation() << std::endl
               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
-              << "Dominanta " ;
-            auto mo = mode();
-            for ( auto n : mo){
-                ss << n << "| ";
-            }
+              << "Dominanta " << mode();
+
+
             ss << std::endl
                << "data " <<  std::endl;
             for(auto n : m_dequeue){
