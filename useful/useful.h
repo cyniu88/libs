@@ -28,7 +28,7 @@ public:
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
     /////////////////////  JSON ////////////////////////////
-    static nlohmann::json getJson(std::string url, int timeoutSeconds = 10);
+    static nlohmann::json getJson(std::string url);
 };
 namespace std {
 

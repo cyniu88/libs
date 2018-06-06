@@ -45,7 +45,7 @@ TEST(ClockClass, from_to_second)
 
 TEST(JSON, getJSON)
 {
-    nlohmann::json test_JSON = useful_F_libs::getJson("http://api.gios.gov.pl/pjp-api/rest/data/getData/401");
+    nlohmann::json test_JSON = useful_F_libs::getJson("api.gios.gov.pl/pjp-api/rest/data/getData/401");
     std::string testKey = test_JSON["key"].get<std::string>();
 
     std::cout << " JSON JEST"<<std::endl << test_JSON.dump(4) << std::endl;

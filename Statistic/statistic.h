@@ -130,7 +130,7 @@ public:
                 _mode = _modeTemp;
             }
         }
-        std::cout << " moda: " << _mode << " wystepuje razy " << counter << std::endl;
+        //std::cout << " moda: " << _mode << " wystepuje razy " << counter << std::endl;
         return _mode;
     }
 

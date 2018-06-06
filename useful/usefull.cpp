@@ -180,10 +180,9 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     return plainString;
 }
 
-nlohmann::json useful_F_libs::getJson(std::string url, int timeoutSeconds)
+nlohmann::json useful_F_libs::getJson(std::string url)
 {
     std::string str = useful_F_libs::httpPost(url);
-
     nlohmann::json jj = nlohmann::json::parse( str);
 
     return jj;
