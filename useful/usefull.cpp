@@ -4,8 +4,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifndef IDOM
 #include <curl/curl.h>
-
+#endif
 std::vector<std::string> split_string(const std::string& s, char separator ){
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
@@ -47,7 +48,7 @@ std::string stateToString(STATE s){
     }
 }
 
-
+#ifndef IDOM
 void useful_F_libs::write_to_mkfifo(std::string path,  std::string msg)
 {
     int fd = open(path.c_str(), O_WRONLY| O_NONBLOCK);
@@ -187,3 +188,4 @@ nlohmann::json useful_F_libs::getJson(std::string url)
 
     return jj;
 }
+#endif
