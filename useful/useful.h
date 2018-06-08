@@ -253,7 +253,9 @@ enum class STATE { // WARNING remember add new state to stateToString() usefull.
     LOCK,
     UNLOCK,
     EMPTY,
-    FULL
+    FULL,
+    SEND_OK,
+    SEND_NOK
 };
 
 
