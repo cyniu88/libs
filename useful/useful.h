@@ -10,8 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
-//#include "/home/pi/programowanie/iDom_server_OOP/libs/json/single_include/nlohmann/json.hpp"
+#ifndef ANDROID
 #include "json.hpp"
+#endif
 
 std::vector<std::string> split_string(const std::string& s, char separator );
 
@@ -28,7 +29,10 @@ public:
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
     /////////////////////  JSON ////////////////////////////
+
+#ifndef ANDROID
     static nlohmann::json getJson(std::string url);
+#endif
 };
 namespace std {
 
