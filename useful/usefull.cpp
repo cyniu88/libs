@@ -38,11 +38,12 @@ std::string stateToString(STATE s){
     case STATE::WORKING:    return "WORKING";
     case STATE::DEFINE:     return "DEFINE";
     case STATE::UNDEFINE:   return "UNDEFINE";
-    case  STATE::LOCK:      return "LOCK";
-    case  STATE::UNLOCK:    return "UNLOCK";
-    case  STATE::EMPTY:     return "EMPTY";
-    case  STATE::FULL:      return "FULL";
-        // case STATE::ERROR:      return "ERROR";
+    case STATE::LOCK:       return "LOCK";
+    case STATE::UNLOCK:     return "UNLOCK";
+    case STATE::EMPTY:      return "EMPTY";
+    case STATE::FULL:       return "FULL";
+    case STATE::SEND_OK:    return "SEND_OK";
+    case STATE::SEND_NOK:   return "SEND_NOK";
     default:
         return "UNKNOWN";
     }
