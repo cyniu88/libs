@@ -114,23 +114,43 @@ public:
         int counter = 1;
         int modeCounter = 1;
         auto backup = m_dequeue;
+        if(m_dequeue.size() == 1)
+        {
+            std::cout << "size 1  moda pierwsza! " << std::endl;
+            return m_dequeue.at(0);
+        }
         std::sort(backup.begin(), backup.end());
-        _mode = _modeTemp = backup.at(1);
-        for (auto b : backup){
-            if (_modeTemp == b){
+#ifdef BT_TEST
+        std::cout << " " << std::endl;
+        for (auto i : backup)
+        {
+            std::cout << i << " ";
+        }
+        std::cout << " " << std::endl;
+#endif
+        _mode = _modeTemp = backup.at(0);
+        backup.pop_front();
+        for (auto b : backup)
+        {
+            if (_modeTemp == b)
+            {
                 modeCounter++;
             }
-            else {
+            else
+            {
                 _modeTemp = b;
                 modeCounter = 1;
             }
 
-            if(counter < modeCounter){
+            if(counter < modeCounter)
+            {
                 counter = modeCounter;
                 _mode = _modeTemp;
             }
         }
-        //std::cout << " moda: " << _mode << " wystepuje razy " << counter << std::endl;
+#ifdef BT_TEST
+        std::cout << " moda: " << _mode << " wystepuje razy " << counter << std::endl;
+#endif
         return _mode;
     }
 
