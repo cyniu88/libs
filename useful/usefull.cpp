@@ -128,7 +128,7 @@ void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutS
 {
     CURL *curl;
     FILE *fp;
-    CURLcode res;
+    //CURLcode res;
 
     curl = curl_easy_init();
     if (curl) {
@@ -137,7 +137,7 @@ void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutS
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-        res = curl_easy_perform(curl);
+        //res = curl_easy_perform(curl);
         /* always cleanup */
         curl_easy_cleanup(curl);
         fclose(fp);

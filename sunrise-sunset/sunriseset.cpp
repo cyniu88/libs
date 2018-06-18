@@ -130,12 +130,12 @@ void SunRiseSet::printAllData()
 
     double riset = 12.0 - 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
     double settm = 12.0 + 12.0 * ha/pi + tzone - longit/15.0 + equation/60.0;
-    double noont = riset + 12.0 * ha/pi;
-    double altmax = 90.0 + delta * degs - latit;
+    //double noont = riset + 12.0 * ha/pi;
+    //double altmax = 90.0 + delta * degs - latit;
     // Correction suggested by David Smith
     // to express as degrees from the N horizon
 
-    if (delta * degs > latit ) altmax = 90.0 + latit - delta * degs;
+    //if (delta * degs > latit ) altmax = 90.0 + latit - delta * degs;
 
     double twam = riset - twx;    // morning twilight begin
     double twpm = settm + twx;      // evening twilight end
