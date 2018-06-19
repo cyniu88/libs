@@ -35,6 +35,8 @@ std::string EMOJI::emoji(E_emoji e)
         return HEX_STR::hexToStr("F09F9389");
     case E_emoji::CHART_WITH_UPWARDS_TREND:
         return HEX_STR::hexToStr("F09F9388");
+    case E_emoji::THUNDER_CLOUD_AND_RAIN:
+        return HEX_STR::hexToStr("E29B88");
 
     }
     return"ok";

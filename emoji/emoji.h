@@ -17,7 +17,8 @@ enum class E_emoji{
     WARNING_SIGN,
     CHART_WITH_UPWARDS_TREND,
     CHART_WITH_DOWNWARDS_TREND,
-
+    THUNDER_CLOUD_AND_RAIN
+     ///// do not forget add to class EMOJI emoji
 };
 class HEX_STR
 { public:
