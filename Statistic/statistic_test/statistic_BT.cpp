@@ -2,48 +2,46 @@
 #include <gmock/gmock.h>
 #include "../statistic.h"
 
-TEST(StatisticClass, average)
+class StatisticClass_fixture : public ::testing::Test
 {
-    STATISTIC<double> average(12);
-    average.push_back(1);
-    average.push_back(1);
-    average.push_back(2);
-    average.push_back(2);
-    average.push_back(3);
-    average.push_back(3);
-    average.push_back(4);
-    average.push_back(4);
-    average.push_back(-5);
-    average.push_back(-5);
-    average.push_back(6);
-    average.push_back(6);
+public:
+    STATISTIC<double> average;
+    StatisticClass_fixture(): average(12)
+    {
+    }
+    void SetUp()
+    {
+        average.push_back(1);
+        average.push_back(1);
+        average.push_back(2);
+        average.push_back(2);
+        average.push_back(3);
+        average.push_back(3);
+        average.push_back(4);
+        average.push_back(4);
+        average.push_back(-5);
+        average.push_back(-5);
+        average.push_back(6);
+        average.push_back(6);
+    }
+    void TearDown()
+    {
 
+    }
+};
+
+TEST_F(StatisticClass_fixture, average)
+{
     EXPECT_DOUBLE_EQ(average.average() , 1.8333333333333333);
 }
-TEST(StatisticClass, averageOne)
+TEST_F(StatisticClass_fixture, averageOne)
 {
-    STATISTIC<double> average(12);
+    average.resize(1);
     average.push_back(1);
-
-
     EXPECT_DOUBLE_EQ(average.average() , 1.0);
 }
-TEST(StatisticClass, median)
+TEST_F(StatisticClass_fixture, median)
 {
-    STATISTIC<double> average(12);
-    average.push_back(1);
-    average.push_back(1);
-    average.push_back(2);
-    average.push_back(2);
-    average.push_back(3);
-    average.push_back(3);
-    average.push_back(4);
-    average.push_back(4);
-    average.push_back(-5);
-    average.push_back(-5);
-    average.push_back(6);
-    average.push_back(6);
-
     EXPECT_EQ(average.median(),2.5);
 }
 TEST(StatisticClass, medianOne)
@@ -52,40 +50,12 @@ TEST(StatisticClass, medianOne)
     average.push_back(1);
     EXPECT_EQ(average.median(),1.0);
 }
-TEST(StatisticClass, min)
+TEST_F(StatisticClass_fixture, min)
 {
-    STATISTIC<double> average(12);
-    average.push_back(1);
-    average.push_back(1);
-    average.push_back(2);
-    average.push_back(2);
-    average.push_back(3);
-    average.push_back(3);
-    average.push_back(4);
-    average.push_back(4);
-    average.push_back(-5);
-    average.push_back(-5);
-    average.push_back(6);
-    average.push_back(6);
-
     EXPECT_EQ(average.min(),-5);
 }
-TEST(StatisticClass, max)
+TEST_F(StatisticClass_fixture, max)
 {
-    STATISTIC<double> average(12);
-    average.push_back(1);
-    average.push_back(1);
-    average.push_back(2);
-    average.push_back(2);
-    average.push_back(3);
-    average.push_back(3);
-    average.push_back(4);
-    average.push_back(4);
-    average.push_back(-5);
-    average.push_back(-5);
-    average.push_back(6);
-    average.push_back(6);
-
     EXPECT_EQ(average.max(),6);
 }
 
