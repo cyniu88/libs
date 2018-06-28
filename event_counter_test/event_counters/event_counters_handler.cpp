@@ -68,4 +68,3 @@ void event_counters_handler::addEvent(std::string name)
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );
     eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
 }
-

@@ -17,7 +17,6 @@ class event_counters
     std::mutex eventMutex;
 
 protected:
-    //int counter = 0;
     std::string eventName;
     std::vector <eventStruct> eventList;
 

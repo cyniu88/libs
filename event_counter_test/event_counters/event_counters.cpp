@@ -72,4 +72,3 @@ std::string event_counters::getEventName()
 {
     return eventName;
 }
-
