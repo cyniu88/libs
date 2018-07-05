@@ -242,7 +242,7 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
 };
 
-enum class STATE { // WARNING remember add new state to stateToString() usefull.cpp
+enum class STATE {
     OFF,
     ON,
     UNKNOWN,
@@ -260,7 +260,7 @@ enum class STATE { // WARNING remember add new state to stateToString() usefull.
     FULL,
     SEND_OK,
     SEND_NOK
-    // do not forget  add state to stateToString
+    //WARNING remember add new state to stateToString() usefull.cpp
 };
 
 
