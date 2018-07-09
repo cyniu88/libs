@@ -96,7 +96,7 @@ std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds)
 {
     CURL *curl;
     CURLcode res;
-    std::string readBuffer = "0";
+    std::string readBuffer;
     curl = curl_easy_init();
 
     if(curl) {
