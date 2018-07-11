@@ -63,4 +63,4 @@ void BlockingQueue<T>::SetCapacity(const size_t capacity){
 template class BlockingQueue<int>;
 template class BlockingQueue<float>;
 template class BlockingQueue<double>;
-template class BlockingQueue<ADRESS_WHAT>;
+//template class BlockingQueue<ADRESS_WHAT>;
