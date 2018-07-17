@@ -44,7 +44,7 @@ TEST(ClockClass, from_to_second)
 
 TEST(JSON, getJSON)
 {
-    nlohmann::json test_JSON = useful_F_libs::getJson("http://cyniu88.no-ip.pl//test/json/on_lightning.json");
+    nlohmann::json test_JSON = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
     bool testKey = test_JSON["success"].get<bool>();
 
     std::cout << " JSON JEST" << std::endl << test_JSON.dump(4) << std::endl;

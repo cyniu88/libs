@@ -116,7 +116,6 @@ public:
         auto backup = m_dequeue;
         if(m_dequeue.size() == 1)
         {
-            std::cout << "size 1  moda pierwsza! " << std::endl;
             return m_dequeue.at(0);
         }
         std::sort(backup.begin(), backup.end());
