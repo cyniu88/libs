@@ -34,7 +34,8 @@ public:
     static nlohmann::json getJson(std::string url);
 #endif
 };
-namespace std {
+namespace std
+{
 
 #ifdef ANDROID
 template <typename T>
@@ -50,7 +51,7 @@ std::string to_string(T value)
     os << value ;
     return os.str() ;
 }
-}
+} // namespace std
 
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 4)
@@ -61,8 +62,12 @@ std::string to_string_with_precision(const T a_value, const int n = 4)
 }
 
 struct Clock{
-    unsigned int h = 0;
-    unsigned int min = 0;
+private:
+    std::time_t m_time;
+
+public:
+    unsigned int m_h = 0;
+    unsigned int m_min = 0;
     Clock () {}
     Clock(std::string t){
         std::vector<std::string> vt = split_string(t,':');
@@ -77,8 +82,8 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
     void set(unsigned int h, unsigned int m){
         if (h<24 && m <60){
-            this->h = h;
-            this->min = m;
+            this->m_h = h;
+            this->m_min = m;
         }
         else {
             throw 0;
@@ -87,20 +92,20 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
     const std::string getString(){
         std::stringstream ret;
-        if (h < 10) {
+        if (m_h < 10) {
             ret << "0";
         }
-        ret << h;
+        ret << m_h;
         ret << ":";
-        if (min < 10) {
+        if (m_min < 10) {
             ret << "0";
         }
-        ret << min;
+        ret << m_min;
         return ret.str();
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator == (const Clock & c){
-        if ((this->h == c.h) && (this->min == c.min)){
+        if ((this->m_h == c.m_h) && (this->m_min == c.m_min)){
             return true;
         }
         else{
@@ -109,7 +114,7 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator != (const Clock & c){
-        if ((this->h != c.h) || (this->min != c.min)){
+        if ((this->m_h != c.m_h) || (this->m_min != c.m_min)){
             return true;
         }
         else{
@@ -122,11 +127,11 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator < (const Clock& c){
-        if (this->h < c.h){
+        if (this->m_h < c.m_h){
             return true;
         }
         else{
-            if (this->h == c.h && this->min < c.min){
+            if (this->m_h == c.m_h && this->m_min < c.m_min){
                 return true;
             }
         }
@@ -134,11 +139,11 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator > (const Clock& c){
-        if (this->h > c.h){
+        if (this->m_h > c.m_h){
             return true;
         }
         else{
-            if (this->h == c.h && this->min > c.min){
+            if (this->m_h == c.m_h && this->m_min > c.m_min){
                 return true;
             }
         }
@@ -146,12 +151,12 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator >= (const Clock& c){
-        if (this->h > c.h){
+        if (this->m_h > c.m_h){
             return true;
         }
-        else if (this->h == c.h){
+        else if (this->m_h == c.m_h){
 
-            if (this->min >= c.min){
+            if (this->m_min >= c.m_min){
                 return true;
             }
         }
@@ -159,12 +164,12 @@ struct Clock{
     }
     /////////////////////////////////////////////////////////////////////////////////////
     bool operator <= (const Clock& c){
-        if (this->h < c.h){
+        if (this->m_h < c.m_h){
             return true;
         }
-        else if (this->h == c.h){
+        else if (this->m_h == c.m_h){
 
-            if (this->min <= c.min){
+            if (this->m_min <= c.m_min){
                 return true;
             }
         }
@@ -173,8 +178,8 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
     Clock  operator + (const Clock& c){
         unsigned int minutes, hours;
-        minutes = min+ c.min;
-        hours = h + c.h;
+        minutes = m_min+ c.m_min;
+        hours = m_h + c.m_h;
         if (minutes >59){
             minutes =  minutes % 60 ;
             hours+=1;
@@ -188,8 +193,8 @@ struct Clock{
     /////////////////////////////////////////////////////////////////////////////////////
     Clock&  operator += (const Clock& c){
         unsigned int minutes, hours;
-        minutes = min+ c.min;
-        hours = h + c.h;
+        minutes = m_min+ c.m_min;
+        hours = m_h + c.m_h;
         if (minutes >59){
             minutes =  minutes % 60 ;
             hours+=1;
@@ -197,20 +202,20 @@ struct Clock{
         if (hours >= 24){
             hours-=24;
         }
-        this->h = hours;
-        this->min = minutes;
+        this->m_h = hours;
+        this->m_min = minutes;
         return *this;
 
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
     unsigned int toSeconds(){
-        return toSeconds(Clock(this->h, this->min) );
+        return toSeconds(Clock(this->m_h, this->m_min) );
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
     static unsigned int toSeconds(Clock t){
-        return ((t.h*60) + t.min)*60;
+        return ((t.m_h*60) + t.m_min)*60;
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -240,6 +245,15 @@ struct Clock{
         return Clock( static_cast <unsigned int>(ltm->tm_hour),static_cast <unsigned int>(ltm->tm_min) );
     }
     /////////////////////////////////////////////////////////////////////////////////////
+    void stopwatchStart()
+    {
+        m_time = std::time(nullptr);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+    unsigned int  stopwatchStopAndGetResult()
+    {
+        return static_cast<unsigned int>(std::time(nullptr) - m_time);
+    }
 };
 
 enum class STATE {

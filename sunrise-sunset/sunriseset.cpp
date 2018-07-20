@@ -152,18 +152,18 @@ void SunRiseSet::printAllData()
     std::cout << "Latitude :  " << latit << ", longitude:  " << longit << '\n';
     std::cout << "Timezone :  " << tzone << "\n\n";
     std::cout << "Declination : " << delta * degs << '\n';
-    std::cout << "Daylength   : "<< gethrmn(daylen).h<<":"<<gethrmn(daylen).min<< " hours \n";
+    std::cout << "Daylength   : "<< gethrmn(daylen).m_h<<":"<<gethrmn(daylen).m_min<< " hours \n";
     std::cout << "Begin civil twilight: "<<
-                 gethrmn(twam).h<<":"<<gethrmn(twam).min; std::cout << '\n';
+                 gethrmn(twam).m_h<<":"<<gethrmn(twam).m_min; std::cout << '\n';
 
-    std::cout << "Sunrise     : "<< gethrmn(riset).h<<":"<<gethrmn(riset).min; std::cout << '\n';
+    std::cout << "Sunrise     : "<< gethrmn(riset).m_h<<":"<<gethrmn(riset).m_min; std::cout << '\n';
     std::cout << "Sun altitude at noontime ";
 
 
     std::cout << "Sunset      : "<<
-                 gethrmn(settm).h<<":"<<gethrmn(settm).min; std::cout << '\n';
+                 gethrmn(settm).m_h<<":"<<gethrmn(settm).m_min; std::cout << '\n';
     std::cout << "Civil twilight: "<<
-                 gethrmn(twpm).h<<":"<<gethrmn(twpm).min; std::cout << '\n';
+                 gethrmn(twpm).m_h<<":"<<gethrmn(twpm).m_min; std::cout << '\n';
 }
 
 void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE, int TIMEZONE)

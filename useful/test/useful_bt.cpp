@@ -42,6 +42,14 @@ TEST(ClockClass, from_to_second)
     EXPECT_EQ(f.getString(),g.getString());
 }
 
+TEST(ClockClass, stopwatch)
+{
+    Clock f;
+    f.stopwatchStart();
+    sleep(2);
+    EXPECT_EQ(2,f.stopwatchStopAndGetResult());
+}
+
 TEST(JSON, getJSON)
 {
     nlohmann::json test_JSON = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
