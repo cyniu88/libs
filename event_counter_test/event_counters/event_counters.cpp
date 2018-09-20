@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 
-event_counters::event_counters(std::string name) : eventName(name)
+event_counters::event_counters(const std::string& name) : eventName(name)
 {
 
 }

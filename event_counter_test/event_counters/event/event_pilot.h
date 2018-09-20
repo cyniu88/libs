@@ -7,7 +7,7 @@
 class event_pilot : public event_counters
 {
 public:
-    event_pilot(std::string name);
+    event_pilot(const std::string &name);
     std::string help();
 };
 

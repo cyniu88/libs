@@ -21,7 +21,7 @@ protected:
     std::vector <eventStruct> eventList;
 
 public:
-    event_counters(std::string name);
+    event_counters(const std::string &name);
     virtual std::string help() = 0;
     virtual int howManyEvent() ;
     virtual void addEvent(std::string note = "");

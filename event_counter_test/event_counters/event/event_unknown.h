@@ -7,7 +7,7 @@ class event_unknown : public event_counters
 {
     std::string  name;
 public:
-    event_unknown(std::string name);
+    event_unknown(const std::string &name);
     std::string help();
 };
 

@@ -5,7 +5,7 @@
 class event_command : public event_counters
 {
 public:
-    event_command(std::string name);
+    event_command(const std::string &name);
     std::string help();
 };
 #endif // EVENT_COMMAND_H

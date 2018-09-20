@@ -1,6 +1,6 @@
 #include "event_command.h"
 
-event_command::event_command(std::string name):  event_counters(name)
+event_command::event_command(const std::string& name):  event_counters(name)
 {
 
 }

@@ -6,7 +6,7 @@
 class event_mpd : public event_counters
 {
 public:
-    event_mpd(std::string name);
+    event_mpd(const std::string &name);
     std::string help();
 };
 

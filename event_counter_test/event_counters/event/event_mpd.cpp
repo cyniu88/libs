@@ -1,6 +1,6 @@
 #include "event_mpd.h"
 
-event_mpd::event_mpd(std::string name): event_counters(name)
+event_mpd::event_mpd(const std::string& name): event_counters(name)
 {
 
 }

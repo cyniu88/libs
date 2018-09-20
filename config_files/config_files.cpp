@@ -16,7 +16,7 @@ config_Files::config_Files()
 
 }
 
-void config_Files::writeToFile(std::string dir, std::string path, std::string value)
+void config_Files::writeToFile(const std::string& dir, std::string path, std::string value)
 {
     [](std::string d)->int {
 #ifdef _WIN32
@@ -42,7 +42,7 @@ void config_Files::writeToFile(std::string dir, std::string path, std::string va
     }
 }
 
-std::string config_Files::readFromFile(std::string dir, std::string path, std::string def  )
+std::string config_Files::readFromFile(const std::string& dir, std::string path, std::string def  )
 {
     std::string line;
     std::string ret;
