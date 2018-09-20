@@ -6,9 +6,12 @@ class FACEBOOK_API{
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
 public:
-    FACEBOOK_API(std::string accessToken);
+    FACEBOOK_API(const std::string& accessToken);
     FACEBOOK_API();
-    std::string postTxtOnWall(std::string msg, std::string accessToken = "NULL");
-    std::string postPhotoOnWall(std::string url,std::string msg = "",std::string accessToken = "NULL");
-    void setAccessToken(std::string token);
+    std::string postTxtOnWall(const std::string& msg,
+                              const std::string& accessToken = "NULL");
+    std::string postPhotoOnWall(const std::string& url,
+                                const std::string& msg = "",
+                                const std::string& accessToken = "NULL");
+    void setAccessToken(const std::string& token);
 };

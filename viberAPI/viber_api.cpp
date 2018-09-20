@@ -11,29 +11,29 @@ viber_API::viber_API()
 
 }
 
-viber_API::viber_API(std::string accessToken, std::string url, std::string avatar): m_accessToken(accessToken),
+viber_API::viber_API(const std::string &accessToken, const std::string &url, const std::string &avatar): m_accessToken(accessToken),
     m_url(url),
     m_avatar(avatar)
 {
 
 }
 
-void viber_API::setAccessToken(std::string accessToken)
+void viber_API::setAccessToken(const std::string &accessToken)
 {
     m_accessToken = accessToken;
 }
 
-void viber_API::setURL(std::string url)
+void viber_API::setURL(const std::string &url)
 {
     m_url = url;
 }
 
-void viber_API::setAvatar(std::string avatar)
+void viber_API::setAvatar(const std::string &avatar)
 {
     m_avatar = avatar;
 }
 
-std::string viber_API::sendViberMSG(std::string msg, std::string receiver, std::string senderName, std::string accessToken, std::string url)
+std::string viber_API::sendViberMSG(const std::string &msg, const std::string &receiver, const std::string &senderName, const std::string &accessToken, const std::string &url)
 {
     std::string token = m_accessToken;
     std::string Url = m_url;
@@ -78,12 +78,12 @@ std::string viber_API::sendViberMSG(std::string msg, std::string receiver, std::
     return readBuffer;
 }
 
-std::string viber_API::sendViberPicture(std::string msg,
-                                        std::string image,
-                                        std::string receiver,
-                                        std::string senderName,
-                                        std::string accessToken,
-                                        std::string url)
+std::string viber_API::sendViberPicture(const std::string &msg,
+                                        const std::string &image,
+                                        const std::string &receiver,
+                                        const std::string &senderName,
+                                        const std::string &accessToken,
+                                        const std::string &url)
 {
     std::string token = m_accessToken;
     std::string Url = m_url;

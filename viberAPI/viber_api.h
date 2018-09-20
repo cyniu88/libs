@@ -14,21 +14,21 @@ class viber_API
 
 public:
     viber_API();
-    viber_API(std::string accessToken, std::string url, std::string avatar);
-    void setAccessToken(std::string accessToken);
-    void setURL(std::string url);
-    void setAvatar (std::string avatar);
-    std::string sendViberMSG(std::string msg,
-                             std::string receiver,
-                             std::string senderName,
-                             std::string accessToken = "NULL",
-                             std::string url = "NULL");
-    std::string sendViberPicture(std::string msg,
-                                 std::string image,
-                                 std::string receiver,
-                                 std::string senderName,
-                                 std::string accessToken = "NULL",
-                                 std::string url = "NULL");
+    viber_API(const std::string& accessToken, const std::string& url, const std::string& avatar);
+    void setAccessToken(const std::string& accessToken);
+    void setURL(const std::string& url);
+    void setAvatar (const std::string& avatar);
+    std::string sendViberMSG(const std::string& msg,
+                             const std::string& receiver,
+                             const std::string& senderName,
+                             const std::string& accessToken = "NULL",
+                             const std::string& url = "NULL");
+    std::string sendViberPicture(const std::string& msg,
+                                 const std::string& image,
+                                 const std::string& receiver,
+                                 const std::string& senderName,
+                                 const std::string& accessToken = "NULL",
+                                 const std::string& url = "NULL");
 };
 
 #endif // VIBER_API_H

@@ -6,7 +6,7 @@ size_t FACEBOOK_API::WriteCallback(void *contents, size_t size, size_t nmemb, vo
     return size * nmemb;
 }
 
-FACEBOOK_API::FACEBOOK_API(std::string accessToken): m_accessToken(accessToken)
+FACEBOOK_API::FACEBOOK_API(const std::string& accessToken): m_accessToken(accessToken)
 {
 
 }
@@ -16,7 +16,7 @@ FACEBOOK_API::FACEBOOK_API()
 
 }
 
-std::string FACEBOOK_API::postTxtOnWall(std::string msg, std::string accessToken)
+std::string FACEBOOK_API::postTxtOnWall(const std::string& msg, const std::string& accessToken)
 {
     std::string token = m_accessToken;
     if (accessToken != "NULL"){
@@ -46,7 +46,7 @@ std::string FACEBOOK_API::postTxtOnWall(std::string msg, std::string accessToken
     return readBuffer;
 }
 
-std::string FACEBOOK_API::postPhotoOnWall(std::string url, std::string msg, std::string accessToken)
+std::string FACEBOOK_API::postPhotoOnWall(const std::string &url, const std::string& msg, const std::string& accessToken)
 {
     std::string token = m_accessToken;
     if (accessToken != "NULL"){
@@ -77,7 +77,7 @@ std::string FACEBOOK_API::postPhotoOnWall(std::string url, std::string msg, std:
     return readBuffer;
 }
 
-void FACEBOOK_API::setAccessToken(std::string token)
+void FACEBOOK_API::setAccessToken(const std::string &token)
 {
     m_accessToken = token;
 }
