@@ -127,12 +127,11 @@ std::string useful_F_libs::httpPost(std::string url)
 void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutSeconds)
 {
     CURL *curl;
-    FILE *fp;
     //CURLcode res;
 
     curl = curl_easy_init();
     if (curl) {
-        fp = fopen(path.c_str(),"wb");
+        FILE *fp = fopen(path.c_str(),"wb");
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);

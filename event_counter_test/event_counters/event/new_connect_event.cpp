@@ -1,6 +1,6 @@
 #include "new_connect_event.h"
 #include <iostream>
-new_Connect_Event::new_Connect_Event(std::string name) : event_counters(name)
+new_Connect_Event::new_Connect_Event(const std::string& name) : event_counters(name)
 {
 
 }
