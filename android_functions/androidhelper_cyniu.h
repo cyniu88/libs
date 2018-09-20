@@ -16,6 +16,7 @@ private:
 
 public:
     AndroidHelper_cyniu();
+    AndroidHelper_cyniu(const AndroidHelper_cyniu& androidHelper_cyniu);
     ~AndroidHelper_cyniu();
     void vibrate(int msec);
     double getProximity();

@@ -10,6 +10,14 @@ AndroidHelper_cyniu::AndroidHelper_cyniu()
     accSensor->start();
     qDebug("konstruktor androidhelper !!!!!!!!!!!!!!\n");
 }
+AndroidHelper_cyniu::AndroidHelper_cyniu(const AndroidHelper_cyniu &androidHelper_cyniu)
+{
+    proximitySensor = androidHelper_cyniu.proximitySensor;
+    proximitySensor->start();
+    accSensor = androidHelper_cyniu.accSensor;
+    accSensor->start();
+    qDebug("konstruktor kopiujący androidhelper !!!!!!!!!!!!!!\n");
+}
 
 AndroidHelper_cyniu::~AndroidHelper_cyniu()
 {
