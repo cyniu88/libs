@@ -9,7 +9,7 @@ public:
     StatisticClass_fixture(): average(12)
     {
     }
-    void SetUp()
+    void SetUp() final
     {
         average.push_back(1);
         average.push_back(1);
@@ -24,7 +24,7 @@ public:
         average.push_back(6);
         average.push_back(6);
     }
-    void TearDown()
+    void TearDown() final
     {
 
     }
@@ -42,17 +42,17 @@ TEST_F(StatisticClass_fixture, averageOne)
 }
 TEST_F(StatisticClass_fixture, median)
 {
-    EXPECT_EQ(average.median(),2.5);
+    EXPECT_EQ(average.median(),2.5f);
 }
 TEST(StatisticClass, medianOne)
 {
     STATISTIC<double> average(1);
     average.push_back(1);
-    EXPECT_EQ(average.median(),1.0);
+    EXPECT_EQ(average.median(), 1.0f);
 }
 TEST_F(StatisticClass_fixture, min)
 {
-    EXPECT_EQ(average.min(),-5);
+    EXPECT_EQ(average.min(),-5.0f);
 }
 TEST_F(StatisticClass_fixture, max)
 {
@@ -78,8 +78,8 @@ TEST(StatisticClass, resize)
     auto data = average.getLast2();
     average.print();
 
-    EXPECT_EQ(data.first,4);
-    EXPECT_EQ(data.second,5);
+    EXPECT_EQ(data.first,4.0);
+    EXPECT_EQ(data.second,5.0);
 }
 
 TEST(StatisticClass, moreDiff)

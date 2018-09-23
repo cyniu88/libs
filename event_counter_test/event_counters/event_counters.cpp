@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 
-event_counters::event_counters(const std::string& name) : eventName(name)
+event_counters::event_counters(std::string name) : eventName(std::move(name))
 {
 
 }
@@ -14,10 +14,10 @@ event_counters::event_counters(const std::string& name) : eventName(name)
 int event_counters::howManyEvent()
 {
     std::lock_guard < std::mutex > lock ( eventMutex);
-    return eventList.size();
+    return static_cast<int>( eventList.size() );
 }
 
-void event_counters::addEvent(    std::string note)
+void event_counters::addEvent(const std::string& note)
 {
     eventStruct d;
     std::ostringstream oss;
@@ -55,7 +55,7 @@ void event_counters::clearEvent(unsigned int from, unsigned int to)
     if (to < from){
         return;
     }
-    unsigned int max = eventList.size();
+    auto max = static_cast<unsigned int>( eventList.size() );
 
     if (max < to){
         to = max;

@@ -50,14 +50,14 @@ std::string stateToString(STATE s){
 }
 
 #ifndef IDOM
-void useful_F_libs::write_to_mkfifo(std::string path,  std::string msg)
+void useful_F_libs::write_to_mkfifo(const std::string& path, const std::string& msg)
 {
     int fd = open(path.c_str(), O_WRONLY| O_NONBLOCK);
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
 
-std::string useful_F_libs::read_from_mkfifo(std::string path)
+std::string useful_F_libs::read_from_mkfifo(const std::string& path)
 {
     char buf[10];
     /* open, read, and display the message from the FIFO */
@@ -75,7 +75,7 @@ size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, v
 
 std::string useful_F_libs::find_tag(const std::string& temp)
 {
-    std::string value="";
+    std::string value = "";
     for (unsigned int i = 0; i<temp.size();++i){
 
         if (temp.at(i) =='>')
@@ -124,7 +124,7 @@ std::string useful_F_libs::httpPost(std::string url)
 }
 #endif
 
-void useful_F_libs::downloadFile(std::string url, std::string path, int timeoutSeconds)
+void useful_F_libs::downloadFile(const std::string& url, const std::string& path, int timeoutSeconds)
 {
     CURL *curl;
     //CURLcode res;
@@ -181,7 +181,7 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     return plainString;
 }
 
-nlohmann::json useful_F_libs::getJson(std::string url)
+nlohmann::json useful_F_libs::getJson(const std::string& url)
 {
     std::string str = useful_F_libs::httpPost(url);
     nlohmann::json jj = nlohmann::json::parse( str);

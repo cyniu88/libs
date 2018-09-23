@@ -22,7 +22,7 @@ enum class E_emoji{
 };
 class HEX_STR
 { public:
-    static std::string hexToStr(std::string hex);
+    static std::string hexToStr(const std::string &hex);
 };
 class EMOJI
 {

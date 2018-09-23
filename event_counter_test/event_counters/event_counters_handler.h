@@ -10,10 +10,10 @@ class event_counters_handler
 public:
     static std::mutex echMutex;
     event_counters_handler();
-    std::shared_ptr <event_counters> run(std::string name);
+    std::shared_ptr <event_counters> run(const std::string &name);
     std::string getListPossibleEvents();
-    std::string help(std::string name = "");
-    void addEvent(std::string name);
+    std::string help(const std::string &name = "");
+    void addEvent(const std::string &name);
 };
 
 #endif // EVENT_COUNTERS_HANDLER_H

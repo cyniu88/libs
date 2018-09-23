@@ -18,20 +18,20 @@ std::vector<std::string> split_string(const std::string& s, char separator );
 
 class useful_F_libs {
 public:
-    static  void write_to_mkfifo(std::string path,std::string msg);
-    static  std::string read_from_mkfifo(std::string path);
+    static  void write_to_mkfifo(const std::string &path, const std::string &msg);
+    static  std::string read_from_mkfifo(const std::string &path);
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static std::string find_tag (const std::string &temp);
     //////////////////// HTTP req //////////////////////////
-    static std::string httpPost(std::string url, int timeoutSeconds);
-    static std::string httpPost(std::string url);
-    static void downloadFile(std::string url, std::string path, int timeoutSeconds);
+    static std::string httpPost(const std::string &url, int timeoutSeconds);
+    static std::string httpPost(const std::string &url);
+    static void downloadFile(const std::string &url, const std::string &path, int timeoutSeconds);
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
     /////////////////////  JSON ////////////////////////////
 
 #ifndef ANDROID
-    static nlohmann::json getJson(std::string url);
+    static nlohmann::json getJson(const std::string &url);
 #endif
 };
 namespace std

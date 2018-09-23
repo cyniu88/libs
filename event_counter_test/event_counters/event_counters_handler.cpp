@@ -24,7 +24,7 @@ event_counters_handler::event_counters_handler()
     eventCountersMap.insert(  std::make_pair( eventCommand->getEventName(),   eventCommand )  );
 }
 
-std::shared_ptr<event_counters> event_counters_handler::run(std::string name)
+std::shared_ptr<event_counters> event_counters_handler::run(const std::string& name)
 {
 
     if (eventCountersMap.find(name) == eventCountersMap.end()){
@@ -44,11 +44,11 @@ std::string event_counters_handler::getListPossibleEvents()
     return result;
 }
 
-std::string event_counters_handler::help(std::string name)
+std::string event_counters_handler::help(const std::string& name)
 {
     std::string result;
 
-    if (name == ""){
+    if (name.empty()){
         for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
             result+= iter->second->help();
             result+= "\n------------------------------\n";
@@ -62,7 +62,7 @@ std::string event_counters_handler::help(std::string name)
 }
 std::mutex event_counters_handler::echMutex;
 
-void event_counters_handler::addEvent(std::string name)
+void event_counters_handler::addEvent(const std::string& name)
 {
     std::lock_guard <std::mutex> lock(event_counters_handler::echMutex);
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );

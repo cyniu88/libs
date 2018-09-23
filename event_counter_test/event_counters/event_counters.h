@@ -21,10 +21,10 @@ protected:
     std::vector <eventStruct> eventList;
 
 public:
-    event_counters(const std::string &name);
+    event_counters(std::string name);
     virtual std::string help() = 0;
     virtual int howManyEvent() ;
-    virtual void addEvent(std::string note = "");
+    virtual void addEvent(const std::string &note = "");
     virtual std::string getEvent ();
     virtual void clearEvent();
     virtual void clearEvent(unsigned int from, unsigned int to);

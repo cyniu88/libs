@@ -42,7 +42,7 @@ std::string EMOJI::emoji(E_emoji e)
     return"ok";
 }
 
-std::string HEX_STR::hexToStr(std::string hex)
+std::string HEX_STR::hexToStr(const std::string& hex)
 {
     std::string res;
     res.reserve(hex.size() / 2);
