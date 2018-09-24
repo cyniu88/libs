@@ -197,9 +197,6 @@ public:
                 return false;
             }
         }
-        else {
-            return false;
-        }
         return false;
     }
     std::pair<double,double> getLast2(){

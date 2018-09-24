@@ -31,6 +31,8 @@ TEST(ClockClass, periodOfTime)
     Clock g(22,22);
     Clock r = Clock::periodOfTime(f,g);
     EXPECT_EQ(r.getString(),"08:25");
+    r = Clock::periodOfTime(g,f);
+    EXPECT_EQ(r.getString(),"15:35");
 }
 
 TEST(ClockClass, from_to_second)
@@ -58,4 +60,10 @@ TEST(JSON, getJSON)
     std::cout << " JSON JEST" << std::endl << test_JSON.dump(4) << std::endl;
 
     EXPECT_TRUE(testKey);
+}
+
+TEST(ClockClass, wrongSet)
+{
+    Clock f;
+    EXPECT_ANY_THROW(f.set(99,99));
 }
