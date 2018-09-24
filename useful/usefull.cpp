@@ -92,7 +92,7 @@ std::string useful_F_libs::find_tag(const std::string& temp)
 }
 
 #ifndef BT_TEST
-std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds)
+std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds)
 {
     CURL *curl;
     CURLcode res;
@@ -118,7 +118,7 @@ std::string useful_F_libs::httpPost(std::string url, int timeoutSeconds)
     return readBuffer;
 }
 
-std::string useful_F_libs::httpPost(std::string url)
+std::string useful_F_libs::httpPost(const std::string& url)
 {
     return useful_F_libs::httpPost(url, 10);
 }
