@@ -25,6 +25,35 @@ TEST(ClockClass, plus_operator)
     EXPECT_EQ(f.getString(),"18:01");
 }
 
+TEST(ClockClass, _operator)
+{
+    EXPECT_FALSE(Clock("04:04") == Clock("04:05"));
+    EXPECT_FALSE(Clock("05:05") == Clock("04:05"));
+    EXPECT_TRUE(Clock("05:05") == Clock("05:05"));
+    EXPECT_FALSE(Clock("05:05") != Clock("05:05"));
+    EXPECT_TRUE(Clock("04:05") != Clock("05:05"));
+    EXPECT_TRUE(Clock("04:05") != Clock("04:04"));
+    EXPECT_TRUE(Clock("04:05") > Clock("04:04"));
+    EXPECT_FALSE(Clock("03:05") > Clock("04:04"));
+    EXPECT_TRUE(Clock("04:05") >= Clock("04:04"));
+    EXPECT_FALSE(Clock("04:05") <= Clock("04:04"));
+    EXPECT_FALSE(Clock("05:05") <= Clock("04:05"));
+    EXPECT_TRUE(Clock("03:05") <= Clock("04:05"));
+    EXPECT_TRUE(Clock("04:05") <= Clock("04:06"));
+    EXPECT_TRUE(Clock("04:05") < Clock("04:06"));
+    EXPECT_TRUE(Clock("08:05") > Clock("04:06"));
+
+    std::stringstream s;
+    Clock f("00:00");
+    s << f;
+    EXPECT_STREQ("00:00", s.str().c_str());
+
+    Clock g("20:00");
+    f = g.getTime();
+    g += Clock("23:43");
+    EXPECT_STREQ("19:43", g.getString().c_str());
+}
+
 TEST(ClockClass, periodOfTime)
 {
     Clock f(13,57);
@@ -66,4 +95,10 @@ TEST(ClockClass, wrongSet)
 {
     Clock f;
     EXPECT_ANY_THROW(f.set(99,99));
+}
+
+TEST(ClockClass, to_string_with_precision_TC)
+{
+    double d = 1.0/3.0;
+    EXPECT_STREQ("0.33", to_string_with_precision(d,2).c_str() );
 }

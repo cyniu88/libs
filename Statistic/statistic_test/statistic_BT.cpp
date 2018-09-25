@@ -30,6 +30,12 @@ public:
     }
 };
 
+TEST_F(StatisticClass_fixture, range)
+{
+    EXPECT_DOUBLE_EQ(average.average() , 1.8333333333333333);
+    EXPECT_EQ(average.range(), 11);
+}
+
 TEST_F(StatisticClass_fixture, average)
 {
     EXPECT_DOUBLE_EQ(average.average() , 1.8333333333333333);
