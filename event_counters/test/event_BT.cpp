@@ -75,5 +75,24 @@ TEST_F(event_counter_fixture, clear_middle_part_of_event_from_max)
     mainEvent.run(testEvent)->clearEvent(1400,1600);
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1001);
     std::string returnedString = mainEvent.run(testEvent)->getEvent();
-    EXPECT_THAT(returnedString, testing::HasSubstr("cyniu"));
+    EXPECT_THAT(returnedString, testing::HasSubstr("cyniu") );
+}
+
+TEST_F(event_counter_fixture, getListPossibleEvents)
+{
+    mainEvent.run("INFO")->addEvent("kokolino");
+   std::string returnedString = mainEvent.getListPossibleEvents();
+   std::cout << "wynik: " << returnedString << std::endl;
+   EXPECT_THAT(returnedString, testing::HasSubstr("INFO") );
+}
+
+TEST_F(event_counter_fixture, getHelp)
+{
+    mainEvent.run("INFO")->addEvent("kokolino");
+   std::string returnedString = mainEvent.help("connections");
+   std::cout << "wynik: " << returnedString << std::endl;
+   EXPECT_THAT(returnedString, testing::HasSubstr("start") );
+   returnedString = mainEvent.help("");
+   std::cout << "wynik: " << returnedString << std::endl;
+   EXPECT_THAT(returnedString, testing::HasSubstr("pilot") );
 }

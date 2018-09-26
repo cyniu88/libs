@@ -102,3 +102,21 @@ TEST(ClockClass, to_string_with_precision_TC)
     double d = 1.0/3.0;
     EXPECT_STREQ("0.33", to_string_with_precision(d,2).c_str() );
 }
+
+TEST(mkfifo_test, mkfifoFile)
+{
+    std::string path = "/mnt/ramdisk/fifoFile";
+    std::string msg = "test msg";
+    std::string returnString;
+    if (mkfifo(path.c_str(),0777) == -1)
+        std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
+    else
+        std::cout << "plik stworzony"<< std::endl;
+
+    useful_F_libs::write_to_mkfifo(path,msg);
+
+    returnString = useful_F_libs::read_from_mkfifo(path);
+
+    EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
+
+}
