@@ -40,8 +40,7 @@ TEST_F(StatisticClass_fixture, average)
 {
     EXPECT_DOUBLE_EQ(average.average() , 1.8333333333333333);
     std::string ret = average.stats();
-    std::size_t f = ret.find("max");
-    EXPECT_NE(f, std::string::npos);
+    EXPECT_THAT(ret, testing::HasSubstr("max"));
 }
 TEST_F(StatisticClass_fixture, averageOne)
 {

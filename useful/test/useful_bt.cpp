@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "../useful.h"
 ///////////////////////////////////////////////////// TEST ///////////////////////////////////////////////////////\
 
@@ -105,13 +107,17 @@ TEST(ClockClass, to_string_with_precision_TC)
 
 TEST(mkfifo_test, mkfifoFile)
 {
-    std::string path = "/mnt/ramdisk/fifoFile";
-    std::string msg = "test msg";
+    std::string path = "/mnt/ramdisk/FifoFile";
+    std::string msg = "kokos";
     std::string returnString;
-    if (mkfifo(path.c_str(),0777) == -1)
+    int temp = mkfifo(path.c_str(),0666);
+
+    if ( temp == -1)
         std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
-    else
+    else if (temp == 0)
         std::cout << "plik stworzony"<< std::endl;
+    else
+        FAIL();
 
     useful_F_libs::write_to_mkfifo(path,msg);
 
