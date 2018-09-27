@@ -204,6 +204,9 @@ public:
             return std::make_pair(static_cast<double>(m_dequeue.at( m_dequeue.size()-2)),
                                   static_cast<double>(m_dequeue.at( m_dequeue.size()-1))    );
         }
+#ifdef BT_TEST
+        puts("no data - return 0.0 0.0");
+#endif
         return std::make_pair(0.0,0.0);
     }
 
