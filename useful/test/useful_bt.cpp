@@ -42,6 +42,7 @@ TEST(ClockClass, _operator)
     EXPECT_FALSE(Clock("05:05") <= Clock("04:05"));
     EXPECT_TRUE(Clock("03:05") <= Clock("04:05"));
     EXPECT_TRUE(Clock("04:05") <= Clock("04:06"));
+    EXPECT_FALSE(Clock("05:05") < Clock("04:06"));
     EXPECT_TRUE(Clock("04:05") < Clock("04:06"));
     EXPECT_TRUE(Clock("08:05") > Clock("04:06"));
 
