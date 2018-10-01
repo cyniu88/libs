@@ -49,6 +49,43 @@ std::string stateToString(STATE s){
     }
 }
 
+STATE stringToState(const std::string& s){
+    if(s == "OFF")
+        return STATE::OFF;
+    else if (s == "ON")
+        return STATE::ON;
+    else if (s == "PLAY")
+        return STATE::PLAY;
+    else if (s == "PAUSE")
+        return STATE::PAUSE;
+    else if (s == "STOP")
+        return STATE::STOP;
+    else if (s == "ACTIVE")
+        return STATE::ACTIVE;
+    else if (s == "DEACTIVE")
+        return STATE::DEACTIVE;
+    else if (s == "WORKING")
+        return STATE::WORKING;
+    else if (s == "DEFINE")
+        return STATE::DEFINE;
+    else if (s == "UNDEFINE")
+        return STATE::UNDEFINE;
+    else if (s == "LOCK")
+        return STATE::LOCK;
+    else if (s == "UNLOCK")
+        return STATE::UNLOCK;
+    else if (s == "EMPTY")
+        return STATE::EMPTY;
+    else if (s == "FULL")
+        return STATE::FULL;
+    else if (s == "SEND_OK")
+        return STATE::SEND_OK;
+    else if (s == "SEND_NOK")
+        return STATE::SEND_NOK;
+    else
+        return STATE::UNKNOWN;
+}
+
 #ifndef IDOM
 void useful_F_libs::write_to_mkfifo(const std::string& path, const std::string& msg)
 {

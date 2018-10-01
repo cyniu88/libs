@@ -279,5 +279,6 @@ enum class STATE {
 
 
 std::string stateToString(STATE s);
+STATE stringToState(const std::string& s);
 
 #endif
