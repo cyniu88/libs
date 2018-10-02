@@ -87,9 +87,11 @@ STATE stringToState(const std::string& s){
 }
 
 #ifndef IDOM
-void useful_F_libs::write_to_mkfifo(const std::string& path, const std::string& msg)
+void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& msg)
 {
     int fd = open(path.c_str(), O_WRONLY| O_NONBLOCK);
+    std::cout <<"write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
+    std::cout <<  "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
@@ -99,7 +101,9 @@ std::string useful_F_libs::read_from_mkfifo(const std::string& path)
     char buf[10];
     /* open, read, and display the message from the FIFO */
     int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
+    std::cout <<"read open file: " << fd <<std::endl;
     read(fd, buf, 10);
+    std::cout << "buf: " << buf << std::endl;
     close(fd);
     return (std::string(buf));
 }

@@ -2,6 +2,10 @@
 #include <gmock/gmock.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
+#include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "../useful.h"
 ///////////////////////////////////////////////////// TEST ///////////////////////////////////////////////////////\
 
@@ -109,22 +113,22 @@ TEST(ClockClass, to_string_with_precision_TC)
 TEST(mkfifo_test, mkfifoFile)
 {
     std::string path = "/mnt/ramdisk/FifoFile";
-    std::string msg = "kokos";
+    std::string msg = "cyniu";
     std::string returnString;
     int temp = mkfifo(path.c_str(),0666);
 
-//    if ( temp == -1)
-//        std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
-//    else if (temp == 0)
-//        std::cout << "plik stworzony"<< std::endl;
-//    else
-//        FAIL();
+    if ( temp == -1)
+        std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
+    else if (temp == 0)
+        std::cout << "plik stworzony"<< std::endl;
+    else
+        FAIL();
+    useful_F_libs::write_to_mkfifo(path,msg);
 
-//    useful_F_libs::write_to_mkfifo(path,msg);
+    returnString = useful_F_libs::read_from_mkfifo(path);
+    //unlink(path.c_str());
 
-//    returnString = useful_F_libs::read_from_mkfifo(path);
-
-//    EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
+    EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
     //TODO not
 
 }
