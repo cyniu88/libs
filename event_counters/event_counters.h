@@ -8,8 +8,9 @@
 #include <mutex>
 
 struct eventStruct{
-    std::string date ="";
-    std::string note ="";
+    std::string date = "";
+    std::string note = "";
+    unsigned int posixTime = 0;
 };
 
 class event_counters
@@ -17,6 +18,9 @@ class event_counters
     std::mutex eventMutex;
 
 protected:
+#ifdef BT_TEST
+public:
+#endif
     std::string eventName;
     std::vector <eventStruct> eventList;
 
@@ -28,6 +32,7 @@ public:
     virtual std::string getEvent ();
     virtual void clearEvent();
     virtual void clearEvent(unsigned int from, unsigned int to);
+    virtual unsigned int getLast1minNumberEvent();
     std::string getEventName();
 };
 

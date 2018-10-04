@@ -88,11 +88,19 @@ TEST_F(event_counter_fixture, getListPossibleEvents)
 
 TEST_F(event_counter_fixture, getHelp)
 {
-    mainEvent.run("INFO")->addEvent("kokolino");
+   mainEvent.run("INFO")->addEvent("kokolino");
    std::string returnedString = mainEvent.help("connections");
    std::cout << "wynik: " << returnedString << std::endl;
    EXPECT_THAT(returnedString, testing::HasSubstr("start") );
    returnedString = mainEvent.help("");
    std::cout << "wynik: " << returnedString << std::endl;
    EXPECT_THAT(returnedString, testing::HasSubstr("pilot") );
+}
+
+TEST_F(event_counter_fixture, getLast1minNumberEvent)
+{
+    preper1001Event();
+    mainEvent.run(testEvent)->eventList.at(500).posixTime -= 65;
+    EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1001);
+    EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),500);
 }

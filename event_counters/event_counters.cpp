@@ -28,6 +28,7 @@ void event_counters::addEvent(const std::string& note)
 
     d.date = oss.str();
     d.note = note;
+    d.posixTime = static_cast<unsigned int> (std::time(nullptr));
     std::lock_guard < std::mutex > lock ( eventMutex);
     eventList.push_back(d);
 }
@@ -66,6 +67,22 @@ void event_counters::clearEvent(unsigned int from, unsigned int to)
     }
     std::lock_guard < std::mutex > lock ( eventMutex);
     eventList.erase(eventList.begin()+from, eventList.begin()+to);
+}
+
+unsigned int event_counters::getLast1minNumberEvent()
+{
+    int k = 0;
+    unsigned int lastPosix = eventList.at(eventList.size()-1).posixTime;
+    std::lock_guard < std::mutex > lock ( eventMutex);
+
+    for (auto i = eventList.size()-1; i != -1; i--){
+        if(eventList.at(i).posixTime+60 > lastPosix)
+            k++;
+        else
+            break;
+
+    }
+    return k;
 }
 
 std::string event_counters::getEventName()
