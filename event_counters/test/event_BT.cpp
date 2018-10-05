@@ -104,3 +104,8 @@ TEST_F(event_counter_fixture, getLast1minNumberEvent)
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1001);
     EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),500);
 }
+TEST_F(event_counter_fixture, getLast1minNumberEventWhenEmpty)
+{
+    EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),0);
+    EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),0);
+}

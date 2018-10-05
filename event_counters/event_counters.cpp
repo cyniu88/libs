@@ -37,7 +37,7 @@ std::string event_counters::getEvent()
 {
     std::stringstream ret;
     ret << "Event: " << help() << "\n";
-    std::lock_guard < std::mutex > lock ( eventMutex);
+    std::lock_guard <std::mutex> lock(eventMutex);
     int k =0;
     for (auto i : eventList){
         ret << ++k << "\t" << i.date << "     " <<  i.note << "\n";
@@ -47,7 +47,7 @@ std::string event_counters::getEvent()
 
 void event_counters::clearEvent()
 {
-    std::lock_guard < std::mutex > lock ( eventMutex);
+    std::lock_guard <std::mutex> lock(eventMutex);
     eventList.clear();
 }
 
@@ -65,15 +65,17 @@ void event_counters::clearEvent(unsigned int from, unsigned int to)
         from = max;
         to = max;
     }
-    std::lock_guard < std::mutex > lock ( eventMutex);
+    std::lock_guard <std::mutex> lock(eventMutex);
     eventList.erase(eventList.begin()+from, eventList.begin()+to);
 }
 
 unsigned int event_counters::getLast1minNumberEvent()
 {
-    int k = 0;
+    unsigned int k = 0;
+    if (eventList.empty())
+        return k;
     unsigned int lastPosix = eventList.at(eventList.size()-1).posixTime;
-    std::lock_guard < std::mutex > lock ( eventMutex);
+    std::lock_guard <std::mutex> lock(eventMutex);
 
     for (auto i = eventList.size()-1; i != -1; i--){
         if(eventList.at(i).posixTime+60 > lastPosix)
