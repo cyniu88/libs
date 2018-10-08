@@ -34,6 +34,8 @@ public:
     virtual void clearEvent(unsigned int from, unsigned int to);
     virtual unsigned int getLast1minNumberEvent();
     std::string getEventName();
+private:
+    virtual unsigned int getLast1minNumberEvent_NO_Mutex();
 };
 
 #endif // EVENT_COUNTERS_H
