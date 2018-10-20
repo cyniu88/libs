@@ -64,7 +64,10 @@ std::string to_string_with_precision(const T a_value, const int n = 4)
 struct Clock{
 private:
     std::time_t m_time;
-
+#ifdef BT_TEST
+    static unsigned int m_BT_H;
+    static unsigned int m_BT_M;
+#endif
 public:
     unsigned int m_h = 0;
     unsigned int m_min = 0;
@@ -238,11 +241,22 @@ public:
         //return diff;
     }
     /////////////////////////////////////////////////////////////////////////////////////
+    static void setTime_forBT_usage(int h, int m)
+    {
+        m_BT_H = h;
+        m_BT_M = m;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
     static Clock getTime()
     {
         time_t now = time(0);
         tm *ltm = localtime(&now);
+#ifdef BT_TEST
+        return Clock(m_BT_H,m_BT_M);
+#else
         return Clock( static_cast <unsigned int>(ltm->tm_hour),static_cast <unsigned int>(ltm->tm_min) );
+#endif
     }
     /////////////////////////////////////////////////////////////////////////////////////
     void stopwatchStart()
