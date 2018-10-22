@@ -71,9 +71,8 @@ SunRiseSet::SunRiseSet()
 
 }
 
-void SunRiseSet::printAllData()
+std::string SunRiseSet::getAllData()
 {
-
     double y,m,day,h,latit,longit;
 
     time_t sekunnit;
@@ -143,27 +142,29 @@ void SunRiseSet::printAllData()
     if (riset > 24.0) riset-= 24.0;
     if (settm > 24.0) settm-= 24.0;
 
-    std::cout << "\n Sunrise and set\n";
-    std::cout << "===============\n";
-    std::cout << "  year  : " << y << '\n';
-    std::cout << "  month : " << m << '\n';
-    std::cout << "  day   : " << day << "\n\n";
-    std::cout << "Days until Y2K :  " << d << '\n';
-    std::cout << "Latitude :  " << latit << ", longitude:  " << longit << '\n';
-    std::cout << "Timezone :  " << tzone << "\n\n";
-    std::cout << "Declination : " << delta * degs << '\n';
-    std::cout << "Daylength   : "<< gethrmn(daylen).m_h<<":"<<gethrmn(daylen).m_min<< " hours \n";
-    std::cout << "Begin civil twilight: "<<
+    std::stringstream ss;
+    ss << "\n Sunrise and set\n";
+    ss << "===============\n";
+    ss << "  year  : " << y << '\n';
+    ss << "  month : " << m << '\n';
+    ss << "  day   : " << day << "\n\n";
+    ss << "Days until Y2K :  " << d << '\n';
+    ss << "Latitude :  " << latit << ", longitude:  " << longit << '\n';
+    ss << "Timezone :  " << tzone << "\n\n";
+    ss << "Declination : " << delta * degs << '\n';
+    ss << "Daylength   : "<< gethrmn(daylen).m_h<<":"<<gethrmn(daylen).m_min<< " hours \n";
+    ss << "Begin civil twilight: "<<
                  gethrmn(twam).m_h<<":"<<gethrmn(twam).m_min; std::cout << '\n';
 
-    std::cout << "Sunrise     : "<< gethrmn(riset).m_h<<":"<<gethrmn(riset).m_min; std::cout << '\n';
-    std::cout << "Sun altitude at noontime ";
+    ss << "Sunrise     : "<< gethrmn(riset).m_h<<":"<<gethrmn(riset).m_min; std::cout << '\n';
+    ss << "Sun altitude at noontime ";
 
 
-    std::cout << "Sunset      : "<<
+    ss << "Sunset      : "<<
                  gethrmn(settm).m_h<<":"<<gethrmn(settm).m_min; std::cout << '\n';
-    std::cout << "Civil twilight: "<<
+    ss << "Civil twilight: "<<
                  gethrmn(twpm).m_h<<":"<<gethrmn(twpm).m_min; std::cout << '\n';
+    return ss.str();
 }
 
 void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE, int TIMEZONE)
@@ -171,59 +172,6 @@ void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE, int TIMEZONE)
     this->LATITUDE = LATITUDE;
     this->LONGITUDE = LONGITUDE;
     this->TIMEZONE = TIMEZONE;
-}
-
-int SunRiseSet::getYear()
-{
-    time_t sekunnit;
-    struct tm *p;
-
-    // get the date and time from the user
-    // read system date and extract the year
-
-    /** First get current time **/
-    time(&sekunnit);
-
-    /** Next get localtime **/
-
-    p=localtime(&sekunnit);
-    // this is Y2K compliant algorithm
-    return 1900 + p->tm_year;
-}
-
-int SunRiseSet::getMounth()
-{
-    time_t sekunnit;
-    struct tm *p;
-
-    // get the date and time from the user
-    // read system date and extract the year
-
-    /** First get current time **/
-    time(&sekunnit);
-
-    /** Next get localtime **/
-
-    p=localtime(&sekunnit);
-    // this is Y2K compliant algorithm
-    return p->tm_mon+1;
-}
-
-int SunRiseSet::getDay()
-{
-    time_t sekunnit;
-    struct tm *p;
-
-    // get the date and time from the user
-    // read system date and extract the year
-
-    /** First get current time **/
-    time(&sekunnit);
-    /** Next get localtime **/
-
-    p=localtime(&sekunnit);
-    // this is Y2K compliant algorithm
-    return p->tm_mday;
 }
 
 Clock SunRiseSet::getSunRise()

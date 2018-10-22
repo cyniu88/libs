@@ -48,11 +48,9 @@ class SunRiseSet
 
 public:
     SunRiseSet();
-    void printAllData();
+    std::string getAllData();
     void setPosition(double LATITUDE , double LONGITUDE, int TIMEZONE );
-    int getYear();
-    int getMounth();
-    int getDay();
+;
     Clock getSunSet();
     Clock getSunRise();
     Clock getDayLength();
