@@ -251,11 +251,11 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////
     static Clock getTime()
     {
-        time_t now = time(0);
-        tm *ltm = localtime(&now);
 #ifdef BT_TEST
         return Clock(m_BT_H,m_BT_M);
 #else
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
         return Clock( static_cast <unsigned int>(ltm->tm_hour),static_cast <unsigned int>(ltm->tm_min) );
 #endif
     }
