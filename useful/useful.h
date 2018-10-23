@@ -92,6 +92,7 @@ public:
             throw 0;
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////////////
     const std::string getString(){
         std::stringstream ret;
@@ -239,6 +240,11 @@ public:
             return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
         }
         //return diff;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
+    static unsigned int getUnixTime()
+    {
+        return static_cast<unsigned int> (std::time(nullptr));
     }
     /////////////////////////////////////////////////////////////////////////////////////
 #ifdef BT_TEST

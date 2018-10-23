@@ -109,7 +109,7 @@ TEST(ClockClass, to_string_with_precision_TC)
     double d = 1.0/3.0;
     EXPECT_STREQ("0.33", to_string_with_precision(d,2).c_str() );
 }
-
+/*
 TEST(mkfifo_test, mkfifoFile)
 {
     std::string path = "/mnt/ramdisk/FifoFile";
@@ -132,3 +132,4 @@ TEST(mkfifo_test, mkfifoFile)
     //TODO not
 
 }
+*/
