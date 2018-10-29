@@ -9,7 +9,7 @@
 
 class SunRiseSet
 {
-    int TIMEZONE  =  2;  //summer time 2 winter time 1 ?  check it  //NOTE
+    int TIMEZONE  =  1;  //summer time 2 winter time 1 ?  check it  //NOTE
     double LATITUDE  =  50.019519;
     double LONGITUDE =  19.903498;   //cracow
     double pi = M_PI;
