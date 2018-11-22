@@ -56,7 +56,7 @@ public:
         }
         else{
             T m = backup[backup.size() / 2] + backup[(backup.size() / 2)-1];
-            return m /2 ;
+            return m /2;
         }
     }
     T sum(){
@@ -161,7 +161,7 @@ public:
         T diff = 0;
         T first = m_dequeue[0];
 
-        for (auto i = 1 ; i < m_dequeue.size(); ++i){
+        for (auto i = 1; i < m_dequeue.size(); ++i){
             if (first < m_dequeue[i]){
                 up++;
                 if (m_dequeue[i] - first > diff){
@@ -213,7 +213,7 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////
     void print(){
         for(auto n : m_dequeue){
-            std::cout << ","<< n ;
+            std::cout << ","<< n;
         }
         std::cout << " " <<std::endl;
     }
@@ -238,7 +238,7 @@ public:
             ss << std::endl
                << "data " <<  std::endl;
             for(auto n : m_dequeue){
-                ss << "|"<< n ;
+                ss << "|"<< n;
             }
         }
         ss <<  std::endl;

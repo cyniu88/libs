@@ -47,9 +47,9 @@ int stoi(T s){
 template <typename T>
 std::string to_string(T value)
 {
-    std::ostringstream os ;
-    os << value ;
-    return os.str() ;
+    std::ostringstream os;
+    os << value;
+    return os.str();
 }
 } // namespace std
 
@@ -185,7 +185,7 @@ public:
         minutes = m_min+ c.m_min;
         hours = m_h + c.m_h;
         if (minutes >59){
-            minutes =  minutes % 60 ;
+            minutes =  minutes % 60;
             hours+=1;
         }
         if (hours >= 24){
@@ -200,7 +200,7 @@ public:
         minutes = m_min+ c.m_min;
         hours = m_h + c.m_h;
         if (minutes >59){
-            minutes =  minutes % 60 ;
+            minutes =  minutes % 60;
             hours+=1;
         }
         if (hours >= 24){

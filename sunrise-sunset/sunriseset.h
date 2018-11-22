@@ -26,12 +26,12 @@ class SunRiseSet
     // h is UT in decimal hours
     // FNday only works between 1901 to 2099 - see Meeus chapter 7
 
-    double FNday (int y, int m, int d, float h) ;
+    double FNday (int y, int m, int d, float h);
 
     // the function below returns an angle in the range
     // 0 to 2*pi
 
-    double FNrange (double x) ;
+    double FNrange (double x);
 
     // Calculating the hourangle
     double f0(double lat, double declin);

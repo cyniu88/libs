@@ -2,7 +2,7 @@
 #include <string>
 
 class FACEBOOK_API{
-    std::string m_accessToken ;
+    std::string m_accessToken;
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
 public:

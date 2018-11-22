@@ -27,7 +27,7 @@ public:
 public:
     event_counters(std::string name);
     virtual std::string help() = 0;
-    virtual int howManyEvent() ;
+    virtual int howManyEvent();
     virtual void addEvent(const std::string &note = "");
     virtual std::string getEvent ();
     virtual void clearEvent();

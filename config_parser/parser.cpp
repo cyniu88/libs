@@ -8,9 +8,9 @@
 
 std::map<std::string, std::string> read_config  ( const char* file_path    )
 {
-    std::string content ;
-    std::string variable ;
-    std::string v_value ;
+    std::string content;
+    std::string variable;
+    std::string v_value;
     std::fstream config_file;
 
     std::map<std::string, std::string> configMAP;
