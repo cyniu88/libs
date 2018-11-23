@@ -9,19 +9,19 @@
 event_counters_handler::event_counters_handler()
 {
     std::shared_ptr <event_counters> newConnectEvent (new new_Connect_Event("connections") );
-    eventCountersMap.insert(  std::make_pair( newConnectEvent->getEventName(),   newConnectEvent  )  );
+    eventCountersMap.insert( std::make_pair( newConnectEvent->getEventName(), newConnectEvent ) );
 
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown("unknown") );
-    eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
+    eventCountersMap.insert( std::make_pair( newUnknownEvent->getEventName(), newUnknownEvent ) );
 
     std::shared_ptr <event_counters> eventMPD (new event_mpd("mpd") );
-    eventCountersMap.insert(  std::make_pair( eventMPD->getEventName(),   eventMPD )  );
+    eventCountersMap.insert( std::make_pair( eventMPD->getEventName(), eventMPD ) );
 
     std::shared_ptr <event_counters> eventPilot (new event_pilot("pilot") );
-    eventCountersMap.insert(  std::make_pair( eventPilot->getEventName(),   eventPilot )  );
+    eventCountersMap.insert( std::make_pair( eventPilot->getEventName(), eventPilot ) );
 
     std::shared_ptr <event_counters> eventCommand (new event_command("command") );
-    eventCountersMap.insert(  std::make_pair( eventCommand->getEventName(),   eventCommand )  );
+    eventCountersMap.insert( std::make_pair( eventCommand->getEventName(), eventCommand ) );
 }
 
 std::shared_ptr<event_counters> event_counters_handler::run(const std::string& name)
@@ -30,14 +30,14 @@ std::shared_ptr<event_counters> event_counters_handler::run(const std::string& n
     if (eventCountersMap.find(name) == eventCountersMap.end()){
         addEvent(name);
     }
-    return  eventCountersMap[name];
+    return eventCountersMap[name];
 }
 
 std::string event_counters_handler::getListPossibleEvents()
 {
     std::string result;
 
-    for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+    for( auto iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
         result+= iter->first;
         result+= "\n";
     }
@@ -49,7 +49,7 @@ std::string event_counters_handler::help(const std::string& name)
     std::string result;
 
     if (name.empty()){
-        for( auto  iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+        for( auto iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
             result+= iter->second->help();
             result+= "\n------------------------------\n";
         }
@@ -66,5 +66,5 @@ void event_counters_handler::addEvent(const std::string& name)
 {
     std::lock_guard <std::mutex> lock(event_counters_handler::echMutex);
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );
-    eventCountersMap.insert(  std::make_pair( newUnknownEvent->getEventName(),   newUnknownEvent  )  );
+    eventCountersMap.insert( std::make_pair( newUnknownEvent->getEventName(), newUnknownEvent ) );
 }
