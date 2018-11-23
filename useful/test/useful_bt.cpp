@@ -88,16 +88,6 @@ TEST(ClockClass, stopwatch)
     EXPECT_EQ(2,f.stopwatchStopAndGetResult());
 }
 
-TEST(JSON, getJSON)
-{
-    nlohmann::json test_JSON = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
-    auto testKey = test_JSON["success"].get<bool>();
-
-    std::cout << " JSON JEST" << std::endl << test_JSON.dump(4) << std::endl;
-
-    EXPECT_TRUE(testKey);
-}
-
 TEST(ClockClass, wrongSet)
 {
     Clock f;
@@ -108,6 +98,16 @@ TEST(ClockClass, to_string_with_precision_TC)
 {
     double d = 1.0/3.0;
     EXPECT_STREQ("0.33", to_string_with_precision(d,2).c_str() );
+}
+
+TEST(JSON, getJSON)
+{
+    nlohmann::json test_JSON = useful_F_libs::getJson("http://cyniu88.no-ip.pl/test/json/on_lightning.json");
+    auto testKey = test_JSON["success"].get<bool>();
+
+    std::cout << " JSON JEST" << std::endl << test_JSON.dump(4) << std::endl;
+
+    EXPECT_TRUE(testKey);
 }
 /*
 TEST(mkfifo_test, mkfifoFile)
