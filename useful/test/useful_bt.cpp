@@ -84,8 +84,8 @@ TEST(ClockClass, stopwatch)
 {
     Clock f;
     f.stopwatchStart();
-    sleep(2);
-    EXPECT_EQ(2,f.stopwatchStopAndGetResult());
+    sleep(1);
+    EXPECT_EQ(1,f.stopwatchStopAndGetResult());
 }
 
 TEST(ClockClass, wrongSet)
