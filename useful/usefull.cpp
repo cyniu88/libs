@@ -4,6 +4,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <fstream>
+
 #ifndef IDOM
 #include <curl/curl.h>
 #endif
@@ -99,14 +101,19 @@ void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& 
 
 std::string useful_F_libs::read_from_mkfifo(const std::string& path)
 {
-    char buf[10];
-    /* open, read, and display the message from the FIFO */
-    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-    std::cout <<"read open file: " << fd <<std::endl;
-    read(fd, buf, 10);
-    std::cout << "buf: " << buf << std::endl;
-    close(fd);
-    return (std::string(buf));
+//    char buf[10];
+//    /* open, read, and display the message from the FIFO */
+//    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
+//    std::cout <<"read open file: " << fd <<std::endl;
+//    read(fd, buf, 10);
+//    std::cout << "buf: " << buf << std::endl;
+//    close(fd);
+//    return (std::string(buf));
+    std::string buf;
+    std::fstream fd;
+
+    std::getline(fd,buf);
+    return buf;
 }
 
 size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
