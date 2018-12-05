@@ -109,7 +109,7 @@ TEST(JSON, getJSON)
 
     EXPECT_TRUE(testKey);
 }
-/*
+
 TEST(mkfifo_test, mkfifoFile)
 {
     std::string path = "/mnt/ramdisk/FifoFile";
@@ -128,8 +128,7 @@ TEST(mkfifo_test, mkfifoFile)
     returnString = useful_F_libs::read_from_mkfifo(path);
     unlink(path.c_str());
 
-   // EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
+    EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
     //TODO not
 
 }
-*/
