@@ -101,16 +101,17 @@ void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& 
 
 std::string useful_F_libs::read_from_mkfifo(const std::string& path)
 {
-//    char buf[10];
-//    /* open, read, and display the message from the FIFO */
-//    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-//    std::cout <<"read open file: " << fd <<std::endl;
-//    read(fd, buf, 10);
-//    std::cout << "buf: " << buf << std::endl;
-//    close(fd);
-//    return (std::string(buf));
-    std::string buf;
+    /* char buf[10];
+    //open, read, and display the message from the FIFO
+    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
+    std::cout <<"read open file: " << fd <<std::endl;
+    read(fd, buf, sizeof (buf));
+    std::cout << "buf: " << buf << std::endl;
+    close(fd);
+    return (std::string(buf));
+*/    std::string buf = "NULL";
     std::fstream fd;
+    fd.open(path.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
     std::getline(fd,buf);
     return buf;
