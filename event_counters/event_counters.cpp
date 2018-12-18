@@ -24,7 +24,7 @@ void event_counters::addEvent(const std::string& note)
 
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
-    oss << std::put_time(&tm, "%d-%m-%Y %H:%M:%S");
+    //BUG oss << std::put_time(&tm, "%d-%m-%Y %H:%M:%S");
 
     d.date = oss.str();
     d.note = note;
