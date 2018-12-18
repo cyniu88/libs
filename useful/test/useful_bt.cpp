@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
