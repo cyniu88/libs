@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "../statistic.h"
 
 class StatisticClass_fixture : public ::testing::Test
