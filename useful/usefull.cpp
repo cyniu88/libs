@@ -88,7 +88,15 @@ STATE stringToState(const std::string& s){
         return STATE::UNKNOWN;
 }
 
+bool useful_F_libs::hasSubstring(const std::string& _str, const std::string& _substring)
+{
+    if(_str.find(_substring) != std::string::npos)
+        return true;
+    return false;
+}
+
 #ifndef IDOM
+
 void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& msg)
 {
     errno = 0;

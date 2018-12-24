@@ -18,8 +18,11 @@ std::vector<std::string> split_string(const std::string& s, char separator );
 
 class useful_F_libs {
 public:
-    static  void write_to_mkfifo(const std::string& path, const std::string &msg);
-    static  std::string read_from_mkfifo(const std::string &path);
+
+    ///////////////////// string ////////////////////////////////////////////////
+    static bool hasSubstring(const std::string& _str, const std::string& _substring);
+    static void write_to_mkfifo(const std::string& path, const std::string &msg);
+    static std::string read_from_mkfifo(const std::string &path);
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static std::string find_tag (const std::string &temp);
     //////////////////// HTTP req //////////////////////////
