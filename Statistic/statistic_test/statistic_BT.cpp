@@ -9,7 +9,7 @@ public:
     StatisticClass_fixture(): average(12)
     {
     }
-    void SetUp() final
+    void SetUp()
     {
         average.push_back(1);
         average.push_back(1);
@@ -24,7 +24,7 @@ public:
         average.push_back(6);
         average.push_back(6);
     }
-    void TearDown() final
+    void TearDown()
     {
 
     }
