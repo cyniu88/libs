@@ -52,12 +52,12 @@ void event_counters::clearEvent()
     eventList.clear();
 }
 
-void event_counters::clearEvent(unsigned int from, unsigned int to)
+void event_counters::clearEvent(int from, int to)
 {
     if (to < from){
         return;
     }
-    auto max = static_cast<unsigned int>( eventList.size() );
+    auto max = static_cast<int>( eventList.size() );
 
     if (max < to){
         to = max;
