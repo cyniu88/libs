@@ -47,7 +47,7 @@ class SunRiseSet
     Clock gethrmn(double dhr);
 
 public:
-    SunRiseSet();
+    SunRiseSet(int timezone);
     std::string getAllData();
     void setPosition(double LATITUDE , double LONGITUDE, int TIMEZONE );
 ;

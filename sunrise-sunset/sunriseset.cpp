@@ -66,7 +66,7 @@ Clock SunRiseSet::gethrmn(double dhr)
     return ret;
 }
 
-SunRiseSet::SunRiseSet()
+SunRiseSet::SunRiseSet(int timezone):TIMEZONE(timezone)
 {
 
 }

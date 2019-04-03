@@ -197,6 +197,7 @@ void useful_F_libs::downloadFile(const std::string& url, const std::string& path
         //res = curl_easy_perform(curl);
         /* always cleanup */
         curl_easy_cleanup(curl);
+        curl_global_cleanup();
         fclose(fp);
     }
 }
