@@ -9,7 +9,7 @@
 
 class SunRiseSet
 {
-    int TIMEZONE  =  1;  //summer time 2 winter time 1 ?  check it  //NOTE
+    //int TIMEZONE  =  1;  //summer time 2 winter time 1 ?  check it  //NOTE
     double LATITUDE  =  50.019519;
     double LONGITUDE =  19.903498;   //cracow
     double pi = M_PI;
@@ -45,11 +45,12 @@ class SunRiseSet
 
     // Display decimal hours in hours and minutes
     Clock gethrmn(double dhr);
+    int isItWinterTime();
 
 public:
-    SunRiseSet(int timezone);
+    SunRiseSet();
     std::string getAllData();
-    void setPosition(double LATITUDE , double LONGITUDE, int TIMEZONE );
+    void setPosition(double LATITUDE , double LONGITUDE);
 ;
     Clock getSunSet();
     Clock getSunRise();
