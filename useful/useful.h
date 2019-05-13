@@ -97,7 +97,7 @@ public:
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
-    const std::string getString(){
+    std::string getString() const{
         std::stringstream ret;
         if (m_h < 10) {
             ret << "0";
