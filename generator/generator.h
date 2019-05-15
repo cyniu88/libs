@@ -15,7 +15,7 @@ generator();
 // return a string of the requested length
 std::string random_string( size_t length = 256 );
 unsigned char random_char();
-std::string generate_hex(const unsigned int len);
+std::string generate_hex(size_t len);
 
 };
 

@@ -45,10 +45,10 @@ unsigned char generator::random_char() {
     std::uniform_int_distribution<> dis(0, 255);
     return static_cast<unsigned char>(dis(gen));
 }
-std::string generator::generate_hex(const unsigned int len)
+std::string generator::generate_hex(size_t len)
 {
     std::stringstream ss;
-    for(auto i = 0; i < len; i++) {
+    for(size_t i = 0; i < len; i++) {
         auto rc = random_char();
         std::stringstream hexstream;
         hexstream << std::hex << int(rc);
