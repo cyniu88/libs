@@ -3,7 +3,6 @@
 
 alarm_C::alarm_C()
 {
-
 }
 
 void alarm_C::raiseAlarm(int id, const std::string &txt)
@@ -23,10 +22,10 @@ std::string alarm_C::showAlarm()
     std::lock_guard <std::mutex> lock (mutex_alarm);
     std::stringstream ret;
 
-    if(m_alarmMap.size() == 0)
+    if(m_alarmMap.empty())
         ret << " no alarms!";
     else{
-        for (auto s: m_alarmMap) {
+        for (const auto& s: m_alarmMap) {
             ret << s.first << ": " << s.second << std::endl;
         }
     }
