@@ -52,12 +52,12 @@ void event_counters::clearEvent()
     eventList.clear();
 }
 
-void event_counters::clearEvent(unsigned int from, unsigned int to)
+void event_counters::clearEvent(int from, int to)
 {
     if (to < from){
         return;
     }
-    auto max = static_cast<unsigned int>( eventList.size() );
+    auto max = static_cast<int>( eventList.size() );
 
     if (max < to){
         to = max;
@@ -67,7 +67,7 @@ void event_counters::clearEvent(unsigned int from, unsigned int to)
         to = max;
     }
     std::lock_guard <std::mutex> lock(eventMutex);
-    eventList.erase(eventList.begin()+from, eventList.begin()+to);
+    eventList.erase(eventList.begin() + from, eventList.begin() + to);
 }
 
 unsigned int event_counters::getLast1minNumberEvent()
@@ -86,11 +86,11 @@ unsigned int event_counters::getLast1minNumberEvent_NO_Mutex()
     unsigned int k = 0;
     if (eventList.empty())
         return k;
-    unsigned int lastPosix = static_cast<unsigned int> (std::time(nullptr));// eventList.at(eventList.size()-1).posixTime;
+    unsigned int lastPosix = static_cast<unsigned int> (std::time(nullptr));
 
-    for (auto i = eventList.size()-1; i != -1; i--)
+    for (int i = static_cast<int>(eventList.size())-1; i != -1; i--)
     {
-        if(eventList.at(i).posixTime+60 > lastPosix)
+        if(eventList.at(static_cast<std::size_t>(i)).posixTime + 60 > lastPosix)
             k++;
         else
             break;

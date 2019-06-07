@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -109,27 +108,32 @@ TEST(JSON, getJSON)
 
     EXPECT_TRUE(testKey);
 }
-/*
-TEST(mkfifo_test, mkfifoFile)
-{
-    std::string path = "/mnt/ramdisk/FifoFile";
-    std::string msg = "+";
-    std::string returnString;
-    int temp = mkfifo(path.c_str(),0666);
 
-    if ( temp == -1)
-        std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
-    else if (temp == 0)
-        std::cout << "plik stworzony"<< std::endl;
-    else
-        FAIL();
-    useful_F_libs::write_to_mkfifo(path,msg);
+//TEST(mkfifo_test, mkfifoFile)
+//{
+//    std::string path = "/mnt/ramdisk/FifoFile";
+//    std::string msg = "p";
+//    std::string returnString = "NULL";
+//    int temp = mkfifo(path.c_str(),0666);
 
-    returnString = useful_F_libs::read_from_mkfifo(path);
-    unlink(path.c_str());
+//    if ( temp == -1)
+//        std::cout << "plik istnieje "<<strerror(errno)<< std::endl;
+//    else if (temp == 0)
+//        std::cout << "plik stworzony"<< std::endl;
+//    else
+//        FAIL();
 
-   // EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
-    //TODO not
+//    useful_F_libs::write_to_mkfifo(path,msg);
+//}
 
-}
-*/
+//TEST(mkfifo_test, mkfifoFile2)
+//{
+//    std::string msg = "p";
+//    std::string path = "/mnt/ramdisk/FifoFile";
+//    std::string returnString = useful_F_libs::read_from_mkfifo(path);
+//    //unlink(path.c_str());
+
+//    EXPECT_STREQ(returnString.c_str(), msg.c_str()) << "odczytano smieci";
+//    //TODO not
+
+//}

@@ -88,29 +88,38 @@ STATE stringToState(const std::string& s){
         return STATE::UNKNOWN;
 }
 
+bool useful_F_libs::hasSubstring(const std::string& _str, const std::string& _substring)
+{
+    if(_str.find(_substring) != std::string::npos)
+        return true;
+    return false;
+}
+
 #ifndef IDOM
+
 void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& msg)
 {
     errno = 0;
     int fd = open(path.c_str(), O_RDWR| O_NONBLOCK );
-    std::cout <<"write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
-    std::cout <<  "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
+    std::cout << "write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
+    std::cout << "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
 
 std::string useful_F_libs::read_from_mkfifo(const std::string& path)
 {
-//    char buf[10];
-//    /* open, read, and display the message from the FIFO */
-//    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
-//    std::cout <<"read open file: " << fd <<std::endl;
-//    read(fd, buf, 10);
-//    std::cout << "buf: " << buf << std::endl;
-//    close(fd);
-//    return (std::string(buf));
-    std::string buf;
+    /* char buf[10];
+    //open, read, and display the message from the FIFO
+    int fd = open(path.c_str(), O_RDONLY | O_NONBLOCK);
+    std::cout <<"read open file: " << fd <<std::endl;
+    read(fd, buf, sizeof (buf));
+    std::cout << "buf: " << buf << std::endl;
+    close(fd);
+    return (std::string(buf));
+*/    std::string buf = "NULL";
     std::fstream fd;
+    fd.open(path.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
     std::getline(fd,buf);
     return buf;
@@ -188,6 +197,7 @@ void useful_F_libs::downloadFile(const std::string& url, const std::string& path
         //res = curl_easy_perform(curl);
         /* always cleanup */
         curl_easy_cleanup(curl);
+        curl_global_cleanup();
         fclose(fp);
     }
 }

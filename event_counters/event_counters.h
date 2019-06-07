@@ -26,12 +26,13 @@ public:
 
 public:
     event_counters(std::string name);
+    virtual ~event_counters() = default;
     virtual std::string help() = 0;
     virtual int howManyEvent();
     virtual void addEvent(const std::string &note = "");
     virtual std::string getEvent ();
     virtual void clearEvent();
-    virtual void clearEvent(unsigned int from, unsigned int to);
+    virtual void clearEvent(int from, int to);
     virtual unsigned int getLast1minNumberEvent();
     std::string getEventName();
 private:

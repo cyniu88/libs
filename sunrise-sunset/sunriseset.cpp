@@ -58,12 +58,35 @@ Clock SunRiseSet::gethrmn(double dhr)
 
     int hr,mn;
 
-    hr=(int) dhr;
+    hr = (int) dhr;
     mn = (dhr - (double) hr)*60;
 
     Clock ret(hr,mn);
 
     return ret;
+}
+
+int SunRiseSet::isItWinterTime()
+{
+    time_t sekunnit;
+    struct tm *p;
+
+    // get the date and time from the user
+    // read system date and extract the year
+
+    /** First get current time **/
+    time(&sekunnit);
+
+    /** Next get localtime **/
+
+    p = localtime(&sekunnit);
+
+    if(p->tm_isdst == 0)
+        return 1;
+    else if (p->tm_isdst == 1)
+        return 2;
+    else
+        return -1;
 }
 
 SunRiseSet::SunRiseSet()
@@ -86,7 +109,7 @@ std::string SunRiseSet::getAllData()
 
     /** Next get localtime **/
 
-    p=localtime(&sekunnit);
+    p = localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
 
@@ -98,7 +121,7 @@ std::string SunRiseSet::getAllData()
     latit = LATITUDE;
     longit = LONGITUDE;
     // Timezone hours
-    double tzone= TIMEZONE;
+    double tzone= isItWinterTime();
     double d = FNday(y, m, day, h);
 
     // Use FNsun to find the ecliptic longitude of the
@@ -154,24 +177,23 @@ std::string SunRiseSet::getAllData()
     ss << "Declination : " << delta * degs << '\n';
     ss << "Daylength   : "<< gethrmn(daylen).m_h<<":"<<gethrmn(daylen).m_min<< " hours \n";
     ss << "Begin civil twilight: "<<
-                 gethrmn(twam).m_h<<":"<<gethrmn(twam).m_min; std::cout << '\n';
+          gethrmn(twam).m_h<<":"<<gethrmn(twam).m_min; std::cout << '\n';
 
     ss << "Sunrise     : "<< gethrmn(riset).m_h<<":"<<gethrmn(riset).m_min; std::cout << '\n';
     ss << "Sun altitude at noontime ";
 
 
     ss << "Sunset      : "<<
-                 gethrmn(settm).m_h<<":"<<gethrmn(settm).m_min; std::cout << '\n';
+          gethrmn(settm).m_h<<":"<<gethrmn(settm).m_min; std::cout << '\n';
     ss << "Civil twilight: "<<
-                 gethrmn(twpm).m_h<<":"<<gethrmn(twpm).m_min; std::cout << '\n';
+          gethrmn(twpm).m_h<<":"<<gethrmn(twpm).m_min; std::cout << '\n';
     return ss.str();
 }
 
-void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE, int TIMEZONE)
+void SunRiseSet::setPosition(double LATITUDE, double LONGITUDE)
 {
     this->LATITUDE = LATITUDE;
     this->LONGITUDE = LONGITUDE;
-    this->TIMEZONE = TIMEZONE;
 }
 
 Clock SunRiseSet::getSunRise()
@@ -195,7 +217,7 @@ Clock SunRiseSet::getSunRise()
     latit = LATITUDE;
     longit = LONGITUDE;
     // Timezone hours
-    double tzone = TIMEZONE;
+    double tzone = isItWinterTime();
     double d = FNday(y, m, day, h);
     // Use FNsun to find the ecliptic longitude of the
     // Sun
@@ -284,7 +306,7 @@ Clock SunRiseSet::getSunSet()
     latit = LATITUDE;
     longit = LONGITUDE;
     // Timezone hours
-    double tzone = TIMEZONE;
+    double tzone = isItWinterTime();
 
     double d = FNday(y, m, day, h);
 
