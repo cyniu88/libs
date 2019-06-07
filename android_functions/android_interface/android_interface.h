@@ -17,6 +17,7 @@ public:
     void updateAndroidNotification (QString s);
     void keepScreenOn(bool on);
     void sendSMS(QString nr, QString msg);
+    bool share(QString text);
 private:
 #ifdef Q_OS_ANDROID
     AndroidHelper_cyniu droid;

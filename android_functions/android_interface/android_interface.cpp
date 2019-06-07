@@ -62,3 +62,12 @@ void android_interface::sendSMS(QString nr, QString msg)
     droid.sendSMS(nr,msg);
 #endif
 }
+
+bool android_interface::share(QString text)
+{
+    bool ret = false;
+#ifdef Q_OS_ANDROID
+   ret = droid.share(text);
+#endif
+   return ret;
+}

@@ -123,3 +123,9 @@ void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
         }
     }
 }
+
+bool AndroidHelper_cyniu::share(QString text)
+{
+   QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "share",  "(Ljava/lang/String;)V",QAndroidJniObject::fromString(text).object<jstring>());
+return true;
+}
