@@ -12,11 +12,11 @@ template <class T>
 class STATISTIC
 {
 public:
-    STATISTIC(unsigned int size): m_size(size)
+    STATISTIC(std::size_t size): m_size(size)
     {
 
     }
-    void resize(unsigned int i){
+    void resize(std::size_t i){
         if (i < m_size){
             while(m_dequeue.size()> i){
                 pop_front();
