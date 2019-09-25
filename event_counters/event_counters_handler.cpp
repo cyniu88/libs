@@ -49,9 +49,9 @@ std::string event_counters_handler::help(const std::string& name)
     std::string result;
 
     if (name.empty()){
-        for( auto iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
-            result+= iter->second->help();
-            result+= "\n------------------------------\n";
+        for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+            result += iter->second->help();
+            result += "\n------------------------------\n";
         }
     }
     else{
@@ -67,4 +67,15 @@ void event_counters_handler::addEvent(const std::string& name)
     std::lock_guard <std::mutex> lock(event_counters_handler::echMutex);
     std::shared_ptr <event_counters> newUnknownEvent (new event_unknown(name) );
     eventCountersMap.insert( std::make_pair( newUnknownEvent->getEventName(), newUnknownEvent ) );
+}
+
+void event_counters_handler::clearOld()
+{
+    for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+
+        auto i = iter->second->howManyEvent();
+        if(i > 8000){
+            iter->second->clearEvent(0, i - 1000 ) ;
+        }
+    }
 }

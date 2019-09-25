@@ -9,6 +9,26 @@ public:
      event_counters_handler mainEvent;
      std::string msg = "info";
      std::string testEvent = "testEvent";
+     void preper9000Event(){
+         int counter = 9000;
+         EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),0);
+         mainEvent.run(testEvent)->addEvent(msg);
+         EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1);
+         std::string returnedString = mainEvent.run(testEvent)->getEvent();
+         EXPECT_THAT(returnedString, testing::HasSubstr(msg));
+         EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1);
+
+         for (int i = 1; i!= counter; counter--)
+         {
+             mainEvent.run(testEvent)->addEvent(msg);
+             if(counter == 500){}
+         }
+         mainEvent.run(testEvent)->addEvent("cyniu");
+         EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),9001);
+         returnedString = mainEvent.run(testEvent)->getEvent();
+         EXPECT_THAT(returnedString, testing::HasSubstr("cyniu"));
+     }
+
      void preper1001Event(){
          int counter = 1000;
          EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),0);
@@ -104,8 +124,22 @@ TEST_F(event_counter_fixture, getLast1minNumberEvent)
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1001);
     EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),500);
 }
+
 TEST_F(event_counter_fixture, getLast1minNumberEventWhenEmpty)
 {
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),0);
     EXPECT_EQ(mainEvent.run(testEvent)->getLast1minNumberEvent(),0);
+}
+
+
+TEST_F(event_counter_fixture, clearOldEvent)
+{
+    preper9000Event();
+    std::cout << mainEvent.run(testEvent)->getEvent() ;
+    EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),9001);
+    mainEvent.clearOld();
+    EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1000);
+    std::cout << mainEvent.run(testEvent)->getEvent() ;
+    auto returnedString = mainEvent.run(testEvent)->getEvent();
+    EXPECT_THAT(returnedString, testing::HasSubstr("cyniu"));
 }
