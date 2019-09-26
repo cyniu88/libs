@@ -14,7 +14,7 @@ public:
     std::string getListPossibleEvents();
     std::string help(const std::string &name = "");
     void addEvent(const std::string &name);
-    void clearOld();
+    void clearOld(int moreThan, int last);
 };
 
 #endif // EVENT_COUNTERS_HANDLER_H
