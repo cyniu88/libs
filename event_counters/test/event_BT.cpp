@@ -135,13 +135,15 @@ TEST_F(event_counter_fixture, getLast1minNumberEventWhenEmpty)
 TEST_F(event_counter_fixture, clearOldEvent)
 {
     preper9000Event();
-    std::cout << mainEvent.run(testEvent)->getEvent() ;
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),9001);
 
-    mainEvent.clearOld([](){std::cout << "LOGGGERRR !" << std::endl;});
+    mainEvent.clearOld(8000, 1000,[](){
+        log_file_mutex.mutex_lock();
+        log_file_cout << INFO << "skasowano nadmarowe eventy!" << std::endl;
+        log_file_mutex.mutex_unlock();
+    });
 
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1000);
-    std::cout << mainEvent.run(testEvent)->getEvent() ;
     auto returnedString = mainEvent.run(testEvent)->getEvent();
     EXPECT_THAT(returnedString, testing::HasSubstr("cyniu"));
 }
