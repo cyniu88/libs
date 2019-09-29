@@ -69,14 +69,15 @@ void event_counters_handler::addEvent(const std::string& name)
     eventCountersMap.insert( std::make_pair( newUnknownEvent->getEventName(), newUnknownEvent ) );
 }
 
-void event_counters_handler::clearOld(int moreThan, int last, std::function<void ()> logger)
+void event_counters_handler::clearOld(int moreThan, int last, std::function<void (std::string& )> logger)
+
 {
     for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
 
         auto i = iter->second->howManyEvent();
         if(i > moreThan){
             iter->second->clearEvent(0, i - last ) ;
-            logger();
+            logger(iter->second->eventName);
         }
     }
 }

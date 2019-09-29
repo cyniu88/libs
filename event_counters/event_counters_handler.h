@@ -15,7 +15,7 @@ public:
     std::string getListPossibleEvents();
     std::string help(const std::string &name = "");
     void addEvent(const std::string &name);
-    void clearOld(int moreThan, int last, std::function<void ()> logger);
+    void clearOld(int moreThan, int last, std::function<void(std::string& name )> logger);
 };
 
 #endif // EVENT_COUNTERS_HANDLER_H
