@@ -137,7 +137,9 @@ TEST_F(event_counter_fixture, clearOldEvent)
     preper9000Event();
     std::cout << mainEvent.run(testEvent)->getEvent() ;
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),9001);
-    mainEvent.clearOld();
+
+    mainEvent.clearOld([](){std::cout << "LOGGGERRR !" << std::endl;});
+
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1000);
     std::cout << mainEvent.run(testEvent)->getEvent() ;
     auto returnedString = mainEvent.run(testEvent)->getEvent();

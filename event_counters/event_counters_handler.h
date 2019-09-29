@@ -2,6 +2,7 @@
 #define EVENT_COUNTERS_HANDLER_H
 
 #include "event_counters.h"
+#include <functional>
 
 class event_counters_handler
 {
@@ -14,7 +15,7 @@ public:
     std::string getListPossibleEvents();
     std::string help(const std::string &name = "");
     void addEvent(const std::string &name);
-    void clearOld();
+    void clearOld(std::function<void(void)> logger);
 };
 
 #endif // EVENT_COUNTERS_HANDLER_H
