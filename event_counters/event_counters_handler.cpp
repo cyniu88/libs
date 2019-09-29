@@ -77,7 +77,8 @@ void event_counters_handler::clearOld(int moreThan, int last, std::function<void
         auto i = iter->second->howManyEvent();
         if(i > moreThan){
             iter->second->clearEvent(0, i - last ) ;
-            logger(iter->second->eventName);
+            auto name = iter->second->getEventName();
+            logger(name);
         }
     }
 }
