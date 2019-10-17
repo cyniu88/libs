@@ -298,7 +298,9 @@ enum class STATE {
     FULL,
     SEND_OK,
     SEND_NOK,
-    TEMPORARY
+    TEMPORARY,
+    ENABLED,
+    DISABLED
     //WARNING remember add new state to stateToString() usefull.cpp
 };
 

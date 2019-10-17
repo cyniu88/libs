@@ -46,6 +46,8 @@ std::string stateToString(STATE s){
     case STATE::FULL:       return "FULL";
     case STATE::SEND_OK:    return "SEND_OK";
     case STATE::SEND_NOK:   return "SEND_NOK";
+    case STATE::ENABLED:    return "ENABLED";
+    case STATE::DISABLED:   return "DISABLED";
     default:
         return "UNKNOWN";
     }
@@ -84,6 +86,10 @@ STATE stringToState(const std::string& s){
         return STATE::SEND_OK;
     else if (s == "SEND_NOK")
         return STATE::SEND_NOK;
+    else if (s == "ENABLED")
+        return STATE::ENABLED;
+    else if (s == "DISABLED")
+        return STATE::DISABLED;
     else
         return STATE::UNKNOWN;
 }
