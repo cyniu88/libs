@@ -55,7 +55,6 @@ TEST(ClockClass, _operator)
     EXPECT_STREQ("00:00", s.str().c_str());
 
     Clock g("20:00");
-    f = g.getTime();
     g += Clock("23:43");
     EXPECT_STREQ("19:43", g.getString().c_str());
 }

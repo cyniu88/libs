@@ -6,7 +6,7 @@ eye::eye(QWidget *parent) :
     ui(new Ui::eye)
 {
     ui->setupUi(this);
-    QString path = "C:/cyniu/PROGRAMOWANIE/QT/QT_kurs/iDom_Client/files/svg/test.svg";
+    //QString path = "C:/cyniu/PROGRAMOWANIE/QT/QT_kurs/iDom_Client/files/svg/test.svg";
 
 //    obraz = stringSVG.toUtf8();
 //    qDebug() << "obraz ma: " <<obraz.size() <<  stringSVG;
