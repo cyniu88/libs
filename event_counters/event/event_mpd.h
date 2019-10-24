@@ -3,11 +3,11 @@
 
 #include "../event_counters.h"
 
-class event_mpd : public event_counters
+class event_mpd final : public event_counters
 {
 public:
-    event_mpd(const std::string &name);
-    std::string help();
+    explicit event_mpd(const std::string &name);
+    std::string help() override;
 };
 
 #endif // EVENT_MPD_H

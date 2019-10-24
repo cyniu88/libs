@@ -75,7 +75,7 @@ public:
     unsigned int m_h = 0;
     unsigned int m_min = 0;
     Clock () {}
-    Clock(std::string t){
+    explicit Clock(const std::string t){
         std::vector<std::string> vt = split_string(t,':');
         int h = std::stoi(vt.at(0));
         int m = std::stoi(vt.at(1));
@@ -129,7 +129,7 @@ public:
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    friend std::ostream & operator<< (std::ostream &w ,  Clock &c) {
+    friend std::ostream & operator<< (std::ostream &w , const Clock &c) {
         return w << c.getString();
     }
     /////////////////////////////////////////////////////////////////////////////////////

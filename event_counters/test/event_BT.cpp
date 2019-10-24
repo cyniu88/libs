@@ -137,7 +137,7 @@ TEST_F(event_counter_fixture, clearOldEvent)
     preper9000Event();
     EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),9001);
 
-    mainEvent.clearOld(8000, 1000, [](std::string& name){
+    mainEvent.clearOld(8000, 1000, [](const std::string& name){
         log_file_mutex.mutex_lock();
         log_file_cout << INFO << "skasowanao nadmarowe eventy w: "<< name << std::endl;
         log_file_mutex.mutex_unlock();

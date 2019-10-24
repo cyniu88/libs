@@ -21,7 +21,8 @@ enum class E_emoji{
      ///// do not forget add to class EMOJI emoji
 };
 class HEX_STR
-{ public:
+{
+public:
     static std::string hexToStr(const std::string &hex);
 };
 class EMOJI

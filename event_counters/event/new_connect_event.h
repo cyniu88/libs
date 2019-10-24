@@ -3,12 +3,12 @@
 
 #include "../event_counters.h"
 
-class new_Connect_Event : public event_counters
+class new_Connect_Event final  : public event_counters
 {
 public:
-    new_Connect_Event(const std::string &name);
+    explicit new_Connect_Event(const std::string &name);
    ~new_Connect_Event( );
-    std::string help();
+    std::string help() override;
 };
 
 #endif // NEW_CONNECT_EVENT_H

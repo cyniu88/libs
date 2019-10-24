@@ -12,7 +12,7 @@ template <class T>
 class STATISTIC
 {
 public:
-    STATISTIC(std::size_t size): m_size(size)
+    explicit STATISTIC(std::size_t size): m_size(size)
     {
 
     }

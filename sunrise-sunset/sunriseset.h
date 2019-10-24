@@ -51,7 +51,6 @@ public:
     SunRiseSet();
     std::string getAllData();
     void setPosition(double LATITUDE , double LONGITUDE);
-;
     Clock getSunSet();
     Clock getSunRise();
     Clock getDayLength();

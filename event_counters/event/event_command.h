@@ -2,10 +2,10 @@
 #define EVENT_COMMAND_H
 #include "../event_counters.h"
 
-class event_command : public event_counters
+class event_command final : public event_counters
 {
 public:
-    event_command(const std::string &name);
-    std::string help();
+    explicit event_command(const std::string &name);
+    std::string help() override;
 };
 #endif // EVENT_COMMAND_H

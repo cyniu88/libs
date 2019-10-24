@@ -6,7 +6,7 @@ class FACEBOOK_API{
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
 public:
-    FACEBOOK_API(const std::string& accessToken);
+    explicit FACEBOOK_API(const std::string& accessToken);
     FACEBOOK_API();
     std::string postTxtOnWall(const std::string& msg,
                               const std::string& accessToken = "NULL");
