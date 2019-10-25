@@ -30,6 +30,7 @@ AndroidHelper_cyniu::~AndroidHelper_cyniu()
 
 AndroidHelper_cyniu &AndroidHelper_cyniu::operator=(const AndroidHelper_cyniu &androidHelper_cyniu)
 {
+    assert(this != &androidHelper_cyniu);
     proximitySensor = new QProximitySensor();
     proximitySensor->start();
     accSensor = new QAccelerometer();
