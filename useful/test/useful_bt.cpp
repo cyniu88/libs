@@ -26,7 +26,7 @@ TEST(ClockClass, lessThen_Hours)
 TEST(ClockClass, plus_operator)
 {
     Clock f(13,57);
-    f+=Clock("04:04");
+    f += Clock("04:04");
     EXPECT_EQ(f.getString(),"18:01");
 }
 

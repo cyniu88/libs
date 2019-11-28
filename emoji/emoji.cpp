@@ -51,7 +51,7 @@ std::string HEX_STR::hexToStr(const std::string& hex)
         std::istringstream iss(hex.substr(i, 2));
         int temp;
         iss >> std::hex >> temp;
-        res += static_cast<char>(temp);
+        res.push_back(static_cast<char>(temp));
     }
     return res;
 }

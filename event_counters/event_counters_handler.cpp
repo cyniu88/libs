@@ -38,8 +38,8 @@ std::string event_counters_handler::getListPossibleEvents()
     std::string result;
 
     for( auto iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
-        result+= iter->first;
-        result+= "\n";
+        result.append(iter->first);
+        result.push_back('\n');
     }
     return result;
 }
@@ -50,8 +50,8 @@ std::string event_counters_handler::help(const std::string& name)
 
     if (name.empty()){
         for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
-            result += iter->second->help();
-            result += "\n------------------------------\n";
+            result.append(iter->second->help());
+            result.append("\n------------------------------\n");
         }
     }
     else{

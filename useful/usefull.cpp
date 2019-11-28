@@ -144,10 +144,10 @@ std::string useful_F_libs::find_tag(const std::string& temp)
     for (unsigned int i = 0; i<temp.size();++i){
 
         if (temp.at(i) =='>')
-        {  int z = i+1;
+        {  unsigned int z = i+1;
             while (temp.at(z)!='<')
             {
-                value+= temp.at(z);
+                value.push_back(temp.at(z));
                 ++z;
             }
             break;
