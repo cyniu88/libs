@@ -92,7 +92,7 @@ public:
         return max() - min();
     }
 
-    T standardDeviation(){
+    double standardDeviation(){
         double standardDeviation = 0.0;
         T _av = average();
 
@@ -102,7 +102,7 @@ public:
         return sqrt(standardDeviation / size());
     }
 
-    T coefficientOfVariation(){
+    double coefficientOfVariation(){
 
         return (standardDeviation()/average()) /** 100*/;
     }

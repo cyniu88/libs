@@ -233,3 +233,29 @@ TEST(StatisticClass, modeThree)
     std::cout << "1 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(28.62,average.mode()) << "ZLA DOMINANTA 32.13";
 }
+
+TEST(StatisticClass, coefficientOfVariation)
+{
+    int i = 270;
+    STATISTIC<int> testDB(i);
+
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(77);
+    }
+
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(83);
+    }
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(95);
+    }
+
+    std::stringstream kk;
+    kk << testDB.stats();
+
+    std::cout << kk.str();
+    EXPECT_NE(testDB.coefficientOfVariation(),0);
+}
