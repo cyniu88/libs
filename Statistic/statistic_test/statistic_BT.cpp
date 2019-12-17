@@ -253,9 +253,5 @@ TEST(StatisticClass, coefficientOfVariation)
         testDB.push_back(95);
     }
 
-    std::stringstream kk;
-    kk << testDB.stats();
-
-    std::cout << kk.str();
     EXPECT_NE(testDB.coefficientOfVariation(),0);
 }
