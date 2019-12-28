@@ -108,6 +108,16 @@ TEST(JSON, getJSON)
     EXPECT_TRUE(testKey);
 }
 
+TEST(usefull_libs, gtoLower)
+{
+    std::string testU("teST");
+    std::string testL("test");
+
+    useful_F_libs::toLower(testU);
+
+    EXPECT_STREQ(testU.c_str(), testL.c_str());
+}
+
 //TEST(mkfifo_test, mkfifoFile)
 //{
 //    std::string path = "/mnt/ramdisk/FifoFile";

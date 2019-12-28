@@ -20,6 +20,7 @@ class useful_F_libs {
 public:
 
     ///////////////////// string ////////////////////////////////////////////////
+    static void toLower(std::string& str);
     static bool hasSubstring(const std::string& _str, const std::string& _substring);
     static void write_to_mkfifo(const std::string& path, const std::string &msg);
     static std::string read_from_mkfifo(const std::string &path);

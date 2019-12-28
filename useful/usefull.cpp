@@ -10,6 +10,12 @@
 #ifndef IDOM
 #include <curl/curl.h>
 #endif
+
+void useful_F_libs::toLower(std::string& str){
+    std::transform(str.begin(), str.end(), str.begin(),
+                   [](unsigned char c){ return std::tolower(c); }
+                   );
+}
 std::vector<std::string> split_string(const std::string& s, char separator ){
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
