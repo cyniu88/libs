@@ -49,6 +49,19 @@ TEST_F(StatisticClass_fixture, averageOne)
     average.push_back(1);
     EXPECT_DOUBLE_EQ(average.average() , 1.0);
 }
+
+TEST_F(StatisticClass_fixture, averageZero)
+{
+    STATISTIC<double>a(1);
+    std::cout << "Srednia: " << a.average() << std::endl;
+    EXPECT_DOUBLE_EQ(a.average() , 0.0);
+}
+TEST_F(StatisticClass_fixture, medianZero)
+{
+    STATISTIC<double>a(1);
+    std::cout << "Mediana: " << a.average() << std::endl;
+    EXPECT_DOUBLE_EQ(a.average() , 0.0);
+}
 TEST_F(StatisticClass_fixture, median)
 {
     EXPECT_EQ(average.median(),2.5f);
@@ -70,11 +83,11 @@ TEST_F(StatisticClass_fixture, max)
 TEST_F(StatisticClass_fixture, push_and_pop)
 {
     average.pop_back();
-    EXPECT_EQ(average.size(),11);
+    EXPECT_EQ(average.getSize(),11);
     average.push_front(3.9);
-    EXPECT_EQ(average.size(),12);
+    EXPECT_EQ(average.getSize(),12);
     average.pop_back();
-    EXPECT_EQ(average.size(),11);
+    EXPECT_EQ(average.getSize(),11);
 }
 
 TEST(StatisticClass, resize)
@@ -91,7 +104,7 @@ TEST(StatisticClass, resize)
     average.print();
     average.resize(s);
 
-    EXPECT_EQ(average.size(),static_cast<double>(s));
+    EXPECT_EQ(average.getSize(),static_cast<double>(s));
 
     auto data = average.getLast2();
     average.print();
@@ -115,7 +128,7 @@ TEST(StatisticClass, getLast2_empty)
     average.resize(s);
     average.push_front(33);
 
-    EXPECT_EQ(average.size(),static_cast<double>(s));
+    EXPECT_EQ(average.getSize(),static_cast<double>(s));
 
     auto data = average.getLast2();
     average.print();
@@ -206,6 +219,15 @@ TEST(StatisticClass, mode)
     std::cout << "2 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(33.5,average.mode()) << "ZLA DOMINANTA 33.5";
 }
+
+TEST(StatisticClass, modeZero)
+{
+    STATISTIC<double> average(1);
+
+    std::cout << "0 MODE: " << average.mode() << std::endl;
+    EXPECT_DOUBLE_EQ(average.mode(), 0) ;
+}
+
 TEST(StatisticClass, modeOne)
 {
     STATISTIC<double> average(1);
@@ -214,6 +236,7 @@ TEST(StatisticClass, modeOne)
     std::cout << "1 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(29.62,average.mode()) << "ZLA DOMINANTA 32.13";
 }
+
 TEST(StatisticClass, modeTwo)
 {
     STATISTIC<double> average(10);
@@ -254,4 +277,18 @@ TEST(StatisticClass, coefficientOfVariation)
     }
 
     EXPECT_NE(testDB.coefficientOfVariation(),0);
+}
+
+TEST(StatisticClass, getPrintout)
+{
+    STATISTIC<double> data(10);
+
+    EXPECT_NO_THROW(data.print());
+}
+
+TEST(StatisticClass, statsZero)
+{
+    STATISTIC<double>db(1);
+    db.stats();
+
 }

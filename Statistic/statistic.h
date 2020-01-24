@@ -24,8 +24,8 @@ public:
         }
         m_size = i;
     }
-    T size(){
-        return  static_cast<T>(m_dequeue.size());
+    T getSize(){
+        return  static_cast<T>((m_dequeue.size() == 0)?1:m_dequeue.size());
     }
     void push_front(T v){
         if (m_dequeue.size() >= m_size){
@@ -51,7 +51,9 @@ public:
     T median(){
         auto backup = m_dequeue;
         std::sort(backup.begin(), backup.end());
-        if (backup.size() % 2 != 0){
+        if(backup.empty())
+            return static_cast<T>(0);
+        if(backup.size() % 2 != 0){
             return backup[backup.size() / 2];
         }
         else{
@@ -64,7 +66,7 @@ public:
     }
 
     T average(){
-        T av  = sum() /size();
+        T av  = sum() /getSize();
         return av;
     }
 
@@ -96,10 +98,10 @@ public:
         double standardDeviation = 0.0;
         T _av = average();
 
-        for(int i = 0; i < size(); ++i){
+        for(int i = 0; i < getSize(); ++i){
             standardDeviation += pow(m_dequeue.at(i) - _av, 2);
         }
-        return sqrt(standardDeviation / size());
+        return sqrt(standardDeviation / getSize());
     }
 
     double coefficientOfVariation(){
@@ -114,6 +116,9 @@ public:
         int counter = 1;
         int modeCounter = 1;
         auto backup = m_dequeue;
+        if(m_dequeue.empty()){
+            return static_cast<T>(0);
+        }
         if(m_dequeue.size() == 1)
         {
             return m_dequeue.at(0);
@@ -222,10 +227,10 @@ public:
     std::string stats(){
 
         std::stringstream ss(" brak danych =(");
-        if(size()>0)
+        if(m_dequeue.size() > 0)
         {
             ss.str("");
-            ss <<"rozmiar tablicy: "<< size() <<std::endl
+            ss <<"rozmiar tablicy: "<< getSize() <<std::endl
               << "min: "<< min() <<std::endl
               << "max: "<< max()<<std::endl
               << "srednia " << average() <<std::endl
