@@ -56,30 +56,46 @@ TEST_F(StatisticClass_fixture, averageZero)
     std::cout << "Srednia: " << a.average() << std::endl;
     EXPECT_DOUBLE_EQ(a.average() , 0.0);
 }
+
 TEST_F(StatisticClass_fixture, medianZero)
 {
     STATISTIC<double>a(1);
     std::cout << "Mediana: " << a.average() << std::endl;
     EXPECT_DOUBLE_EQ(a.average() , 0.0);
 }
+
 TEST_F(StatisticClass_fixture, median)
 {
     EXPECT_EQ(average.median(),2.5f);
 }
+
+TEST_F(StatisticClass_fixture, trend)
+{
+    STATISTIC<int> data(200);
+    for (int i = 200; i != 0; --i){
+        puts("dupa");
+        data.push_back(i);
+    }
+    std::cout << data.trend();
+}
+
 TEST(StatisticClass, medianOne)
 {
     STATISTIC<double> average(1);
     average.push_back(1);
     EXPECT_EQ(average.median(), 1.0f);
 }
+
 TEST_F(StatisticClass_fixture, min)
 {
     EXPECT_EQ(average.min(),-5.0f);
 }
+
 TEST_F(StatisticClass_fixture, max)
 {
     EXPECT_EQ(average.max(),6);
 }
+
 TEST_F(StatisticClass_fixture, push_and_pop)
 {
     average.pop_back();

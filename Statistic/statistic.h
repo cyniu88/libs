@@ -171,7 +171,7 @@ public:
     std::string trend(){
         if(m_dequeue.size() == 0)
             return "no data";
-TREND_DATA m_trendData;	
+TREND_DATA m_trendData;
         T down_sum;// = 0;
         T up_sum;// = 0;
         T first = m_dequeue[0];
@@ -191,9 +191,10 @@ TREND_DATA m_trendData;
         }
 
         std::stringstream ret;
-        ret << " eq " << m_trendData.eq << "up " << m_trendData.up
-            << " down " << m_trendData.down << " down_sume "
-             << " up_sum " << up_sum << down_sum << std::endl;
+        ret.precision(2);
+        ret << " eq: " << m_trendData.eq << " | up: " << m_trendData.up
+            << "| down: " << m_trendData.down << "| down_sume: "
+             << "| up_sum: " << up_sum << down_sum << std::endl;
 //        m_trendData.clear();
         return ret.str();
     }
