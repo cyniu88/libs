@@ -71,8 +71,8 @@ TEST_F(StatisticClass_fixture, median)
 
 TEST_F(StatisticClass_fixture, trend)
 {
-    STATISTIC<int> data(200);
-    for (int i = 200; i != 0; --i){
+    STATISTIC<int> data(10);
+    for (int i = 0; i < 10; ++i){
         puts("dupa");
         data.push_back(i);
     }

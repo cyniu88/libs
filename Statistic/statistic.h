@@ -173,17 +173,19 @@ public:
             return "no data";
 TREND_DATA m_trendData;
         T down_sum;// = 0;
-        T up_sum;// = 0;
+        int up_sum = 0;
         T first = m_dequeue[0];
-
+        std::cout << " up_sum: " << up_sum << std::endl;
         for (auto i = 1; i < m_dequeue.size(); ++i){
             if(first > m_dequeue.at(i)){
                 ++m_trendData.down;
-                down_sum += first - m_dequeue.at(i);
+                down_sum += (first - m_dequeue.at(i));
             }
             else if(first < m_dequeue.at(i)){
                 ++m_trendData.up;
-                up_sum += m_dequeue.at(i) - first;
+                up_sum += (m_dequeue.at(i) - first);
+                std::cout << "add:"  << (m_dequeue.at(i) - first) << " m_deq: " << m_dequeue.at(i)
+                          << " first: " << first << " up_sum:" << up_sum << std::endl;
             }
             else
                 ++m_trendData.eq;
