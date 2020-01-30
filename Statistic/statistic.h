@@ -195,8 +195,8 @@ TREND_DATA m_trendData;
         std::stringstream ret;
         ret.precision(2);
         ret << " eq: " << m_trendData.eq << " | up: " << m_trendData.up
-            << "| down: " << m_trendData.down << "| down_sume: "
-             << "| up_sum: " << up_sum << down_sum << std::endl;
+            << "| down: " << m_trendData.down << "| down_sume: " << down_sum
+             << "| up_sum: " << up_sum  << std::endl;
 //        m_trendData.clear();
         return ret.str();
     }
