@@ -8,6 +8,16 @@
 #include <cmath>
 #include <vector>
 
+
+//template <class T>
+struct TREND_DATA{
+    int down = 0;
+    int up = 0;
+    int eq = 0;
+//    T down_sum;// = 0;
+//    T up_sum;// = 0;
+};
+
 template <class T>
 class STATISTIC
 {
@@ -158,30 +168,31 @@ public:
         return _mode;
     }
 
-    float trend(){
-        int down = 0;
-        int eq = 0;
-        int up = 0;
-        T down_sum = 0;
-        T up_sum = 0;
+    std::string trend(){
+        if(m_dequeue.size() == 0)
+            return "no data";
+
+        T down_sum;// = 0;
+        T up_sum;// = 0;
         T first = m_dequeue[0];
 
         for (auto i = 1; i < m_dequeue.size(); ++i){
             if(first > m_dequeue.at(i)){
-                ++down;
+                ++m_trendData.down;
                 down_sum += first - m_dequeue.at(i);
             }
             else if(first < m_dequeue.at(i)){
-                ++up;
+                ++m_trendData.up;
                 up_sum += m_dequeue.at(i) - first;
             }
             else
-                ++eq;
+                ++m_trendData.eq;
         }
-        std::cout << "up " << up << " eq " << eq << " down " << down << " down_sume "
-                  << down_sum << " up_sum " << up_sum << std::endl;
-        puts("dupa");
-        return 2.2;
+        std::stringstream ret;
+        ret << " eq " << m_trendData.eq << "up " << m_trendData.up
+            << " down " << m_trendData.down << " down_sume "
+             << " up_sum " << up_sum << down_sum << std::endl;
+        return ret.str();
     }
 
     bool isMoreDiff(T diff){
@@ -251,6 +262,7 @@ private:
     unsigned int m_size;
     std::deque <T> m_dequeue;
     bool m_alarm = false;
+    TREND_DATA m_trendData;
 };
 
 #endif // STATISTIC_H
