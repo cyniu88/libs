@@ -162,29 +162,25 @@ public:
         int down = 0;
         int eq = 0;
         int up = 0;
-        int lp = 0;
-        T diff = 0;
+        T down_sum = 0;
+        T up_sum = 0;
         T first = m_dequeue[0];
 
         for (auto i = 1; i < m_dequeue.size(); ++i){
-            if (first < m_dequeue[i]){
-                up++;
-                if (m_dequeue[i] - first > diff){
-                    diff = m_dequeue[i] - first;
-                    lp = i;
-                }
+            if(first > m_dequeue.at(i)){
+                ++down;
+                down_sum += first - m_dequeue.at(i);
             }
-            if (first == m_dequeue[i]){ eq++;}
-            if (first > m_dequeue[i]){
-                if (diff < first - m_dequeue[i] ){
-                    diff = first - m_dequeue[i];
-                    lp = i;
-                }
-                down++;
+            else if(first < m_dequeue.at(i)){
+                ++up;
+                up_sum += m_dequeue.at(i) - first;
             }
-            first = m_dequeue[i];
+            else
+                ++eq;
         }
-        std::cout <<"up "<<up<<" eq "<< eq << " down "<< down <<" max diff "<< diff<<" lp "<<lp << std::endl;
+        std::cout << "up " << up << " eq " << eq << " down " << down << " down_sume "
+                  << down_sum << " up_sum " << up_sum << std::endl;
+        puts("dupa");
         return 2.2;
     }
 
@@ -237,7 +233,8 @@ public:
               << "mediana " << median()  <<std::endl
               << "odchylenie st "<< standardDeviation() << std::endl
               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
-              << "Dominanta " << mode();
+               << "Dominanta " << mode() << std::endl
+              << "trend " << trend();
 
 
             ss << std::endl
