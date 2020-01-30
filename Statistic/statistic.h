@@ -187,7 +187,9 @@ public:
             }
             else
                 ++m_trendData.eq;
+            first = m_dequeue.at(i);
         }
+
         std::stringstream ret;
         ret << " eq " << m_trendData.eq << "up " << m_trendData.up
             << " down " << m_trendData.down << " down_sume "
