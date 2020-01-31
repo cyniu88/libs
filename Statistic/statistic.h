@@ -28,6 +28,8 @@ struct TREND_DATA{
     }
     void countPercent(){
         int sum = eq + up + down;
+        if(sum == 0)
+            return;
         eqPercent = eq * 100 / sum;
         upPercent = up * 100 / sum;
         downPercent = down * 100 / sum;
