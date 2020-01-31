@@ -9,13 +9,29 @@
 #include <vector>
 
 
-//template <class T>
+template <class T>
 struct TREND_DATA{
     int down = 0;
     int up = 0;
     int eq = 0;
-//    T down_sum;// = 0;
-//    T up_sum;// = 0;
+    T down_sum = 0;
+    T up_sum = 0;
+    void clear(){
+        down = 0;
+        up = 0;
+        eq = 0;
+        down_sum = 0;
+        up_sum = 0;
+    }
+    std::string getStringInfo(){
+        std::stringstream ret;
+        ret.precision(2);
+        ret << " eq: " << eq << " | up: " << up
+            << "| down: " << down << "| down_sume: " << down_sum
+            << "| up_sum: " << up_sum  << std::endl;
+
+        return ret.str();
+    }
 };
 
 template <class T>
@@ -168,43 +184,33 @@ public:
         return _mode;
     }
 
-    std::string trend(){
+    TREND_DATA<T> trend(){
+        m_trendData.clear();
         if(m_dequeue.size() == 0)
-            return "no data";
-TREND_DATA m_trendData;
-        T down_sum;// = 0;
-        int up_sum = 0;
+            return m_trendData;
+
         T first = m_dequeue[0];
-        std::cout << " up_sum: " << up_sum << std::endl;
         for (auto i = 1; i < m_dequeue.size(); ++i){
             if(first > m_dequeue.at(i)){
                 ++m_trendData.down;
-                down_sum += (first - m_dequeue.at(i));
+                m_trendData.down_sum += (first - m_dequeue.at(i));
             }
             else if(first < m_dequeue.at(i)){
                 ++m_trendData.up;
-                up_sum += (m_dequeue.at(i) - first);
-                std::cout << "add:"  << (m_dequeue.at(i) - first) << " m_deq: " << m_dequeue.at(i)
-                          << " first: " << first << " up_sum:" << up_sum << std::endl;
+                m_trendData.up_sum += (m_dequeue.at(i) - first);
             }
             else
                 ++m_trendData.eq;
             first = m_dequeue.at(i);
         }
 
-        std::stringstream ret;
-        ret.precision(2);
-        ret << " eq: " << m_trendData.eq << " | up: " << m_trendData.up
-            << "| down: " << m_trendData.down << "| down_sume: " << down_sum
-             << "| up_sum: " << up_sum  << std::endl;
-//        m_trendData.clear();
-        return ret.str();
+        return m_trendData;
     }
 
     bool isMoreDiff(T diff){
         if (m_dequeue.size()>2){
             T d = m_dequeue.at( m_dequeue.size()-2)
-                    - m_dequeue.at( m_dequeue.size() - 1);
+                  - m_dequeue.at( m_dequeue.size() - 1);
             d = fabs(d);
             if (d > diff && m_alarm == false){
                 m_alarm = true;
@@ -244,14 +250,14 @@ TREND_DATA m_trendData;
         {
             ss.str("");
             ss <<"rozmiar tablicy: "<< getSize() <<std::endl
-              << "min: "<< min() <<std::endl
-              << "max: "<< max()<<std::endl
-              << "srednia " << average() <<std::endl
-              << "mediana " << median()  <<std::endl
-              << "odchylenie st "<< standardDeviation() << std::endl
-              << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
+               << "min: "<< min() <<std::endl
+               << "max: "<< max()<<std::endl
+               << "srednia " << average() <<std::endl
+               << "mediana " << median()  <<std::endl
+               << "odchylenie st "<< standardDeviation() << std::endl
+               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
                << "Dominanta " << mode() << std::endl
-              << "trend " << trend();
+               << "trend " << trend().getStringInfo();
 
 
             ss << std::endl
@@ -268,7 +274,7 @@ private:
     unsigned int m_size;
     std::deque <T> m_dequeue;
     bool m_alarm = false;
-    //TREND_DATA m_trendData;
+    TREND_DATA <T> m_trendData;
 };
 
 #endif // STATISTIC_H

@@ -69,14 +69,27 @@ TEST_F(StatisticClass_fixture, median)
     EXPECT_EQ(average.median(),2.5f);
 }
 
-TEST_F(StatisticClass_fixture, trend)
+TEST_F(StatisticClass_fixture, trendMain)
 {
-    STATISTIC<int> data(10);
-    for (int i = 0; i < 10; ++i){
-        puts("dupa");
-        data.push_back(i);
-    }
-    std::cout << data.trend();
+    STATISTIC<float> data(10);
+    data.push_back(1.2f);
+    data.push_back(1.3f);
+    data.push_back(1.4f);
+    data.push_back(1.5f);
+    data.push_back(1.6f);
+    data.push_back(1.7f);
+    data.push_back(1.8f);
+    data.push_back(1.9f);
+    data.push_back(2.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 0.8"));
+
+
+    data.push_back(2.5f);
+    ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 1.3"));
 }
 
 TEST(StatisticClass, medianOne)
