@@ -92,6 +92,48 @@ TEST_F(StatisticClass_fixture, trendMain)
     EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 1.3"));
 }
 
+TEST_F(StatisticClass_fixture, trendRise)
+{
+    STATISTIC<float> data(10);
+    data.push_back(10.2f);
+    data.push_back(100.3f);
+    data.push_back(1000.4f);
+    data.push_back(1000.5f);
+    data.push_back(1000.6f);
+    data.push_back(1000.7f);
+    data.push_back(1000.8f);
+    data.push_back(1000.9f);
+    data.push_back(1001.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 990.8"));
+}
+
+TEST_F(StatisticClass_fixture, trendBouncing)
+{
+    STATISTIC<float> data(10);
+    data.push_back(10.2f);
+    data.push_back(100.3f);
+    data.push_back(100.3f);
+    data.push_back(100.3f);
+    data.push_back(1000.6f);
+    data.push_back(1000.7f);
+    data.push_back(1000.8f);
+    data.push_back(100.9f);
+    data.push_back(10.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 990.6"));
+}
+
+TEST_F(StatisticClass_fixture, trendZero)
+{
+    STATISTIC<float> data(10);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 0"));
+}
+
 TEST(StatisticClass, medianOne)
 {
     STATISTIC<double> average(1);
