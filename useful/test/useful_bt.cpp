@@ -12,7 +12,7 @@ TEST(ClockClass, AddTwoHours)
 {
     Clock f(13,57);
     Clock g(23,59);
-    Clock r = f+g;
+    Clock r = f + g;
     EXPECT_EQ(r.getString(), "13:56");
 }
 

@@ -147,7 +147,7 @@ size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, v
 std::string useful_F_libs::find_tag(const std::string& temp)
 {
     std::string value = "";
-    for (unsigned int i = 0; i<temp.size();++i){
+    for (unsigned int i = 0; i < temp.size(); ++i){
 
         if (temp.at(i) == '>')
         {  unsigned int z = i+1;

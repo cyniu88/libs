@@ -7,5 +7,5 @@ event_unknown::event_unknown(const std::string& name) : event_counters(name), na
 
 std::string event_unknown::help()
 {
-    return  name+" event";
+    return  name + " event";
 }
