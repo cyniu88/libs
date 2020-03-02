@@ -149,9 +149,9 @@ std::string useful_F_libs::find_tag(const std::string& temp)
     std::string value = "";
     for (unsigned int i = 0; i<temp.size();++i){
 
-        if (temp.at(i) =='>')
+        if (temp.at(i) == '>')
         {  unsigned int z = i+1;
-            while (temp.at(z)!='<')
+            while (temp.at(z) != '<')
             {
                 value.push_back(temp.at(z));
                 ++z;
@@ -233,7 +233,7 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     std::stringstream convertStream;
 
     // remove all xml tags
-    for (unsigned int i=0; i < data.length(); i++)
+    for (unsigned int i = 0; i < data.length(); i++)
     {
         convertStream << data[i];
 

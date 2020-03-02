@@ -24,7 +24,7 @@ double SunRiseSet::f0(double lat, double declin)
     dfo = rads*(0.5*SunDia + AirRefr); if (lat < 0.0) dfo = -dfo;
     fo = tan(declin + dfo) * tan(lat*rads);
 
-    if (fo > 0.99999) fo=1.0; // to avoid overflow //
+    if (fo > 0.99999) fo = 1.0; // to avoid overflow //
     fo = asin(fo) + pi/2.0;
     return fo;
 }
@@ -36,7 +36,7 @@ double SunRiseSet::f1(double lat, double declin)
     df1 = rads * 6.0; if (lat < 0.0) df1 = -df1;
     fi = tan(declin + df1) * tan(lat*rads);
 
-    if (fi > 0.99999) fi=1.0; // to avoid overflow //
+    if (fi > 0.99999) fi = 1.0; // to avoid overflow //
     fi = asin(fi) + pi/2.0;
     return fi;
 }
@@ -208,7 +208,7 @@ Clock SunRiseSet::getSunRise()
     time(&sekunnit);
 
     /** Next get localtime **/
-    p=localtime(&sekunnit);
+    p = localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
     m = p->tm_mon + 1;
@@ -254,7 +254,7 @@ Clock SunRiseSet::getDayLength()
     time(&sekunnit);
 
     /** Next get localtime **/
-    p=localtime(&sekunnit);
+    p = localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
     m = p->tm_mon + 1;
@@ -295,7 +295,7 @@ Clock SunRiseSet::getSunSet()
 
     /** Next get localtime **/
 
-    p=localtime(&sekunnit);
+    p = localtime(&sekunnit);
     // this is Y2K compliant algorithm
     y = 1900 + p->tm_year;
 
