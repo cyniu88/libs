@@ -8,15 +8,60 @@
 #include <cmath>
 #include <vector>
 
+
+template <class T>
+struct TREND_DATA{
+    int down = 0;
+    int downPercent = 0;
+    int up = 0;
+    int upPercent = 0;
+    int eq = 0;
+    int eqPercent = 0;
+    T down_sum = 0;
+    T up_sum = 0;
+    void clear(){
+        down = 0;
+        up = 0;
+        eq = 0;
+        down_sum = 0;
+        up_sum = 0;
+    }
+    void countPercent(){
+        int sum = eq + up + down;
+        if(sum == 0)
+            return;
+        eqPercent = eq * 100 / sum;
+        upPercent = up * 100 / sum;
+        downPercent = down * 100 / sum;
+    }
+    std::string getStringInfo(){
+        countPercent();
+        std::stringstream ret;
+        //ret.precision(2);
+        ret << "eq: " << eqPercent << "% | "
+            << "up: " << upPercent << "% | "
+            << "down: " << downPercent << "%"
+            << std::endl
+            << "eq: " << eq
+            << " | up: " << up
+            << " | down: " << down
+            << " | down_sume: " << down_sum
+            << " | up_sum: " << up_sum
+            << std::endl;
+
+        return ret.str();
+    }
+};
+
 template <class T>
 class STATISTIC
 {
 public:
-    STATISTIC(unsigned int size): m_size(size)
+    explicit STATISTIC(std::size_t size): m_size(size)
     {
 
     }
-    void resize(unsigned int i){
+    void resize(std::size_t i){
         if (i < m_size){
             while(m_dequeue.size()> i){
                 pop_front();
@@ -24,8 +69,8 @@ public:
         }
         m_size = i;
     }
-    T size(){
-        return  static_cast<T>(m_dequeue.size());
+    T getSize(){
+        return  static_cast<T>((m_dequeue.size() == 0)?1:m_dequeue.size());
     }
     void push_front(T v){
         if (m_dequeue.size() >= m_size){
@@ -51,7 +96,9 @@ public:
     T median(){
         auto backup = m_dequeue;
         std::sort(backup.begin(), backup.end());
-        if (backup.size() % 2 != 0){
+        if(backup.empty())
+            return static_cast<T>(0);
+        if(backup.size() % 2 != 0){
             return backup[backup.size() / 2];
         }
         else{
@@ -64,7 +111,7 @@ public:
     }
 
     T average(){
-        T av  = sum() /size();
+        T av  = sum() /getSize();
         return av;
     }
 
@@ -92,17 +139,17 @@ public:
         return max() - min();
     }
 
-    T standardDeviation(){
+    double standardDeviation(){
         double standardDeviation = 0.0;
         T _av = average();
 
-        for(int i = 0; i < size(); ++i){
+        for(int i = 0; i < getSize(); ++i){
             standardDeviation += pow(m_dequeue.at(i) - _av, 2);
         }
-        return sqrt(standardDeviation / size());
+        return sqrt(standardDeviation / getSize());
     }
 
-    T coefficientOfVariation(){
+    double coefficientOfVariation(){
 
         return (standardDeviation()/average()) /** 100*/;
     }
@@ -114,6 +161,9 @@ public:
         int counter = 1;
         int modeCounter = 1;
         auto backup = m_dequeue;
+        if(m_dequeue.empty()){
+            return static_cast<T>(0);
+        }
         if(m_dequeue.size() == 1)
         {
             return m_dequeue.at(0);
@@ -153,40 +203,33 @@ public:
         return _mode;
     }
 
-    float trend(){
-        int down = 0;
-        int eq = 0;
-        int up = 0;
-        int lp = 0;
-        T diff = 0;
-        T first = m_dequeue[0];
+    TREND_DATA<T> trend(){
+        m_trendData.clear();
+        if(m_dequeue.size() == 0)
+            return m_trendData;
 
+        T first = m_dequeue[0];
         for (auto i = 1; i < m_dequeue.size(); ++i){
-            if (first < m_dequeue[i]){
-                up++;
-                if (m_dequeue[i] - first > diff){
-                    diff = m_dequeue[i] - first;
-                    lp = i;
-                }
+            if(first > m_dequeue.at(i)){
+                ++m_trendData.down;
+                m_trendData.down_sum += (first - m_dequeue.at(i));
             }
-            if (first == m_dequeue[i]){ eq++;}
-            if (first > m_dequeue[i]){
-                if (diff < first - m_dequeue[i] ){
-                    diff = first - m_dequeue[i];
-                    lp = i;
-                }
-                down++;
+            else if(first < m_dequeue.at(i)){
+                ++m_trendData.up;
+                m_trendData.up_sum += (m_dequeue.at(i) - first);
             }
-            first = m_dequeue[i];
+            else
+                ++m_trendData.eq;
+            first = m_dequeue.at(i);
         }
-        std::cout <<"up "<<up<<" eq "<< eq << " down "<< down <<" max diff "<< diff<<" lp "<<lp << std::endl;
-        return 2.2;
+
+        return m_trendData;
     }
 
     bool isMoreDiff(T diff){
         if (m_dequeue.size()>2){
             T d = m_dequeue.at( m_dequeue.size()-2)
-                    - m_dequeue.at( m_dequeue.size() - 1);
+                  - m_dequeue.at( m_dequeue.size() - 1);
             d = fabs(d);
             if (d > diff && m_alarm == false){
                 m_alarm = true;
@@ -222,17 +265,18 @@ public:
     std::string stats(){
 
         std::stringstream ss(" brak danych =(");
-        if(size()>0)
+        if(m_dequeue.size() > 0)
         {
             ss.str("");
-            ss <<"rozmiar tablicy: "<< size() <<std::endl
-              << "min: "<< min() <<std::endl
-              << "max: "<< max()<<std::endl
-              << "srednia " << average() <<std::endl
-              << "mediana " << median()  <<std::endl
-              << "odchylenie st "<< standardDeviation() << std::endl
-              << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
-              << "Dominanta " << mode();
+            ss <<"rozmiar tablicy: "<< getSize() <<std::endl
+               << "min: "<< min() <<std::endl
+               << "max: "<< max()<<std::endl
+               << "srednia " << average() <<std::endl
+               << "mediana " << median()  <<std::endl
+               << "odchylenie st "<< standardDeviation() << std::endl
+               << "wspolczynnik zmiennosci " << coefficientOfVariation() <<"%"<< std::endl
+               << "Dominanta " << mode() << std::endl
+               << "trend " << trend().getStringInfo();
 
 
             ss << std::endl
@@ -249,6 +293,7 @@ private:
     unsigned int m_size;
     std::deque <T> m_dequeue;
     bool m_alarm = false;
+    TREND_DATA <T> m_trendData;
 };
 
 #endif // STATISTIC_H

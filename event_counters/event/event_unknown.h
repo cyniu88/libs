@@ -3,12 +3,12 @@
 
 #include "../event_counters.h"
 
-class event_unknown : public event_counters
+class event_unknown final : public event_counters
 {
     std::string  name;
 public:
-    event_unknown(const std::string &name);
-    std::string help();
+    explicit event_unknown(const std::string &name);
+    std::string help() override;
 };
 
 #endif // EVENT_UNKNOWN_H

@@ -20,6 +20,7 @@ class useful_F_libs {
 public:
 
     ///////////////////// string ////////////////////////////////////////////////
+    static void toLower(std::string& str);
     static bool hasSubstring(const std::string& _str, const std::string& _substring);
     static void write_to_mkfifo(const std::string& path, const std::string &msg);
     static std::string read_from_mkfifo(const std::string &path);
@@ -75,7 +76,7 @@ public:
     unsigned int m_h = 0;
     unsigned int m_min = 0;
     Clock () {}
-    Clock(std::string t){
+    explicit Clock(const std::string& t){
         std::vector<std::string> vt = split_string(t,':');
         int h = std::stoi(vt.at(0));
         int m = std::stoi(vt.at(1));
@@ -129,7 +130,7 @@ public:
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    friend std::ostream & operator<< (std::ostream &w ,  Clock &c) {
+    friend std::ostream & operator<< (std::ostream &w , const Clock &c) {
         return w << c.getString();
     }
     /////////////////////////////////////////////////////////////////////////////////////
@@ -298,7 +299,9 @@ enum class STATE {
     FULL,
     SEND_OK,
     SEND_NOK,
-    TEMPORARY
+    TEMPORARY,
+    ENABLED,
+    DISABLED
     //WARNING remember add new state to stateToString() usefull.cpp
 };
 

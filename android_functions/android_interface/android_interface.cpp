@@ -65,7 +65,7 @@ void android_interface::sendSMS(QString nr, QString msg)
 
 bool android_interface::share(QString text)
 {
-    bool ret = false;
+    bool ret(false);
 #ifdef Q_OS_ANDROID
    ret = droid.share(text);
 #endif

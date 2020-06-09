@@ -1,4 +1,5 @@
 #include "useful.h"
+
 #include <sys/fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,6 +10,12 @@
 #ifndef IDOM
 #include <curl/curl.h>
 #endif
+
+void useful_F_libs::toLower(std::string& str){
+    std::transform(str.begin(), str.end(), str.begin(),
+                   [](unsigned char c){ return std::tolower(c); }
+                   );
+}
 std::vector<std::string> split_string(const std::string& s, char separator ){
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
@@ -46,6 +53,8 @@ std::string stateToString(STATE s){
     case STATE::FULL:       return "FULL";
     case STATE::SEND_OK:    return "SEND_OK";
     case STATE::SEND_NOK:   return "SEND_NOK";
+    case STATE::ENABLED:    return "ENABLED";
+    case STATE::DISABLED:   return "DISABLED";
     default:
         return "UNKNOWN";
     }
@@ -84,6 +93,10 @@ STATE stringToState(const std::string& s){
         return STATE::SEND_OK;
     else if (s == "SEND_NOK")
         return STATE::SEND_NOK;
+    else if (s == "ENABLED")
+        return STATE::ENABLED;
+    else if (s == "DISABLED")
+        return STATE::DISABLED;
     else
         return STATE::UNKNOWN;
 }
@@ -134,13 +147,13 @@ size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, v
 std::string useful_F_libs::find_tag(const std::string& temp)
 {
     std::string value = "";
-    for (unsigned int i = 0; i<temp.size();++i){
+    for (unsigned int i = 0; i < temp.size(); ++i){
 
-        if (temp.at(i) =='>')
-        {  int z = i+1;
-            while (temp.at(z)!='<')
+        if (temp.at(i) == '>')
+        {  unsigned int z = i+1;
+            while (temp.at(z) != '<')
             {
-                value+= temp.at(z);
+                value.push_back(temp.at(z));
                 ++z;
             }
             break;
@@ -220,7 +233,7 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     std::stringstream convertStream;
 
     // remove all xml tags
-    for (unsigned int i=0; i < data.length(); i++)
+    for (unsigned int i = 0; i < data.length(); i++)
     {
         convertStream << data[i];
 

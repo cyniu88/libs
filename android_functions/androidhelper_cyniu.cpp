@@ -28,6 +28,17 @@ AndroidHelper_cyniu::~AndroidHelper_cyniu()
     qDebug("\n\n\n destruktor androidhelper\n\n\n");
 }
 
+AndroidHelper_cyniu &AndroidHelper_cyniu::operator=(const AndroidHelper_cyniu &androidHelper_cyniu)
+{
+    assert(this != &androidHelper_cyniu);
+    proximitySensor = new QProximitySensor();
+    proximitySensor->start();
+    accSensor = new QAccelerometer();
+    accSensor->start();
+    qDebug("operator = androidhelper !!!!!!!!!!!!!!\n");
+    return *this;
+}
+
 void AndroidHelper_cyniu::vibrate(int msec)
 {
     QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "vibrate", "(I)V", msec);

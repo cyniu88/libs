@@ -12,7 +12,7 @@ TEST(ClockClass, AddTwoHours)
 {
     Clock f(13,57);
     Clock g(23,59);
-    Clock r = f+g;
+    Clock r = f + g;
     EXPECT_EQ(r.getString(), "13:56");
 }
 
@@ -26,7 +26,7 @@ TEST(ClockClass, lessThen_Hours)
 TEST(ClockClass, plus_operator)
 {
     Clock f(13,57);
-    f+=Clock("04:04");
+    f += Clock("04:04");
     EXPECT_EQ(f.getString(),"18:01");
 }
 
@@ -55,7 +55,6 @@ TEST(ClockClass, _operator)
     EXPECT_STREQ("00:00", s.str().c_str());
 
     Clock g("20:00");
-    f = g.getTime();
     g += Clock("23:43");
     EXPECT_STREQ("19:43", g.getString().c_str());
 }
@@ -107,6 +106,16 @@ TEST(JSON, getJSON)
     std::cout << " JSON JEST" << std::endl << test_JSON.dump(4) << std::endl;
 
     EXPECT_TRUE(testKey);
+}
+
+TEST(usefull_libs, gtoLower)
+{
+    std::string testU("teST");
+    std::string testL("test");
+
+    useful_F_libs::toLower(testU);
+
+    EXPECT_STREQ(testU.c_str(), testL.c_str());
 }
 
 //TEST(mkfifo_test, mkfifoFile)

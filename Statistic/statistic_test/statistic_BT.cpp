@@ -49,32 +49,116 @@ TEST_F(StatisticClass_fixture, averageOne)
     average.push_back(1);
     EXPECT_DOUBLE_EQ(average.average() , 1.0);
 }
+
+TEST_F(StatisticClass_fixture, averageZero)
+{
+    STATISTIC<double>a(1);
+    std::cout << "Srednia: " << a.average() << std::endl;
+    EXPECT_DOUBLE_EQ(a.average() , 0.0);
+}
+
+TEST_F(StatisticClass_fixture, medianZero)
+{
+    STATISTIC<double>a(1);
+    std::cout << "Mediana: " << a.average() << std::endl;
+    EXPECT_DOUBLE_EQ(a.average() , 0.0);
+}
+
 TEST_F(StatisticClass_fixture, median)
 {
     EXPECT_EQ(average.median(),2.5f);
 }
+
+TEST_F(StatisticClass_fixture, trendMain)
+{
+    STATISTIC<float> data(10);
+    data.push_back(1.2f);
+    data.push_back(1.3f);
+    data.push_back(1.4f);
+    data.push_back(1.5f);
+    data.push_back(1.6f);
+    data.push_back(1.7f);
+    data.push_back(1.8f);
+    data.push_back(1.9f);
+    data.push_back(2.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 0.8"));
+
+
+    data.push_back(2.5f);
+    ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 1.3"));
+}
+
+TEST_F(StatisticClass_fixture, trendRise)
+{
+    STATISTIC<float> data(10);
+    data.push_back(10.2f);
+    data.push_back(100.3f);
+    data.push_back(1000.4f);
+    data.push_back(1000.5f);
+    data.push_back(1000.6f);
+    data.push_back(1000.7f);
+    data.push_back(1000.8f);
+    data.push_back(1000.9f);
+    data.push_back(1001.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 990.8"));
+}
+
+TEST_F(StatisticClass_fixture, trendBouncing)
+{
+    STATISTIC<float> data(10);
+    data.push_back(10.2f);
+    data.push_back(100.3f);
+    data.push_back(100.3f);
+    data.push_back(100.3f);
+    data.push_back(1000.6f);
+    data.push_back(1000.7f);
+    data.push_back(1000.8f);
+    data.push_back(100.9f);
+    data.push_back(10.0f);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 990.6"));
+}
+
+TEST_F(StatisticClass_fixture, trendZero)
+{
+    STATISTIC<float> data(10);
+    auto ret = data.trend();
+    std::cout << ret.getStringInfo();
+    EXPECT_THAT(ret.getStringInfo(), testing::HasSubstr("up_sum: 0"));
+}
+
 TEST(StatisticClass, medianOne)
 {
     STATISTIC<double> average(1);
     average.push_back(1);
     EXPECT_EQ(average.median(), 1.0f);
 }
+
 TEST_F(StatisticClass_fixture, min)
 {
     EXPECT_EQ(average.min(),-5.0f);
 }
+
 TEST_F(StatisticClass_fixture, max)
 {
     EXPECT_EQ(average.max(),6);
 }
+
 TEST_F(StatisticClass_fixture, push_and_pop)
 {
     average.pop_back();
-    EXPECT_EQ(average.size(),11);
+    EXPECT_EQ(average.getSize(),11);
     average.push_front(3.9);
-    EXPECT_EQ(average.size(),12);
+    EXPECT_EQ(average.getSize(),12);
     average.pop_back();
-    EXPECT_EQ(average.size(),11);
+    EXPECT_EQ(average.getSize(),11);
 }
 
 TEST(StatisticClass, resize)
@@ -91,7 +175,7 @@ TEST(StatisticClass, resize)
     average.print();
     average.resize(s);
 
-    EXPECT_EQ(average.size(),static_cast<double>(s));
+    EXPECT_EQ(average.getSize(),static_cast<double>(s));
 
     auto data = average.getLast2();
     average.print();
@@ -115,7 +199,7 @@ TEST(StatisticClass, getLast2_empty)
     average.resize(s);
     average.push_front(33);
 
-    EXPECT_EQ(average.size(),static_cast<double>(s));
+    EXPECT_EQ(average.getSize(),static_cast<double>(s));
 
     auto data = average.getLast2();
     average.print();
@@ -206,6 +290,15 @@ TEST(StatisticClass, mode)
     std::cout << "2 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(33.5,average.mode()) << "ZLA DOMINANTA 33.5";
 }
+
+TEST(StatisticClass, modeZero)
+{
+    STATISTIC<double> average(1);
+
+    std::cout << "0 MODE: " << average.mode() << std::endl;
+    EXPECT_DOUBLE_EQ(average.mode(), 0) ;
+}
+
 TEST(StatisticClass, modeOne)
 {
     STATISTIC<double> average(1);
@@ -214,6 +307,7 @@ TEST(StatisticClass, modeOne)
     std::cout << "1 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(29.62,average.mode()) << "ZLA DOMINANTA 32.13";
 }
+
 TEST(StatisticClass, modeTwo)
 {
     STATISTIC<double> average(10);
@@ -232,4 +326,40 @@ TEST(StatisticClass, modeThree)
     average.print();
     std::cout << "1 MODE: " << average.mode() << std::endl;
     EXPECT_DOUBLE_EQ(28.62,average.mode()) << "ZLA DOMINANTA 32.13";
+}
+
+TEST(StatisticClass, coefficientOfVariation)
+{
+    int i = 270;
+    STATISTIC<int> testDB(i);
+
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(77);
+    }
+
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(83);
+    }
+    for (int j = 0; j < 100; ++j)
+    {
+        testDB.push_back(95);
+    }
+
+    EXPECT_NE(testDB.coefficientOfVariation(),0);
+}
+
+TEST(StatisticClass, getPrintout)
+{
+    STATISTIC<double> data(10);
+
+    EXPECT_NO_THROW(data.print());
+}
+
+TEST(StatisticClass, statsZero)
+{
+    STATISTIC<double>db(1);
+    db.stats();
+
 }

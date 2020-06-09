@@ -4,11 +4,11 @@
 
 #include "../event_counters.h"
 
-class event_pilot : public event_counters
+class event_pilot final : public event_counters
 {
 public:
-    event_pilot(const std::string &name);
-    std::string help();
+    explicit event_pilot(const std::string &name);
+    std::string help() override;
 };
 
 #endif // EVENT_PILOT_H
