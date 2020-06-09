@@ -58,7 +58,9 @@ void AndroidHelper_cyniu::makeToast(QString text)
 }
 int AndroidHelper_cyniu::updateAndroidNotification(QString msg)
 {
-    QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",QAndroidJniObject::fromString(msg).object<jstring>());
+    QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",
+                                              QtAndroid::androidContext().object(),
+                                              QAndroidJniObject::fromString(msg).object<jstring>());
     return 0;
 }
 
