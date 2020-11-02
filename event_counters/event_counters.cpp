@@ -39,7 +39,7 @@ std::string event_counters::getEvent()
     ret << "Event: " << help() << "\n";
     std::lock_guard <std::mutex> lock(eventMutex);
     int k = 0;
-    for (auto i : eventList){
+    for (const auto& i : eventList){
         ret << ++k << "\t" << i.date << "     " <<  i.note << "\n";
     }
     ret << "\n event per last minute: " << getLast1minNumberEvent_NO_Mutex() << "\n------------------------------";
