@@ -97,6 +97,8 @@ STATE stringToState(const std::string& s){
         return STATE::ENABLED;
     else if (s == "DISABLED")
         return STATE::DISABLED;
+    else if (s == "null")
+        return STATE::UNDEFINE;
     else
         return STATE::UNKNOWN;
 }
