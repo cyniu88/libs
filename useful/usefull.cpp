@@ -55,6 +55,8 @@ std::string stateToString(STATE s){
     case STATE::SEND_NOK:   return "SEND_NOK";
     case STATE::ENABLED:    return "ENABLED";
     case STATE::DISABLED:   return "DISABLED";
+    case STATE::CONNECTED:  return "CONNECTED";
+    case STATE::DISCONNECTED: return "DISCONNECTED";
     default:
         return "UNKNOWN";
     }
@@ -97,6 +99,10 @@ STATE stringToState(const std::string& s){
         return STATE::ENABLED;
     else if (s == "DISABLED")
         return STATE::DISABLED;
+    else if (s == "CONNECTED")
+        return STATE::CONNECTED;
+    else if (s == "DISCONNECTED")
+        return STATE::DISCONNECTED;
     else if (s == "null")
         return STATE::UNDEFINE;
     else
