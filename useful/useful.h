@@ -250,6 +250,16 @@ public:
     {
         return static_cast<unsigned int> (std::time(nullptr));
     }
+    ////////////////////////////////////////////////////////////////////////////////////
+    static std::string unixTimeToString(unsigned int t)
+    {
+        std::time_t result = static_cast<std::time_t>(t);
+
+        std::stringstream g;
+        g << std::asctime(std::localtime(&result));
+
+        return g.str();
+    }
     /////////////////////////////////////////////////////////////////////////////////////
 #ifdef BT_TEST
     static void setTime_forBT_usage(int h, int m)
