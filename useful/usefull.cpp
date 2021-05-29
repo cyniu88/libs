@@ -109,6 +109,11 @@ STATE stringToState(const std::string& s){
         return STATE::UNKNOWN;
 }
 
+std::ostream &operator<<(std::ostream &os, const STATE &v) {
+  os << stateToString(v) ;
+  return os;
+}
+
 bool useful_F_libs::hasSubstring(const std::string& _str, const std::string& _substring)
 {
     if(_str.find(_substring) != std::string::npos)

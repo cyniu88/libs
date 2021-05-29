@@ -317,8 +317,8 @@ enum class STATE {
     //WARNING remember add new state to stateToString() usefull.cpp
 };
 
-
 std::string stateToString(STATE s);
 STATE stringToState(const std::string& s);
 
+std::ostream &operator<<(std::ostream &os, const STATE &v);
 #endif
