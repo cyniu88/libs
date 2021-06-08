@@ -18,7 +18,7 @@ public:
          EXPECT_THAT(returnedString, testing::HasSubstr(msg));
          EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1);
 
-         for (int i = 1; i!= counter; counter--)
+         for (int i = 1; i not_eq counter; counter--)
          {
              mainEvent.run(testEvent)->addEvent(msg);
              if(counter == 500){}
@@ -38,7 +38,7 @@ public:
          EXPECT_THAT(returnedString, testing::HasSubstr(msg));
          EXPECT_EQ(mainEvent.run(testEvent)->howManyEvent(),1);
 
-         for (int i = 1; i!= counter; counter--)
+         for (int i = 1; i not_eq counter; counter--)
          {
              mainEvent.run(testEvent)->addEvent(msg);
              if(counter == 500)

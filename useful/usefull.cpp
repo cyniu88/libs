@@ -20,7 +20,7 @@ std::vector<std::string> split_string(const std::string& s, char separator ){
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
 
-    while((pos = s.find(separator, pos)) != std::string::npos)
+    while((pos = s.find(separator, pos)) not_eq std::string::npos)
     {
         std::string substring( s.substr(prev_pos, pos-prev_pos) );
         output.push_back(substring);
@@ -110,13 +110,20 @@ STATE stringToState(const std::string& s){
 }
 
 std::ostream &operator<<(std::ostream &os, const STATE &v) {
-  os << stateToString(v) ;
+  os << stateToString(v);
   return os;
+}
+
+std::ostream &operator>>(std::ostream &os, STATE &v) {
+    std::stringstream ss;
+    ss << os.rdbuf();
+    v = stringToState(ss.str());
+   return os;
 }
 
 bool useful_F_libs::hasSubstring(const std::string& _str, const std::string& _substring)
 {
-    if(_str.find(_substring) != std::string::npos)
+    if(_str.find(_substring) not_eq std::string::npos)
         return true;
     return false;
 }
@@ -164,7 +171,7 @@ std::string useful_F_libs::find_tag(const std::string& temp)
 
         if (temp.at(i) == '>')
         {  unsigned int z = i+1;
-            while (temp.at(z) != '<')
+            while (temp.at(z) not_eq '<')
             {
                 value.push_back(temp.at(z));
                 ++z;
@@ -190,7 +197,7 @@ std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds)
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         /* Check for errors */
-        if(res != CURLE_OK)
+        if(res not_eq CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(res));
 
@@ -230,7 +237,7 @@ void useful_F_libs::downloadFile(const std::string& url, const std::string& path
 
 std::string useful_F_libs::replaceAll(std::string str, const std::string& from, const std::string& to) {
     size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    while((start_pos = str.find(from, start_pos)) not_eq std::string::npos) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
     }

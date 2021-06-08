@@ -88,7 +88,7 @@ unsigned int event_counters::getLast1minNumberEvent_NO_Mutex()
         return k;
     unsigned int lastPosix = static_cast<unsigned int> (std::time(nullptr));
 
-    for (int i = static_cast<int>(eventList.size())-1; i != -1; i--)
+    for (int i = static_cast<int>(eventList.size())-1; i not_eq -1; i--)
     {
         if(eventList.at(static_cast<std::size_t>(i)).posixTime + 60 > lastPosix)
             k++;

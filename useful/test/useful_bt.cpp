@@ -35,9 +35,9 @@ TEST(ClockClass, _operator)
     EXPECT_FALSE(Clock("04:04") == Clock("04:05"));
     EXPECT_FALSE(Clock("05:05") == Clock("04:05"));
     EXPECT_TRUE(Clock("05:05") == Clock("05:05"));
-    EXPECT_FALSE(Clock("05:05") != Clock("05:05"));
-    EXPECT_TRUE(Clock("04:05") != Clock("05:05"));
-    EXPECT_TRUE(Clock("04:05") != Clock("04:04"));
+    EXPECT_FALSE(Clock("05:05") not_eq Clock("05:05"));
+    EXPECT_TRUE(Clock("04:05") not_eq Clock("05:05"));
+    EXPECT_TRUE(Clock("04:05") not_eq Clock("04:04"));
     EXPECT_TRUE(Clock("04:05") > Clock("04:04"));
     EXPECT_FALSE(Clock("03:05") > Clock("04:04"));
     EXPECT_TRUE(Clock("04:05") >= Clock("04:04"));

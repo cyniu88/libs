@@ -321,4 +321,5 @@ std::string stateToString(STATE s);
 STATE stringToState(const std::string& s);
 
 std::ostream &operator<<(std::ostream &os, const STATE &v);
+std::ostream &operator>>(std::ostream &os,  STATE &v);
 #endif

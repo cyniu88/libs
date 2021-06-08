@@ -37,7 +37,7 @@ std::string event_counters_handler::getListPossibleEvents()
 {
     std::string result;
 
-    for( auto iter= eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+    for( auto iter= eventCountersMap.begin();iter not_eq eventCountersMap.end(); ++iter ) {
         result.append(iter->first);
         result.push_back('\n');
     }
@@ -49,7 +49,7 @@ std::string event_counters_handler::help(const std::string& name)
     std::string result;
 
     if (name.empty()){
-        for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+        for( auto iter = eventCountersMap.begin();iter not_eq eventCountersMap.end(); ++iter ) {
             result.append(iter->second->help());
             result.append("\n------------------------------\n");
         }
@@ -72,7 +72,7 @@ void event_counters_handler::addEvent(const std::string& name)
 void event_counters_handler::clearOld(int moreThan, int last, std::function<void (std::string& )> logger)
 
 {
-    for( auto iter = eventCountersMap.begin();iter != eventCountersMap.end(); ++iter ) {
+    for( auto iter = eventCountersMap.begin();iter not_eq eventCountersMap.end(); ++iter ) {
 
         auto i = iter->second->howManyEvent();
         if(i > moreThan){
