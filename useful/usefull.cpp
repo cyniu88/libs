@@ -57,6 +57,8 @@ std::string stateToString(STATE s){
     case STATE::DISABLED:   return "DISABLED";
     case STATE::CONNECTED:  return "CONNECTED";
     case STATE::DISCONNECTED: return "DISCONNECTED";
+    case STATE::ARMED:      return "ARMED";
+    case STATE::DISARMED:      return "DISARMED";
     default:
         return "UNKNOWN";
     }
@@ -103,6 +105,10 @@ STATE stringToState(const std::string& s){
         return STATE::CONNECTED;
     else if (s == "DISCONNECTED")
         return STATE::DISCONNECTED;
+    else if (s == "ARMED")
+        return STATE::ARMED;
+    else if (s == "DISARMED")
+        return STATE::DISARMED;
     else if (s == "null")
         return STATE::UNDEFINE;
     else

@@ -313,7 +313,9 @@ enum class STATE {
     ENABLED,
     DISABLED,
     CONNECTED,
-    DISCONNECTED
+    DISCONNECTED,
+    ARMED,
+    DISARMED
     //WARNING remember add new state to stateToString() usefull.cpp
 };
 
