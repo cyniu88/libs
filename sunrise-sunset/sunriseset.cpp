@@ -175,18 +175,19 @@ std::string SunRiseSet::getAllData()
     ss << "Latitude :  " << latit << ", longitude:  " << longit << '\n';
     ss << "Timezone :  " << tzone << "\n\n";
     ss << "Declination : " << delta * degs << '\n';
-    ss << "Daylength   : "<< gethrmn(daylen).m_h<<":"<<gethrmn(daylen).m_min<< " hours \n";
-    ss << "Begin civil twilight: "<<
-          gethrmn(twam).m_h<<":"<<gethrmn(twam).m_min; std::cout << '\n';
+    ss << "Daylength   : "<< gethrmn(daylen).m_h << ":" << gethrmn(daylen).m_min << " hours \n";
+  //  ss << "Begin civil twilight: "<<
+  //        gethrmn(twam).m_h << ":" << gethrmn(twam).m_min  << '\n';
 
-    ss << "Sunrise     : "<< gethrmn(riset).m_h<<":"<<gethrmn(riset).m_min; std::cout << '\n';
+    ss << "Sunrise     : " << gethrmn(riset).m_h << ":" << gethrmn(riset).m_min << '\n';
     ss << "Sun altitude at noontime ";
 
-
-    ss << "Sunset      : "<<
-          gethrmn(settm).m_h<<":"<<gethrmn(settm).m_min; std::cout << '\n';
-    ss << "Civil twilight: "<<
-          gethrmn(twpm).m_h<<":"<<gethrmn(twpm).m_min; std::cout << '\n';
+ //   std::cout << "Cyniu twpm: " << gethrmn(twpm).getString() << std::endl;
+ //   std::cout << "Cyniu settm: " << gethrmn(settm).getString() << std::endl;
+    ss << "Sunset      : " <<
+          gethrmn(settm).m_h << ":" << gethrmn(settm).m_min << '\n';
+   // ss << "Civil twilight: " <<
+   //       gethrmn(twpm).m_h << ":"  << gethrmn(twpm).m_min << '\n';
     return ss.str();
 }
 
