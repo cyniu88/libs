@@ -6,8 +6,10 @@
 TEST(Circural_buffer_bt, main)
 {
     Circular_buffer testBuffer;
-    for (int i = 1; i < 25; ++i){
+    for (char i = 40; i < 65; ++i){
         testBuffer.put(i);
     }
-    std::cout << testBuffer.dump();
+    std::cout << testBuffer.dump<char>();
+
+
 }
