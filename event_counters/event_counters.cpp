@@ -11,9 +11,9 @@ event_counters::event_counters(std::string name) : eventName(std::move(name))
 
 }
 
-int event_counters::howManyEvent()
+int event_counters::howManyEvent() const
 {
-    std::lock_guard < std::mutex > lock ( eventMutex);
+    std::lock_guard<std::mutex> lock(eventMutex);
     return static_cast<int>( eventList.size() );
 }
 
@@ -33,7 +33,7 @@ void event_counters::addEvent(const std::string& note)
     eventList.push_back(d);
 }
 
-std::string event_counters::getEvent()
+std::string event_counters::getEvent() const
 {
     std::stringstream ret;
     ret << "Event: " << help() << "\n";
@@ -70,18 +70,18 @@ void event_counters::clearEvent(int from, int to)
     eventList.erase(eventList.begin() + from, eventList.begin() + to);
 }
 
-unsigned int event_counters::getLast1minNumberEvent()
+unsigned int event_counters::getLast1minNumberEvent() const
 {
     std::lock_guard <std::mutex> lock(eventMutex);
     return getLast1minNumberEvent_NO_Mutex();
 }
 
-std::string event_counters::getEventName()
+std::string event_counters::getEventName() const
 {
     return eventName;
 }
 
-unsigned int event_counters::getLast1minNumberEvent_NO_Mutex()
+unsigned int event_counters::getLast1minNumberEvent_NO_Mutex() const
 {
     unsigned int k = 0;
     if (eventList.empty())

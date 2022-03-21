@@ -11,7 +11,7 @@ new_Connect_Event::~new_Connect_Event()
     std::cout << " kasujemy obiekt" << std::endl;
 }
 
-std::string new_Connect_Event::help()
+std::string new_Connect_Event::help() const
 {
     return "connection start event";
 }

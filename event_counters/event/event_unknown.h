@@ -8,7 +8,7 @@ class event_unknown final : public event_counters
     std::string  name;
 public:
     explicit event_unknown(const std::string &name);
-    std::string help() override;
+    std::string help() const override;
 };
 
 #endif // EVENT_UNKNOWN_H

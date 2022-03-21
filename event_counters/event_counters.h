@@ -15,7 +15,7 @@ struct eventStruct{
 
 class event_counters
 {
-    std::mutex eventMutex;
+   mutable std::mutex eventMutex;
 
 protected:
 #ifdef BT_TEST
@@ -27,16 +27,16 @@ public:
 public:
     event_counters(std::string name);
     virtual ~event_counters() = default;
-    virtual std::string help() = 0;
-    virtual int howManyEvent();
+    virtual std::string help() const = 0;
+    virtual int howManyEvent() const;
     virtual void addEvent(const std::string &note = "");
-    virtual std::string getEvent ();
+    virtual std::string getEvent() const;
     virtual void clearEvent();
     virtual void clearEvent(int from, int to);
-    virtual unsigned int getLast1minNumberEvent();
-    std::string getEventName();
+    virtual unsigned int getLast1minNumberEvent() const;
+    std::string getEventName() const;
 private:
-    virtual unsigned int getLast1minNumberEvent_NO_Mutex();
+    virtual unsigned int getLast1minNumberEvent_NO_Mutex() const;
 };
 
 #endif // EVENT_COUNTERS_H

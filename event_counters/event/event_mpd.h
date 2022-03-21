@@ -7,7 +7,7 @@ class event_mpd final : public event_counters
 {
 public:
     explicit event_mpd(const std::string &name);
-    std::string help() override;
+    std::string help() const override;
 };
 
 #endif // EVENT_MPD_H

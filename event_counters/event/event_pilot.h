@@ -8,7 +8,7 @@ class event_pilot final : public event_counters
 {
 public:
     explicit event_pilot(const std::string &name);
-    std::string help() override;
+    std::string help() const override;
 };
 
 #endif // EVENT_PILOT_H
