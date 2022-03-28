@@ -282,8 +282,6 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
 nlohmann::json useful_F_libs::getJson(const std::string& url)
 {
     std::string str = useful_F_libs::httpPost(url);
-    nlohmann::json jj = nlohmann::json::parse( str);
-
-    return jj;
+    return nlohmann::json::parse(str);
 }
 #endif
