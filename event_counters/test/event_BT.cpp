@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "test_data.h"
-#include "../../../iDom_server_OOP/src/iDomTools/test/iDomTools_fixture.h"
 #include "../event_counters_handler.h"
+#include "../../iDom_server_OOP/src/iDom_server_OOP.h"
 
-class event_counter_fixture : public iDomTOOLS_ClassTest
+class event_counter_fixture: public testing::Test
 {
 public:
      event_counters_handler mainEvent;
