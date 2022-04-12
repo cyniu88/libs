@@ -8,9 +8,6 @@ public:
     STATISTIC<double> average;
     StatisticClass_fixture(): average(12)
     {
-    }
-    void SetUp()
-    {
         average.push_back(1);
         average.push_back(1);
         average.push_back(2);
@@ -23,10 +20,6 @@ public:
         average.push_back(-5);
         average.push_back(6);
         average.push_back(6);
-    }
-    void TearDown()
-    {
-
     }
 };
 

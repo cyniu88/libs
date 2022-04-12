@@ -1,20 +1,7 @@
 #include <gtest/gtest.h>
 #include "../alarm.h"
 
-class alarm_BT: public ::testing::Test
-{
-public:
-    void SetUp()
-    {
-
-    }
-    void TearDown()
-    {
-
-    }
-};
-
-TEST_F(alarm_BT, main)
+TEST(alarm_BT, main)
 {
     alarm_C  a;
     EXPECT_EQ(a.alarmSize(), 0);
