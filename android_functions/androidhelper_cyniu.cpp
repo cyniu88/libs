@@ -1,6 +1,7 @@
 #include "androidhelper_cyniu.h"
-#include <QtAndroid>
-#include <QAndroidJniEnvironment>
+//#include <QtAndroid>
+#include <QCoreApplication>
+#include <QJniEnvironment>
 
 AndroidHelper_cyniu::AndroidHelper_cyniu()
 {
@@ -41,7 +42,7 @@ AndroidHelper_cyniu &AndroidHelper_cyniu::operator=(const AndroidHelper_cyniu &a
 
 void AndroidHelper_cyniu::vibrate(int msec)
 {
-    QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "vibrate", "(I)V", msec);
+    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "vibrate", "(I)V", msec);
 }
 
 double AndroidHelper_cyniu::getProximity()
@@ -65,22 +66,22 @@ QString AndroidHelper_cyniu::getAccelerometer()
 
 void AndroidHelper_cyniu::makeToast(QString text)
 {
-    QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "makeToast",  "(Ljava/lang/String;)V",QAndroidJniObject::fromString(text).object<jstring>());
+    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "makeToast",  "(Ljava/lang/String;)V",QJniObject::fromString(text).object<jstring>());
 }
 int AndroidHelper_cyniu::updateAndroidNotification(QString msg)
 {
-    QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",
-                                              QtAndroid::androidContext().object(),
-                                              QAndroidJniObject::fromString(msg).object<jstring>());
+    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",
+                                              QNativeInterface::QAndroidApplication::context() ,
+                                              QJniObject::fromString(msg).object<jstring>());
     return 0;
 }
 
 void AndroidHelper_cyniu::keep_screen_on(bool on)
 {
-    QtAndroid::runOnAndroidThread([on]{
-        QAndroidJniObject activity = QtAndroid::androidActivity();
+  /*  QtAndroid::runOnAndroidThread([on]{
+        QJniObject activity = QtAndroid::androidActivity();
         if (activity.isValid()) {
-            QAndroidJniObject window =
+            QJniObject window =
                     activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
 
             if (window.isValid()) {
@@ -92,23 +93,24 @@ void AndroidHelper_cyniu::keep_screen_on(bool on)
                 }
             }
         }
-        QAndroidJniEnvironment env;
+        QJniEnvironment env;
         if (env->ExceptionCheck()) {
             env->ExceptionClear();
         }
     });
+    */
 }
 
 void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
 {
     // get the Qt android activity
-    QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative",
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative",
                                                                            "activity",
                                                                            "()Landroid/app/Activity;");
     if (activity.isValid()){
 
         //get the default SmsManager
-        QAndroidJniObject mySmsManager = QAndroidJniObject::callStaticObjectMethod("android/telephony/SmsManager",
+        QJniObject mySmsManager = QJniObject::callStaticObjectMethod("android/telephony/SmsManager",
                                                                                    "getDefault",
                                                                                    "()Landroid/telephony/SmsManager;");
         if (!mySmsManager.isValid()) {
@@ -116,11 +118,11 @@ void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
         } else {
 
             // get phone number & text from UI and convert to Java String
-            QAndroidJniObject myPhoneNumber = QAndroidJniObject::fromString(nr);
-            QAndroidJniObject myTextMessage = QAndroidJniObject::fromString(msg);
-            QAndroidJniObject scAddress = NULL;
-            //QAndroidJniObject sentIntent = NULL;
-            //QAndroidJniObject deliveryIntent = NULL;
+            QJniObject myPhoneNumber = QJniObject::fromString(nr);
+            QJniObject myTextMessage = QJniObject::fromString(msg);
+            QJniObject scAddress = NULL;
+            //QJniObject sentIntent = NULL;
+            //QJniObject deliveryIntent = NULL;
 
             // call the java function:
             // public void SmsManager.sendTextMessage(String destinationAddress,
@@ -139,6 +141,6 @@ void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
 
 bool AndroidHelper_cyniu::share(QString text)
 {
-   QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "share",  "(Ljava/lang/String;)V",QAndroidJniObject::fromString(text).object<jstring>());
+   QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "share",  "(Ljava/lang/String;)V",QJniObject::fromString(text).object<jstring>());
 return true;
 }

@@ -2,8 +2,7 @@
 #define ANDROIDHELPER_CYNIU_H
 #include <memory>
 #include <QDebug>
-#include <QtAndroidExtras/QAndroidJniObject> // For JNI, need to select Android Build
-#include <QAndroidJniObject>
+#include <qjniobject.h>
 #include <QAccelerometer>
 #include <QProximitySensor>
 #include <QProximityReading>
