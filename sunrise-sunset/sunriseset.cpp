@@ -159,8 +159,8 @@ std::string SunRiseSet::getAllData()
 
     //if (delta * degs > latit ) altmax = 90.0 + latit - delta * degs;
 
-    double twam = riset - twx;    // morning twilight begin
-    double twpm = settm + twx;      // evening twilight end
+   // double twam = riset - twx;    // morning twilight begin
+   // double twpm = settm + twx;      // evening twilight end
 
     if (riset > 24.0) riset-= 24.0;
     if (settm > 24.0) settm-= 24.0;
