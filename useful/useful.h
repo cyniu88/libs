@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <iomanip>
 #ifndef ANDROID
-#include "json.hpp"
+#include "../../iDomClient2/json2/json.hpp"
 #endif
 
 std::vector<std::string> split_string(const std::string& s, char separator );
