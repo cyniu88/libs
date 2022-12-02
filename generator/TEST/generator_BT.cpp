@@ -2,20 +2,7 @@
 #include "test_data.h"
 #include "../generator.h"
 
-class generator_BT: public ::testing::Test
-{
-public:
-    void SetUp()
-    {
-
-    }
-    void TearDown()
-    {
-
-    }
-};
-
-TEST_F(generator_BT, string256)
+TEST(generator_BT, string256)
 {
     size_t sizeTest = 256;
     generator g;
@@ -26,7 +13,7 @@ TEST_F(generator_BT, string256)
     std::cout << str << std::endl;
 }
 
-TEST_F(generator_BT, string10)
+TEST(generator_BT, string10)
 {
     size_t sizeTest = 10;
     generator g;
@@ -37,7 +24,7 @@ TEST_F(generator_BT, string10)
     std::cout << str << std::endl;
 }
 
-TEST_F(generator_BT, hex)
+TEST(generator_BT, hex)
 {
     size_t sizeTest = 255;
     generator g;
