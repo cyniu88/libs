@@ -1,42 +1,44 @@
 #include "androidhelper_cyniu.h"
 //#include <QtAndroid>
-#include <QCoreApplication>
-#include <QJniEnvironment>
+//#include <QCoreApplication>
+//#include <QJniEnvironment>
+#include <QtCore/qjniobject.h>
+#include <QtCore/qcoreapplication.h>
 
 AndroidHelper_cyniu::AndroidHelper_cyniu()
 {
-    proximitySensor = new QProximitySensor();
-    proximitySensor->start();
-    accSensor = new QAccelerometer();
-    accSensor->start();
+//    proximitySensor = new QProximitySensor();
+//    proximitySensor->start();
+//    accSensor = new QAccelerometer();
+//    accSensor->start();
     qDebug("konstruktor androidhelper !!!!!!!!!!!!!!\n");
 }
 AndroidHelper_cyniu::AndroidHelper_cyniu(const AndroidHelper_cyniu &androidHelper_cyniu)
 {
-    proximitySensor = new QProximitySensor();
-    proximitySensor->start();
-    accSensor = new QAccelerometer();
-    accSensor->start();
+//    proximitySensor = new QProximitySensor();
+//    proximitySensor->start();
+//    accSensor = new QAccelerometer();
+//    accSensor->start();
     qDebug("konstruktor kopiujący androidhelper !!!!!!!!!!!!!!\n");
 }
 
 AndroidHelper_cyniu::~AndroidHelper_cyniu()
 {
-    proximitySensor->stop();
-    delete proximitySensor;
-    accSensor->stop();
-    delete accSensor;
+//    proximitySensor->stop();
+//    delete proximitySensor;
+//    accSensor->stop();
+//    delete accSensor;
     qDebug("\n\n\n destruktor androidhelper\n\n\n");
 }
 
 AndroidHelper_cyniu &AndroidHelper_cyniu::operator=(const AndroidHelper_cyniu &androidHelper_cyniu)
 {
-    assert(this != &androidHelper_cyniu);
-    proximitySensor = new QProximitySensor();
-    proximitySensor->start();
-    accSensor = new QAccelerometer();
-    accSensor->start();
-    qDebug("operator = androidhelper !!!!!!!!!!!!!!\n");
+//    assert(this != &androidHelper_cyniu);
+//    proximitySensor = new QProximitySensor();
+//    proximitySensor->start();
+//    accSensor = new QAccelerometer();
+//    accSensor->start();
+//    qDebug("operator = androidhelper !!!!!!!!!!!!!!\n");
     return *this;
 }
 
@@ -70,9 +72,9 @@ void AndroidHelper_cyniu::makeToast(QString text)
 }
 int AndroidHelper_cyniu::updateAndroidNotification(QString msg)
 {
-    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",
-                                              QNativeInterface::QAndroidApplication::context() ,
-                                              QJniObject::fromString(msg).object<jstring>());
+   // QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "notify",  "(Ljava/lang/String;)V",
+   //                                           QNativeInterface::QAndroidApplication::context() ,
+   //                                           QJniObject::fromString(msg).object<jstring>());
     return 0;
 }
 
