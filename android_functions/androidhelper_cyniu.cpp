@@ -1,7 +1,4 @@
 #include "androidhelper_cyniu.h"
-//#include <QtAndroid>
-//#include <QCoreApplication>
-//#include <QJniEnvironment>
 #include <QtCore/qjniobject.h>
 #include <QtCore/qcoreapplication.h>
 
@@ -106,7 +103,7 @@ void AndroidHelper_cyniu::keep_screen_on(bool on)
 void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
 {
     // get the Qt android activity
-    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative",
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt/android/QtNative",
                                                                            "activity",
                                                                            "()Landroid/app/Activity;");
     if (activity.isValid()){
@@ -123,8 +120,8 @@ void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
             QJniObject myPhoneNumber = QJniObject::fromString(nr);
             QJniObject myTextMessage = QJniObject::fromString(msg);
             QJniObject scAddress = NULL;
-            //QJniObject sentIntent = NULL;
-            //QJniObject deliveryIntent = NULL;
+            QJniObject sentIntent = NULL;
+            QJniObject deliveryIntent = NULL;
 
             // call the java function:
             // public void SmsManager.sendTextMessage(String destinationAddress,
@@ -139,10 +136,11 @@ void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
                                           myTextMessage.object<jstring>(), NULL, NULL );
         }
     }
+
 }
 
 bool AndroidHelper_cyniu::share(QString text)
 {
    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "share",  "(Ljava/lang/String;)V",QJniObject::fromString(text).object<jstring>());
-return true;
+   return true;
 }
