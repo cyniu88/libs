@@ -1,4 +1,7 @@
 #include "android_interface.h"
+#ifdef Q_OS_ANDROID
+#include <QtCore/private/qandroidextras_p.h>
+#endif
 
 android_interface::android_interface()
 {
@@ -35,14 +38,14 @@ QString android_interface::getAccelerometer()
     return value;
 }
 
-void android_interface::makeToast(QString s)
+void android_interface::makeToast(const QString& s)
 {
 #ifdef Q_OS_ANDROID
     droid.makeToast(s);
 #endif
 }
 
-void android_interface::updateAndroidNotification(QString s)
+void android_interface::updateAndroidNotification(const QString &s)
 {
 #ifdef Q_OS_ANDROID
     droid.updateAndroidNotification(s);
@@ -56,18 +59,35 @@ void android_interface::keepScreenOn(bool on)
 #endif
 }
 
-void android_interface::sendSMS(QString nr, QString msg)
+void android_interface::sendSMS(const QString& nr, const QString& msg)
 {
 #ifdef Q_OS_ANDROID
     droid.sendSMS(nr,msg);
 #endif
 }
 
-bool android_interface::share(QString text)
+bool android_interface::share(const QString &text)
 {
     bool ret(false);
 #ifdef Q_OS_ANDROID
    ret = droid.share(text);
 #endif
    return ret;
+}
+
+bool android_interface::hasPermission(const QString& text)
+{
+    bool ret(false);
+#ifdef Q_OS_ANDROID
+   // ret = droid.hasPermission(text);
+    auto r = QtAndroidPrivate::checkPermission(QtAndroidPrivate::Storage).result();
+    if (r == QtAndroidPrivate::Denied)
+    {
+        r = QtAndroidPrivate::requestPermission(QtAndroidPrivate::Storage).result();
+        if (r == QtAndroidPrivate::Denied)
+            return false;
+    }
+    return true;
+#endif
+    return ret;
 }

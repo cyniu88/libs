@@ -14,11 +14,12 @@ public:
     void vibrate(int msec);
     double getProximity();
     QString getAccelerometer();
-    void makeToast(QString s);
-    void updateAndroidNotification (QString s);
+    void makeToast(const QString &s);
+    void updateAndroidNotification (const QString& s);
     void keepScreenOn(bool on);
-    void sendSMS(QString nr, QString msg);
-    bool share(QString text);
+    void sendSMS(const QString &nr, const QString &msg);
+    bool share(const QString& text);
+    bool hasPermission(const QString &text);
 private:
 #ifdef Q_OS_ANDROID
     AndroidHelper_cyniu droid;

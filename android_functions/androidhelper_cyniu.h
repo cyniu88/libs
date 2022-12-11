@@ -28,6 +28,7 @@ public:
     void keep_screen_on(bool on);
     void sendSMS(QString nr, QString msg);
     bool share(QString text);
+    bool hasPermission(QString text);
 };
 
 #endif // ANDROIDHELPER_CYNIU_H

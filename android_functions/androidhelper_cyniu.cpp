@@ -77,8 +77,11 @@ int AndroidHelper_cyniu::updateAndroidNotification(QString msg)
 
 void AndroidHelper_cyniu::keep_screen_on(bool on)
 {
-  /*  QtAndroid::runOnAndroidThread([on]{
-        QJniObject activity = QtAndroid::androidActivity();
+
+        // get the Qt android activity
+        QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt/android/QtNative",
+                                                                               "activity",
+                                                                               "()Landroid/app/Activity;");
         if (activity.isValid()) {
             QJniObject window =
                     activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
@@ -96,8 +99,8 @@ void AndroidHelper_cyniu::keep_screen_on(bool on)
         if (env->ExceptionCheck()) {
             env->ExceptionClear();
         }
-    });
-    */
+
+
 }
 
 void AndroidHelper_cyniu::sendSMS(QString nr, QString msg)
@@ -143,4 +146,14 @@ bool AndroidHelper_cyniu::share(QString text)
 {
    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "share",  "(Ljava/lang/String;)V",QJniObject::fromString(text).object<jstring>());
    return true;
+}
+
+bool AndroidHelper_cyniu::hasPermission(QString text)
+{
+    jboolean ret = QJniObject::callStaticMethod<jboolean>("org/qtproject/example/Chronometer/AndroidHelper", "hasPermission",
+                                       "(Landroid/content/Context;Ljava/lang/String;)V",
+                                       QNativeInterface::QAndroidApplication::context(),
+                                       QJniObject::fromString(text).object<jstring>());
+
+    return ret;
 }
