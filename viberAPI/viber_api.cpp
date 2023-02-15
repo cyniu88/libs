@@ -129,3 +129,55 @@ std::string viber_API::sendViberPicture(const std::string &msg,
     curl_global_cleanup();
     return readBuffer;
 }
+
+std::string viber_API::sendViberUrl(const std::string &msg,
+                                    const std::string &url2,
+                                    const std::string &receiver,
+                                    const std::string &senderName,
+                                    const std::string &accessToken,
+                                    const std::string &url)
+{
+    std::string token = m_accessToken;
+    std::string Url = m_url;
+    if (accessToken != "NULL"){
+        token = accessToken;
+    }
+    if (url != "NULL"){
+        Url = url;
+    }
+
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+    std::string data = "{ \"auth_token\":\"";
+    data += token;
+    data += "\",\"receiver\":\"";
+    data += receiver;
+    data += "\",\"min_api_version\":1,\"sender\":{\"name\":\"";
+    data += senderName;
+    data += "\",\"avatar\":\"";
+    data += m_avatar;
+    data += "\" },\"tracking_data\":\"tracking data\",\"type\":\"url\",\"text\":\"";
+    data += msg;
+    data += "\",\"media\":\"";
+    data += url2;
+    data += "\"}";
+    std::string address = Url;
+    curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                    curl_easy_strerror(res));
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+    return readBuffer;
+}
