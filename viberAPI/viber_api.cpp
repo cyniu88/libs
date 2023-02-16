@@ -109,6 +109,8 @@ std::string viber_API::sendViberPicture(const std::string &msg,
     data += msg;
     data += "\",\"media\":\"";
     data += image;
+    data += "\",\"thumbnail\":\"";
+    data += image;
     data += "\"}";
     std::string address = Url;
     curl = curl_easy_init();
@@ -157,11 +159,10 @@ std::string viber_API::sendViberUrl(const std::string &msg,
     data += senderName;
     data += "\",\"avatar\":\"";
     data += m_avatar;
-    data += "\" },\"tracking_data\":\"tracking data\",\"type\":\"url\",\"text\":\"";
-    data += msg;
-    data += "\",\"media\":\"";
+    data += "\" },\"tracking_data\":\"tracking data\",\"type\":\"url\",\"media\":\"";
     data += url2;
     data += "\"}";
+
     std::string address = Url;
     curl = curl_easy_init();
     if(curl) {
