@@ -12,7 +12,7 @@
 #endif
 
 void useful_F_libs::toLower(std::string& str){
-    std::transform(str.begin(), str.end(), str.begin(),
+    std::transform(str.cbegin(), str.cend(), str.begin(),
                    [](unsigned char c){ return std::tolower(c); }
                    );
 }
