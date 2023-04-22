@@ -16,7 +16,7 @@ std::map<std::string, std::string> read_config  ( const char* file_path    )
     std::map<std::string, std::string> configMAP;
 
     config_file.open(file_path, std::ios::in  );
-    if( config_file.good() == false )
+    if(config_file.good() == false )
     {
         throw "cannot read config";
     }
@@ -27,10 +27,10 @@ std::map<std::string, std::string> read_config  ( const char* file_path    )
 
         for (unsigned i=0;  i<content.length(); ++i)
         {
-            if ( content.at(i)==':' && content.at(i+1)=='=')
+            if(content.at(i)==':' && content.at(i+1)=='=')
             {   for (unsigned int j=i+2;j<content.length(); ++j )
                 {
-                    if ( content.at(j)==' '|| content.at(j)==0x9 ){   // przerwij odczyt  jesli znajdzesz spacje lub tab
+                    if(content.at(j)==' '|| content.at(j)==0x9 ){   // przerwij odczyt  jesli znajdzesz spacje lub tab
                         break;
                     }
                     // std::cout << (int)content.at(j);
