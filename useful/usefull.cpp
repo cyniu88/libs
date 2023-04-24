@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <fstream>
+#include <iostream>
 
 #ifndef IDOM
 #include <curl/curl.h>
