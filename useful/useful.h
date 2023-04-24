@@ -1,15 +1,8 @@
 #ifndef Iusefull_H
 #define Iusefull_H
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <ostream>
-#include <chrono>
-#include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <iomanip>
+
 #ifndef ANDROID
 #include "json.hpp"
 #endif
