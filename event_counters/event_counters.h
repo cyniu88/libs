@@ -1,11 +1,9 @@
 #ifndef EVENT_COUNTERS_H
 #define EVENT_COUNTERS_H
 
-#include <string>
-#include <map>
-#include <memory>
-#include <vector>
 #include <mutex>
+#include <string>
+#include <vector>
 
 struct eventStruct{
     std::string date = "";

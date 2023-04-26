@@ -1,12 +1,8 @@
 #include "useful.h"
 
-#include <sys/fcntl.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <fstream>
-#include <iostream>
+#include <unistd.h>
 
 #ifndef IDOM
 #include <curl/curl.h>
@@ -141,8 +137,8 @@ void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& 
 {
     errno = 0;
     int fd = open(path.c_str(), O_RDWR| O_NONBLOCK );
-    std::cout << "write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
-    std::cout << "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
+    // std::cout << "write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
+    // std::cout << "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }

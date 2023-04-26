@@ -1,5 +1,4 @@
 #include "circular_buffer.h"
-#include <iostream>
 
 Circular_buffer::Circular_buffer()
 {
