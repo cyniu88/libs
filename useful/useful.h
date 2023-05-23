@@ -105,7 +105,7 @@ public:
         return ret.str();
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator == (const Clock & c){
+    bool operator == (const Clock & c) const {
         if ((this->m_h == c.m_h) && (this->m_min == c.m_min)){
             return true;
         }
@@ -114,7 +114,7 @@ public:
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator != (const Clock & c){
+    bool operator != (const Clock & c) const {
         if ((this->m_h != c.m_h) || (this->m_min != c.m_min)){
             return true;
         }
@@ -123,11 +123,11 @@ public:
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    friend std::ostream & operator<< (std::ostream &w , const Clock &c) {
+    friend std::ostream & operator<< (std::ostream &w , const Clock &c)  const {
         return w << c.getString();
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator < (const Clock& c){
+    bool operator < (const Clock& c) const {
         if (this->m_h < c.m_h){
             return true;
         }
@@ -139,7 +139,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator > (const Clock& c){
+    bool operator > (const Clock& c) const {
         if (this->m_h > c.m_h){
             return true;
         }
@@ -151,7 +151,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator >= (const Clock& c){
+    bool operator >= (const Clock& c) const {
         if (this->m_h > c.m_h){
             return true;
         }
@@ -164,7 +164,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator <= (const Clock& c){
+    bool operator <= (const Clock& c) const {
         if (this->m_h < c.m_h){
             return true;
         }
@@ -210,17 +210,17 @@ public:
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    unsigned int toSeconds(){
+    unsigned int toSeconds() const {
         return toSeconds(Clock(this->m_h, this->m_min) );
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static unsigned int toSeconds(Clock t){
+    static unsigned int toSeconds(Clock t) const {
         return ((t.m_h*60) + t.m_min)*60;
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static Clock fromSeconds(unsigned int sec){
+    static Clock fromSeconds(unsigned int sec) const {
         unsigned int h = sec/3600;
         unsigned int min = sec%3600;
         min = min/60;
@@ -278,7 +278,7 @@ public:
         m_time = std::time(nullptr);
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    unsigned int  stopwatchStopAndGetResult()
+    unsigned int  stopwatchStopAndGetResult() const 
     {
         return static_cast<unsigned int>(std::time(nullptr) - m_time);
     }
