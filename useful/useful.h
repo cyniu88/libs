@@ -215,12 +215,12 @@ public:
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static unsigned int toSeconds(Clock t) const {
+    static unsigned int toSeconds(Clock t) {
         return ((t.m_h*60) + t.m_min)*60;
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static Clock fromSeconds(unsigned int sec) const {
+    static Clock fromSeconds(unsigned int sec) {
         unsigned int h = sec/3600;
         unsigned int min = sec%3600;
         min = min/60;
