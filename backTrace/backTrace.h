@@ -81,6 +81,7 @@ namespace cyniu{
 
       free(addresses);
      // raise(SIGSEGV);
+     exit(1);
     }
   } // BACKTRACE
 } // cyniu
