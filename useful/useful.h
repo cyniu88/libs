@@ -233,10 +233,7 @@ public:
         if (end >= start){
             return Clock::fromSeconds(end.toSeconds() - start.toSeconds()  );
         }
-        else{
-            return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
-        }
-        //return diff;
+        return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
     }
     ////////////////////////////////////////////////////////////////////////////////////
     static unsigned int getUnixTime()
