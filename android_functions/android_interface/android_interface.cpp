@@ -80,14 +80,14 @@ bool android_interface::hasPermission(const QString& text)
     bool ret(false);
 #ifdef Q_OS_ANDROID
    // ret = droid.hasPermission(text);
-    auto r = QtAndroidPrivate::checkPermission(QtAndroidPrivate::Storage).result();
-    if (r == QtAndroidPrivate::Denied)
-    {
-        r = QtAndroidPrivate::requestPermission(QtAndroidPrivate::Storage).result();
-        if (r == QtAndroidPrivate::Denied)
-            return false;
-    }
-    return true;
+  //  auto r = QtAndroidPrivate::checkPermission(QtAndroidPrivate::Storage).result();
+   // if (r == QtAndroidPrivate::Denied)
+   // {
+   //     r = QtAndroidPrivate::requestPermission(QtAndroidPrivate::Storage).result();
+   //     if (r == QtAndroidPrivate::Denied)
+    //        return false;
+   // }
+   // return true;
 #endif
     return ret;
 }

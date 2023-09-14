@@ -37,6 +37,10 @@ std::string EMOJI::emoji(E_emoji e)
         return HEX_STR::hexToStr("F09F9388");
     case E_emoji::THUNDER_CLOUD_AND_RAIN:
         return HEX_STR::hexToStr("E29B88");
+    case E_emoji::THERMOMETER:
+        return HEX_STR::hexToStr("F09F8CA1");
+    case E_emoji::BULB:
+        return HEX_STR::hexToStr("F09F92A1");
 
     }
     return"ok";
