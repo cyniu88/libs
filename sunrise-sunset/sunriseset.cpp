@@ -141,9 +141,9 @@ std::string SunRiseSet::getAllData()
     if (L < pi) LL += tpi;
     double equation = 1440.0 * (1.0 - LL / tpi);
     double ha = f0(latit,delta);
-    double hb = f1(latit,delta);
-    double twx = hb - ha;   // length of twilight in radians
-    twx = 12.0*twx/pi;      // length of twilight in degrees
+   // double hb = f1(latit,delta);
+   // double twx = hb - ha;   // length of twilight in radians
+   // twx = 12.0*twx/pi;      // length of twilight in degrees
 
     // Conversion of angle to hours and minutes //
     daylen = degs * ha / 7.5;

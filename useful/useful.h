@@ -1,15 +1,8 @@
 #ifndef Iusefull_H
 #define Iusefull_H
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <ostream>
-#include <chrono>
-#include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <iomanip>
+
 #ifndef ANDROID
 #include "json.hpp"
 #endif
@@ -112,7 +105,7 @@ public:
         return ret.str();
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator == (const Clock & c){
+    bool operator == (const Clock & c) const {
         if ((this->m_h == c.m_h) && (this->m_min == c.m_min)){
             return true;
         }
@@ -121,7 +114,7 @@ public:
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator != (const Clock & c){
+    bool operator != (const Clock & c) const {
         if ((this->m_h != c.m_h) || (this->m_min != c.m_min)){
             return true;
         }
@@ -134,7 +127,7 @@ public:
         return w << c.getString();
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator < (const Clock& c){
+    bool operator < (const Clock& c) const {
         if (this->m_h < c.m_h){
             return true;
         }
@@ -146,7 +139,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator > (const Clock& c){
+    bool operator > (const Clock& c) const {
         if (this->m_h > c.m_h){
             return true;
         }
@@ -158,7 +151,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator >= (const Clock& c){
+    bool operator >= (const Clock& c) const {
         if (this->m_h > c.m_h){
             return true;
         }
@@ -171,7 +164,7 @@ public:
         return false;
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    bool operator <= (const Clock& c){
+    bool operator <= (const Clock& c) const {
         if (this->m_h < c.m_h){
             return true;
         }
@@ -217,17 +210,17 @@ public:
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    unsigned int toSeconds(){
+    unsigned int toSeconds() {
         return toSeconds(Clock(this->m_h, this->m_min) );
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static unsigned int toSeconds(Clock t){
+    static unsigned int toSeconds(Clock t) {
         return ((t.m_h*60) + t.m_min)*60;
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
-    static Clock fromSeconds(unsigned int sec){
+    static Clock fromSeconds(unsigned int sec) {
         unsigned int h = sec/3600;
         unsigned int min = sec%3600;
         min = min/60;
@@ -240,10 +233,7 @@ public:
         if (end >= start){
             return Clock::fromSeconds(end.toSeconds() - start.toSeconds()  );
         }
-        else{
-            return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
-        }
-        //return diff;
+        return Clock::fromSeconds(end.toSeconds() + ( Clock::toSeconds(Clock(23,59))+ 60 - start.toSeconds() ) );
     }
     ////////////////////////////////////////////////////////////////////////////////////
     static unsigned int getUnixTime()
@@ -285,7 +275,7 @@ public:
         m_time = std::time(nullptr);
     }
     /////////////////////////////////////////////////////////////////////////////////////
-    unsigned int  stopwatchStopAndGetResult()
+    unsigned int  stopwatchStopAndGetResult() const 
     {
         return static_cast<unsigned int>(std::time(nullptr) - m_time);
     }

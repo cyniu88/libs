@@ -3,6 +3,8 @@
 
 #include "event_counters.h"
 #include <functional>
+#include <map>
+#include <memory>
 
 class event_counters_handler
 {

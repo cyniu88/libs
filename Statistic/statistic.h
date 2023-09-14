@@ -12,11 +12,11 @@
 template <class T>
 struct TREND_DATA{
     int down = 0;
-    int downPercent = 0;
+    double downPercent = 0;
     int up = 0;
-    int upPercent = 0;
+    double upPercent = 0;
     int eq = 0;
-    int eqPercent = 0;
+    double eqPercent = 0;
     T down_sum = 0;
     T up_sum = 0;
     void clear(){
@@ -30,9 +30,9 @@ struct TREND_DATA{
         int sum = eq + up + down;
         if(sum == 0)
             return;
-        eqPercent = eq * 100 / sum;
-        upPercent = up * 100 / sum;
-        downPercent = down * 100 / sum;
+        eqPercent = eq * 100.0f / sum;
+        upPercent = up * 100.0f / sum;
+        downPercent = down * 100.0f / sum;
     }
     std::string getStringInfo(){
         countPercent();

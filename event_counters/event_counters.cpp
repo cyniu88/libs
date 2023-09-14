@@ -1,10 +1,5 @@
 #include "event_counters.h"
-#include <iostream>
 #include <iomanip>
-#include <ctime>
-#include <sstream>
-#include <string>
-#include <algorithm>
 
 event_counters::event_counters(std::string name) : eventName(std::move(name))
 {
@@ -14,7 +9,7 @@ event_counters::event_counters(std::string name) : eventName(std::move(name))
 int event_counters::howManyEvent() const
 {
     std::lock_guard<std::mutex> lock(eventMutex);
-    return static_cast<int>( eventList.size() );
+    return static_cast<int>(eventList.size());
 }
 
 void event_counters::addEvent(const std::string& note)
