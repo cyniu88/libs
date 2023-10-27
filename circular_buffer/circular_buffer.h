@@ -5,6 +5,7 @@
 #include <any>
 #include <atomic>
 #include <sstream>
+#include <array>
 
 class Circular_buffer
 {
