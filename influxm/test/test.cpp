@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../client.h"
+#include "../client.h"
 
 int main()
 {
@@ -32,7 +32,7 @@ int main()
             {
               "wilgoc",
               {},
-              {{"humi", 22}},
+              {{"humi", 22.2}},
               0,
             },
             {

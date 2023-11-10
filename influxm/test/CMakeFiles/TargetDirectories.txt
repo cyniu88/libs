@@ -1,0 +1,7 @@
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/influx_test.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/edit_cache.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/rebuild_cache.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/list_install_components.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/install.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/install/local.dir
+/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/CMakeFiles/install/strip.dir
