@@ -1,9 +1,7 @@
 //
 // Created by Myriad-Dreamin on 2021/8/13.
 //
-
-#ifndef INFLUXDBM_HTTP_H
-#define INFLUXDBM_HTTP_H
+#pragma once
 
 #include "macro.h"
 #include <algorithm>
@@ -279,4 +277,3 @@ influxdb_if_inline void url_encode(std::string &out, const std::string &src) {
 } // namespace detail
 } // namespace influx_client
 
-#endif // INFLUXDBM_HTTP_H

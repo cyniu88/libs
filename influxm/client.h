@@ -2,8 +2,8 @@
 // Created by Myriad-Dreamin on 2021/8/13.
 //
 
-#ifndef INFLUXDBM_CLIENT_H
-#define INFLUXDBM_CLIENT_H
+#pragma once
+
 
 #include "http.h"
 #include "macro.h"
@@ -325,4 +325,3 @@ int flux::Client::writes(
 
 } // namespace influx_client
 
-#endif // INFLUXDBM_CLIENT_H

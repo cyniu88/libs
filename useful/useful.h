@@ -1,5 +1,4 @@
-#ifndef Iusefull_H
-#define Iusefull_H
+#pragma once
 
 #include <iomanip>
 
@@ -314,4 +313,4 @@ STATE stringToState(const std::string& s);
 
 std::ostream &operator<<(std::ostream &os, const STATE &v);
 std::ostream &operator>>(std::ostream &os,  STATE &v);
-#endif
+

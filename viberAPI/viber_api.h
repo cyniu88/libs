@@ -1,5 +1,4 @@
-#ifndef VIBER_API_H
-#define VIBER_API_H
+#pragma once
 
 #include <curl/curl.h>
 #include <string>
@@ -37,4 +36,3 @@ public:
                              const std::string& url = "NULL");
 };
 
-#endif // VIBER_API_H

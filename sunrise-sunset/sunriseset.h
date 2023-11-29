@@ -1,5 +1,4 @@
-#ifndef SUNRISESET_H
-#define SUNRISESET_H
+#pragma once
 
 #include <math.h>
 #include <time.h>
@@ -55,5 +54,3 @@ public:
     Clock getSunRise();
     Clock getDayLength();
 };
-
-#endif // SUNRISESET_H

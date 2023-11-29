@@ -1,5 +1,4 @@
-#ifndef EVENT_COUNTERS_HANDLER_H
-#define EVENT_COUNTERS_HANDLER_H
+#pragma once
 
 #include "event_counters.h"
 #include <functional>
@@ -20,4 +19,3 @@ public:
     void clearOld(int moreThan, int last, std::function<void(std::string& name )> logger);
 };
 
-#endif // EVENT_COUNTERS_HANDLER_H

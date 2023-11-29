@@ -1,5 +1,4 @@
-#ifndef CONFIG_FILES_H
-#define CONFIG_FILES_H
+#pragma once
 
 #include <QFile>
 #include <QDir>
@@ -14,4 +13,3 @@ public:
     std::string readFromFile(const std::string &dir, const std::string& path, const std::string& def = "not set");
 };
 
-#endif // CONFIG_FILES_H

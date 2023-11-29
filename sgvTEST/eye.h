@@ -1,5 +1,4 @@
-#ifndef EYE_H
-#define EYE_H
+#pragma once
 
 #include <QMainWindow>
 #include <QSvgWidget>
@@ -25,4 +24,3 @@ private:
     Ui::eye *ui;
 };
 
-#endif // EYE_H
