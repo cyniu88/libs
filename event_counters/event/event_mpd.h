@@ -1,5 +1,4 @@
-#ifndef EVENT_MPD_H
-#define EVENT_MPD_H
+#pragma once
 
 #include "../event_counters.h"
 
@@ -10,4 +9,3 @@ public:
     std::string help() const override;
 };
 
-#endif // EVENT_MPD_H

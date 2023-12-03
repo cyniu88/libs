@@ -1,5 +1,5 @@
-#ifndef STATISTIC_H
-#define STATISTIC_H
+#pragma once
+
 #include <iostream>
 #include <deque>
 #include <numeric>
@@ -296,4 +296,3 @@ private:
     TREND_DATA <T> m_trendData;
 };
 
-#endif // STATISTIC_H

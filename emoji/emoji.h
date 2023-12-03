@@ -1,5 +1,5 @@
-#ifndef EMOJI_H
-#define EMOJI_H
+#pragma once
+
 #include <string.h>
 #include <iostream>
 
@@ -33,5 +33,3 @@ public:
     EMOJI();
     static std::string emoji(E_emoji e);
 };
-
-#endif // EMOJI_H

@@ -1,5 +1,4 @@
-#ifndef NEW_CONNECT_EVENT_H
-#define NEW_CONNECT_EVENT_H
+#pragma once
 
 #include "../event_counters.h"
 
@@ -11,4 +10,3 @@ public:
     std::string help() const override;
 };
 
-#endif // NEW_CONNECT_EVENT_H

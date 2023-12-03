@@ -1,5 +1,4 @@
-#ifndef BACKTRACE_H
-#define BACKTRACE_H
+#pragma once
 
 #include <execinfo.h>
 #include <signal.h>
@@ -85,4 +84,4 @@ namespace cyniu
     }
   } // BACKTRACE
 } // cyniu
-#endif // BACKTRACE_H
+

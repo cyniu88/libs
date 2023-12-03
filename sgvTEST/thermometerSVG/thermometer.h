@@ -1,5 +1,4 @@
-#ifndef THERMOMETER_H
-#define THERMOMETER_H
+#pragma once
 
 #include <QWidget>
 #include <QSvgWidget>
@@ -1299,5 +1298,3 @@ private:
     T map_f(T value, T from_min, T from_max, T to_min, T to_max);
     QByteArray getByteArraySVG( );
 };
-
-#endif // THERMOMETER_H

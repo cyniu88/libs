@@ -1,5 +1,4 @@
-#ifndef ALARM_H
-#define ALARM_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -17,4 +16,3 @@ public:
     std::size_t alarmSize();
 };
 
-#endif // ALARM_H

@@ -1,5 +1,5 @@
-#ifndef ANDROIDHELPER_CYNIU_H
-#define ANDROIDHELPER_CYNIU_H
+#pragma once
+
 #include <memory>
 #include <QDebug>
 //#include <QtAndroidExtras/QAndroidJniObject> // For JNI, need to select Android Build
@@ -31,4 +31,3 @@ public:
     bool hasPermission(QString text);
 };
 
-#endif // ANDROIDHELPER_CYNIU_H
