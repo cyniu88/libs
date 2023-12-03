@@ -2,6 +2,7 @@
 
 #include <fcntl.h>
 #include <fstream>
+#include <sstream>
 #include <unistd.h>
 
 #ifndef IDOM

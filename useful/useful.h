@@ -2,6 +2,9 @@
 #define Iusefull_H
 
 #include <iomanip>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #ifndef ANDROID
 #include "json.hpp"
@@ -44,7 +47,7 @@ int stoi(T s){
 template <typename T>
 std::string to_string(T value)
 {
-    std::ostringstream os;
+    std::stringstream os;
     os << value;
     return os.str();
 }
