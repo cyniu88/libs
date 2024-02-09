@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/pi/programowanie/malina/iDom_server_OOP/libs/influxm/test/test.cpp" "CMakeFiles/influx_test.dir/test.cpp.o" "gcc" "CMakeFiles/influx_test.dir/test.cpp.o.d"
+  "/programowanie/malina/iDom_server_OOP/libs/influxm/test/test.cpp" "CMakeFiles/influx_test.dir/test.cpp.o" "gcc" "CMakeFiles/influx_test.dir/test.cpp.o.d"
   )
 
 # Targets to which this target links.

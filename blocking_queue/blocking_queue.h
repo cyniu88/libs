@@ -74,7 +74,7 @@ private:
     std::condition_variable empty_;
     std::queue<T> queue_;
     size_t capacity_;
-    static constexpr int MAX_CAPACITY = 20;
+    static constexpr int MAX_CAPACITY = 200;
 };
 
 #endif

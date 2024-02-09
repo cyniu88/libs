@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #ifndef ANDROID
 #include "json.hpp"
@@ -241,6 +242,11 @@ public:
     static unsigned int getUnixTime()
     {
         return static_cast<unsigned int> (std::time(nullptr));
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
+    static uint64_t getTimestamp()
+    {
+        return duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
     ////////////////////////////////////////////////////////////////////////////////////
     static std::string unixTimeToString(unsigned int t)
