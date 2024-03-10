@@ -22,6 +22,7 @@ public:
     static std::string read_from_mkfifo(const std::string &path);
     static size_t  WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static std::string find_tag (const std::string &temp);
+    static std::string stringToHex(const std::string& input);
     //////////////////// HTTP req //////////////////////////
     static std::string httpPost(const std::string &url, int timeoutSeconds);
     static std::string httpPost(const std::string &url);

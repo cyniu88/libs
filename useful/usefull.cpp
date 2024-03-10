@@ -9,61 +9,89 @@
 #include <curl/curl.h>
 #endif
 
-void useful_F_libs::toLower(std::string& str){
+void useful_F_libs::toLower(std::string &str)
+{
     std::transform(str.cbegin(), str.cend(), str.begin(),
-                   [](unsigned char c){ return std::tolower(c); }
-                   );
+                   [](unsigned char c)
+                   { return std::tolower(c); });
 }
-std::vector<std::string> split_string(const std::string& s, char separator ){
+std::vector<std::string> split_string(const std::string &s, char separator)
+{
     std::vector<std::string> output;
     std::string::size_type prev_pos = 0, pos = 0;
 
-    while((pos = s.find(separator, pos)) not_eq std::string::npos)
+    while ((pos = s.find(separator, pos)) not_eq std::string::npos)
     {
-        std::string substring( s.substr(prev_pos, pos-prev_pos) );
+        std::string substring(s.substr(prev_pos, pos - prev_pos));
         output.push_back(substring);
         prev_pos = ++pos;
     }
-    try {
-        output.push_back(s.substr(prev_pos, pos-prev_pos)); // Last word
+    try
+    {
+        output.push_back(s.substr(prev_pos, pos - prev_pos)); // Last word
     }
-    catch (...){
-
+    catch (...)
+    {
     }
     return output;
 }
 
-std::string stateToString(STATE s){
-    switch (s) {
-    case STATE::OFF:        return "OFF";
-    case STATE::ON:         return "ON";
-    case STATE::PLAY:       return "PLAY";
-    case STATE::PAUSE:      return "PAUSE";
-    case STATE::STOP:       return "STOP";
-    case STATE::ACTIVE:     return "ACTIVE";
-    case STATE::DEACTIVE:   return "DEACTIVE";
-    case STATE::WORKING:    return "WORKING";
-    case STATE::DEFINE:     return "DEFINE";
-    case STATE::UNDEFINE:   return "UNDEFINE";
-    case STATE::LOCK:       return "LOCK";
-    case STATE::UNLOCK:     return "UNLOCK";
-    case STATE::EMPTY:      return "EMPTY";
-    case STATE::FULL:       return "FULL";
-    case STATE::SEND_OK:    return "SEND_OK";
-    case STATE::SEND_NOK:   return "SEND_NOK";
-    case STATE::ENABLED:    return "ENABLED";
-    case STATE::DISABLED:   return "DISABLED";
-    case STATE::CONNECTED:  return "CONNECTED";
-    case STATE::DISCONNECTED: return "DISCONNECTED";
-    case STATE::ARMED:      return "ARMED";
-    case STATE::DISARMED:      return "DISARMED";
+std::string stateToString(STATE s)
+{
+    switch (s)
+    {
+    case STATE::OFF:
+        return "OFF";
+    case STATE::ON:
+        return "ON";
+    case STATE::PLAY:
+        return "PLAY";
+    case STATE::PAUSE:
+        return "PAUSE";
+    case STATE::STOP:
+        return "STOP";
+    case STATE::ACTIVE:
+        return "ACTIVE";
+    case STATE::DEACTIVE:
+        return "DEACTIVE";
+    case STATE::WORKING:
+        return "WORKING";
+    case STATE::DEFINE:
+        return "DEFINE";
+    case STATE::UNDEFINE:
+        return "UNDEFINE";
+    case STATE::LOCK:
+        return "LOCK";
+    case STATE::UNLOCK:
+        return "UNLOCK";
+    case STATE::EMPTY:
+        return "EMPTY";
+    case STATE::FULL:
+        return "FULL";
+    case STATE::SEND_OK:
+        return "SEND_OK";
+    case STATE::SEND_NOK:
+        return "SEND_NOK";
+    case STATE::ENABLED:
+        return "ENABLED";
+    case STATE::DISABLED:
+        return "DISABLED";
+    case STATE::CONNECTED:
+        return "CONNECTED";
+    case STATE::DISCONNECTED:
+        return "DISCONNECTED";
+    case STATE::ARMED:
+        return "ARMED";
+    case STATE::DISARMED:
+        return "DISARMED";
     default:
         return "UNKNOWN";
     }
 }
 
-STATE stringToState(const std::string& s){
-    if(s == "OFF")
+STATE stringToState(const std::string &s)
+{
+    if (s == "OFF")
         return STATE::OFF;
     else if (s == "ON")
         return STATE::ON;
@@ -113,38 +141,40 @@ STATE stringToState(const std::string& s){
         return STATE::UNKNOWN;
 }
 
-std::ostream &operator<<(std::ostream &os, const STATE &v) {
-  os << stateToString(v);
-  return os;
+std::ostream &operator<<(std::ostream &os, const STATE &v)
+{
+    os << stateToString(v);
+    return os;
 }
 
-std::ostream &operator>>(std::ostream &os, STATE &v) {
+std::ostream &operator>>(std::ostream &os, STATE &v)
+{
     std::stringstream ss;
     ss << os.rdbuf();
     v = stringToState(ss.str());
-   return os;
+    return os;
 }
 
-bool useful_F_libs::hasSubstring(const std::string& _str, const std::string& _substring)
+bool useful_F_libs::hasSubstring(const std::string &_str, const std::string &_substring)
 {
-    if(_str.find(_substring) not_eq std::string::npos)
+    if (_str.find(_substring) not_eq std::string::npos)
         return true;
     return false;
 }
 
 #ifndef IDOM
 
-void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string& msg)
+void useful_F_libs::write_to_mkfifo(const std::string &path, const std::string &msg)
 {
     errno = 0;
-    int fd = open(path.c_str(), O_RDWR| O_NONBLOCK );
+    int fd = open(path.c_str(), O_RDWR | O_NONBLOCK);
     // std::cout << "write open file: " << fd << " path " << path.c_str() << " msg: " << msg <<std::endl;
     // std::cout << "write_to_mkfifo( error - " << strerror(  errno ) <<   std::endl;
     write(fd, msg.c_str(), msg.size());
     close(fd);
 }
 
-std::string useful_F_libs::read_from_mkfifo(const std::string& path)
+std::string useful_F_libs::read_from_mkfifo(const std::string &path)
 {
     /* char buf[10];
     //open, read, and display the message from the FIFO
@@ -154,27 +184,29 @@ std::string useful_F_libs::read_from_mkfifo(const std::string& path)
     std::cout << "buf: " << buf << std::endl;
     close(fd);
     return (std::string(buf));
-*/    std::string buf = "NULL";
+*/ std::string buf = "NULL";
     std::fstream fd;
     fd.open(path.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 
-    std::getline(fd,buf);
+    std::getline(fd, buf);
     return buf;
 }
 
 size_t useful_F_libs::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    ((std::string *)userp)->append((char *)contents, size * nmemb);
     return size * nmemb;
 }
 
-std::string useful_F_libs::find_tag(const std::string& temp)
+std::string useful_F_libs::find_tag(const std::string &temp)
 {
     std::string value = "";
-    for (unsigned int i = 0; i < temp.size(); ++i){
+    for (unsigned int i = 0; i < temp.size(); ++i)
+    {
 
         if (temp.at(i) == '>')
-        {  unsigned int z = i+1;
+        {
+            unsigned int z = i + 1;
             while (temp.at(z) not_eq '<')
             {
                 value.push_back(temp.at(z));
@@ -186,22 +218,37 @@ std::string useful_F_libs::find_tag(const std::string& temp)
     return value;
 }
 
+std::string useful_F_libs::stringToHex(const std::string &input)
+{
+    static const char hex_digits[] = "0123456789ABCDEF";
+
+    std::string output;
+    output.reserve(input.length() * 2);
+    for (unsigned char c : input)
+    {
+        output.push_back(hex_digits[c >> 4]);
+        output.push_back(hex_digits[c & 15]);
+    }
+    return output;
+}
+
 #ifndef BT_TEST
-std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds)
+std::string useful_F_libs::httpPost(const std::string &url, int timeoutSeconds)
 {
     CURL *curl;
     CURLcode res;
     std::string readBuffer;
     curl = curl_easy_init();
 
-    if(curl) {
+    if (curl)
+    {
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, useful_F_libs::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         /* Check for errors */
-        if(res not_eq CURLE_OK)
+        if (res not_eq CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
                     curl_easy_strerror(res));
 
@@ -213,25 +260,26 @@ std::string useful_F_libs::httpPost(const std::string& url, int timeoutSeconds)
     return readBuffer;
 }
 
-std::string useful_F_libs::httpPost(const std::string& url)
+std::string useful_F_libs::httpPost(const std::string &url)
 {
     return useful_F_libs::httpPost(url, 10);
 }
 #endif
 
-void useful_F_libs::downloadFile(const std::string& url, const std::string& path, int timeoutSeconds)
+void useful_F_libs::downloadFile(const std::string &url, const std::string &path, int timeoutSeconds)
 {
     CURL *curl;
-    //CURLcode res;
+    // CURLcode res;
 
     curl = curl_easy_init();
-    if (curl) {
-        FILE *fp = fopen(path.c_str(),"wb");
+    if (curl)
+    {
+        FILE *fp = fopen(path.c_str(), "wb");
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeoutSeconds);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-        //res = curl_easy_perform(curl);
+        // res = curl_easy_perform(curl);
         /* always cleanup */
         curl_easy_cleanup(curl);
         curl_global_cleanup();
@@ -239,9 +287,11 @@ void useful_F_libs::downloadFile(const std::string& url, const std::string& path
     }
 }
 
-std::string useful_F_libs::replaceAll(std::string str, const std::string& from, const std::string& to) {
+std::string useful_F_libs::replaceAll(std::string str, const std::string &from, const std::string &to)
+{
     size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) not_eq std::string::npos) {
+    while ((start_pos = str.find(from, start_pos)) not_eq std::string::npos)
+    {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
     }
@@ -249,9 +299,9 @@ std::string useful_F_libs::replaceAll(std::string str, const std::string& from, 
 }
 std::string useful_F_libs::removeHtmlTag(std::string &data)
 {
-    data = useful_F_libs::replaceAll(data,"</dl>","\n");
+    data = useful_F_libs::replaceAll(data, "</dl>", "\n");
 
-    //data = useful_F::replaceAll(data,"    "," ");
+    // data = useful_F::replaceAll(data,"    "," ");
     bool copy = true;
     std::string plainString = "";
     std::stringstream convertStream;
@@ -261,15 +311,17 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     {
         convertStream << data[i];
 
-        if(convertStream.str().compare("<") == 0) copy = false;
-        else if(convertStream.str().compare(">") == 0)
+        if (convertStream.str().compare("<") == 0)
+            copy = false;
+        else if (convertStream.str().compare(">") == 0)
         {
             copy = true;
             convertStream.str(std::string());
             continue;
         }
 
-        if(copy) plainString.append(convertStream.str());
+        if (copy)
+            plainString.append(convertStream.str());
 
         convertStream.str(std::string());
     }
@@ -277,7 +329,7 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     return plainString;
 }
 
-nlohmann::json useful_F_libs::getJson(const std::string& url)
+nlohmann::json useful_F_libs::getJson(const std::string &url)
 {
     std::string str = useful_F_libs::httpPost(url);
     return nlohmann::json::parse(str);
