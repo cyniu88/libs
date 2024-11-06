@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <optional>
 
 #ifndef ANDROID
 #include "json.hpp"
@@ -29,6 +30,7 @@ public:
     static void downloadFile(const std::string &url, const std::string &path, int timeoutSeconds);
     static std::string replaceAll(std::string str, const std::string& from, const std::string& to);
     static std::string removeHtmlTag(std::string &data);
+    static std::optional<std::string> ipCountry(std::string &ip);
     /////////////////////  JSON ////////////////////////////
 
 #ifndef ANDROID

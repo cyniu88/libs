@@ -117,3 +117,10 @@ TEST(usefull_libs, gtoLower)
 
     EXPECT_STREQ(testU.c_str(), testL.c_str());
 }
+
+TEST(usefull_libs, ipCountry)
+{
+    std::string ip {"45.90.3.84"};
+    std::string country{"Poland"};
+    EXPECT_STREQ(country.c_str(), useful_F_libs::ipCountry(ip).value_or("dupa").c_str());
+}

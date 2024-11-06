@@ -329,6 +329,16 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
     return plainString;
 }
 
+std::optional<std::string> useful_F_libs::ipCountry(std::string &ip)
+{
+    std::optional<std::string> country;
+    nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/" + ip));
+
+    if (jj.contains("country"))
+        country = jj["country"];
+    return country;
+}
+
 nlohmann::json useful_F_libs::getJson(const std::string &url)
 {
     std::string str = useful_F_libs::httpPost(url);
