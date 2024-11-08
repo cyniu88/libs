@@ -33,6 +33,10 @@ public:
     static std::optional<std::string> ipCountry(std::string &ip);
     /////////////////////  JSON ////////////////////////////
 
+    ///////////////////// SYSTEM ///////////////////////////
+    static long getMemoryUsageInMB();
+    static double getCpuUsage();
+
 #ifndef ANDROID
     static nlohmann::json getJson(const std::string &url);
 #endif

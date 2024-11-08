@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <unistd.h>
+#include <chrono>
+#include <thread>
 
 #ifndef IDOM
 #include <curl/curl.h>
@@ -337,6 +339,100 @@ std::optional<std::string> useful_F_libs::ipCountry(std::string &ip)
     if (jj.contains("country"))
         country = jj["country"];
     return country;
+}
+
+long useful_F_libs::getMemoryUsageInMB()
+{
+    std::string path_v1 = "/sys/fs/cgroup/memory/memory.usage_in_bytes";
+    std::string path_v2 = "/sys/fs/cgroup/memory.current";
+    std::ifstream file;
+    long memoryUsageBytes = 0;
+
+    // Try cgroups v1 path
+    file.open(path_v1);
+    if (!file.is_open())
+    {
+        // If v1 path is not found, try cgroups v2 path
+        file.open(path_v2);
+    }
+
+    if (file.is_open())
+    {
+        file >> memoryUsageBytes;
+        file.close();
+    }
+    else
+    {
+        return -1;
+    }
+
+    return memoryUsageBytes / (1024 * 1024); // Convert bytes to megabytes
+}
+
+double useful_F_libs::getCpuUsage()
+{
+    std::string path_v1 = "/sys/fs/cgroup/cpu/cpuacct.usage";
+    std::string path_v2 = "/sys/fs/cgroup/cpu.stat";
+    std::ifstream file;
+    long initialCpuUsage = 0;
+    long finalCpuUsage = 0;
+
+    // Function to read CPU usage in nanoseconds
+    auto readCpuUsage = [&]() -> long
+    {
+        long cpuUsageNanoseconds = 0;
+
+        // Try cgroups v1 path
+        file.open(path_v1);
+        if (file.is_open())
+        {
+            file >> cpuUsageNanoseconds;
+            file.close();
+        }
+        else
+        {
+            // Try cgroups v2 path if v1 path is not available
+            file.open(path_v2);
+            if (file.is_open())
+            {
+                std::string line;
+                while (std::getline(file, line))
+                {
+                    if (line.find("usage_usec") != std::string::npos)
+                    {
+                        cpuUsageNanoseconds = std::stol(line.substr(line.find(" ") + 1)) * 1000; // Convert microseconds to nanoseconds
+                        break;
+                    }
+                }
+                file.close();
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        return cpuUsageNanoseconds;
+    };
+
+    // Get initial CPU usage
+    initialCpuUsage = readCpuUsage();
+    if (initialCpuUsage == -1)
+        return -1;
+
+    // Wait a short period to measure CPU usage change over time
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // Get CPU usage after waiting
+    finalCpuUsage = readCpuUsage();
+    if (finalCpuUsage == -1)
+        return -1;
+
+    // Calculate CPU usage difference over 1 second interval
+    long cpuUsageDelta = finalCpuUsage - initialCpuUsage;
+    double cpuUsagePercentage = (cpuUsageDelta / 1e9) * 100; // Convert nanoseconds to seconds and calculate percentage
+
+    return cpuUsagePercentage;
 }
 
 nlohmann::json useful_F_libs::getJson(const std::string &url)
