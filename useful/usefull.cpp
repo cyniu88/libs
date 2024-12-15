@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 #ifndef IDOM
 #include <curl/curl.h>
@@ -334,10 +335,18 @@ std::string useful_F_libs::removeHtmlTag(std::string &data)
 std::optional<std::string> useful_F_libs::ipCountry(std::string &ip)
 {
     std::optional<std::string> country;
-    nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/" + ip));
+    try
+    {
+        nlohmann::json jj = nlohmann::json::parse(useful_F_libs::httpPost("http://ip-api.com/json/" + ip));
 
-    if (jj.contains("country"))
-        country = jj["country"];
+        if (jj.contains("country"))
+            country = jj["country"];
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << " błąd jsona w funkcji  " << __PRETTY_FUNCTION__ << std::endl;
+    }
+
     return country;
 }
 
