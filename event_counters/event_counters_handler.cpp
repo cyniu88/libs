@@ -27,7 +27,7 @@ event_counters_handler::event_counters_handler()
 std::shared_ptr<event_counters> event_counters_handler::run(const std::string& name)
 {
 
-    if (eventCountersMap.find(name) == eventCountersMap.end()){
+    if (not eventCountersMap.contains(name)){
         addEvent(name);
     }
     return eventCountersMap[name];
