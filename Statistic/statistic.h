@@ -92,7 +92,13 @@ public:
         m_dequeue.pop_front();
         // std::cout <<"pop_front"<<std::endl;
     }
-
+    void keepLatestOnly(){
+        if (!m_dequeue.empty()) {
+            T latest = m_dequeue.back();
+            m_dequeue.clear();
+            m_dequeue.push_back(latest);
+        }
+    }
     void erase(){
         m_dequeue.clear();
     }
