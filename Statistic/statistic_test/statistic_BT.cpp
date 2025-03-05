@@ -62,6 +62,13 @@ TEST_F(StatisticClass_fixture, median)
   EXPECT_EQ(average.median(),2.5f);
 }
 
+TEST_F(StatisticClass_fixture, erase)
+{ 
+  EXPECT_EQ(average.getSize(),12);
+  average.erase();
+  EXPECT_EQ(average.getSize(),1);
+}
+
 TEST_F(StatisticClass_fixture, trendMain)
 {
   STATISTIC<float> data(105);

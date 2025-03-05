@@ -57,7 +57,7 @@ template <class T>
 class STATISTIC
 {
 public:
-    explicit STATISTIC(std::size_t size): m_size(size)
+    explicit STATISTIC(std::size_t size = 100): m_size(size)
     {
 
     }
@@ -91,6 +91,10 @@ public:
     void pop_front(){
         m_dequeue.pop_front();
         // std::cout <<"pop_front"<<std::endl;
+    }
+
+    void erase(){
+        m_dequeue.clear();
     }
     ///////////////////////////////////////////// statistic /////////////////////////////
     T median(){
