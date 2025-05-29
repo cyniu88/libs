@@ -1,656 +1,147 @@
-/*
-* MIT License
-*
-* Copyright(c) 2018 Jimmie Bergmann
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files(the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions :
-*
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*
-*/
-
-/*
-YAML documentation:
-http://yaml.org/spec/1.0/index.html
-https://www.codeproject.com/Articles/28720/YAML-Parser-in-C
-*/
-
 #pragma once
 
-#include <exception>
 #include <string>
-#include <iostream>
-#include <sstream>
-#include <algorithm>
 #include <map>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <stdexcept>
+#include <algorithm>
 
-/**
-* @breif Namespace wrapping mini-yaml classes.
-*
-*/
-namespace Yaml
-{
+class SimpleYamlCommandParser {
+public:
+    struct CommandSet {
+        std::vector<std::string> lock;
+        std::vector<std::string> unlock;
+    };
 
-    /**
-    * @breif Forward declarations.
-    *
-    */
-    class Node;
+    using CommandMap = std::map<std::string, CommandSet>;
 
-
-    /**
-    * @breif Helper classes and functions
-    *
-    */
-    namespace impl
-    {
-
-        /**
-        * @breif Helper functionality, converting string to any data type.
-        *        Strings are left untouched.
-        *
-        */
-        template<typename T>
-        struct StringConverter
-        {
-            static T Get(const std::string & data)
-            {
-                T type;
-                std::stringstream ss(data);
-                ss >> type;
-                return type;
-            }
-
-            static T Get(const std::string & data, const T & defaultValue)
-            {
-                T type;
-                std::stringstream ss(data);
-                ss >> type;
-
-                if(ss.fail())
-                {
-                    return defaultValue;
-                }
-
-                return type;
-            }
-        };
-        template<>
-        struct StringConverter<std::string>
-        {
-            static std::string Get(const std::string & data)
-            {
-                return data;
-            }
-
-            static std::string Get(const std::string & data, const std::string & defaultValue)
-            {
-                if(data.size() == 0)
-                {
-                    return defaultValue;
-                }
-                return data;
-            }
-        };
-
-        template<>
-        struct StringConverter<bool>
-        {
-            static bool Get(const std::string & data)
-            {
-                std::string tmpData = data;
-                std::transform(tmpData.begin(), tmpData.end(), tmpData.begin(), ::tolower);
-                if(tmpData == "true" || tmpData == "yes" || tmpData == "1")
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            static bool Get(const std::string & data, const bool & defaultValue)
-            {
-                if(data.size() == 0)
-                {
-                    return defaultValue;
-                }
-
-                return Get(data);
-            }
-        };
-
+    explicit SimpleYamlCommandParser(const std::string& filename) {
+        loadFromFile(filename);
+    }
+    explicit SimpleYamlCommandParser() {
+        
     }
 
-
-    /**
-    * @breif Exception class.
-    *
-    */
-    class Exception : public std::runtime_error
-    {
-
-    public:
-
-        /**
-        * @breif Enumeration of exception types.
-        *
-        */
-        enum eType
-        {
-            InternalError,  ///< Internal error.
-            ParsingError,   ///< Invalid parsing data.
-            OperationError  ///< User operation error.
-        };
-
-        /**
-        * @breif Constructor.
-        *
-        * @param message    Exception message.
-        * @param type       Type of exception.
-        *
-        */
-        Exception(const std::string & message, const eType type);
-
-        /**
-        * @breif Get type of exception.
-        *
-        */
-        eType Type() const;
-
-        /**
-        * @breif Get message of exception.
-        *
-        */
-        const char * Message() const;
-
-    private:
-
-        eType m_Type;   ///< Type of exception.
-
-    };
-
-
-    /**
-    * @breif Internal exception class.
-    *
-    * @see Exception
-    *
-    */
-    class InternalException : public Exception
-    {
-
-    public:
-
-        /**
-        * @breif Constructor.
-        *
-        * @param message Exception message.
-        *
-        */
-        InternalException(const std::string & message);
-
-    };
-
-
-    /**
-    * @breif Parsing exception class.
-    *
-    * @see Exception
-    *
-    */
-    class ParsingException : public Exception
-    {
-
-    public:
-
-        /**
-        * @breif Constructor.
-        *
-        * @param message Exception message.
-        *
-        */
-        ParsingException(const std::string & message);
-
-    };
-
-
-    /**
-    * @breif Operation exception class.
-    *
-    * @see Exception
-    *
-    */
-    class OperationException : public Exception
-    {
-
-    public:
-
-        /**
-        * @breif Constructor.
-        *
-        * @param message Exception message.
-        *
-        */
-        OperationException(const std::string & message);
-
-    };
-
-
-    /**
-    * @breif Iterator class.
-    *
-    */
-    class Iterator
-    {
-
-    public:
-
-        friend class Node;
-
-        /**
-        * @breif Default constructor.
-        *
-        */
-        Iterator();
-
-        /**
-        * @breif Copy constructor.
-        *
-        */
-        Iterator(const Iterator & it);
-
-        /**
-        * @breif Assignment operator.
-        *
-        */
-        Iterator & operator = (const Iterator & it);
-
-        /**
-        * @breif Destructor.
-        *
-        */
-        ~Iterator();
-
-        /**
-        * @breif Get node of iterator.
-        *        First pair item is the key of map value, empty if type is sequence.
-        *
-        */
-        std::pair<const std::string &, Node &> operator *();
-
-        /**
-        * @breif Post-increment operator.
-        *
-        */
-        Iterator & operator ++ (int);
-
-        /**
-        * @breif Post-decrement operator.
-        *
-        */
-        Iterator & operator -- (int);
-
-        /**
-        * @breif Check if iterator is equal to other iterator.
-        *
-        */
-        bool operator == (const Iterator & it);
-
-        /**
-        * @breif Check if iterator is not equal to other iterator.
-        *
-        */
-        bool operator != (const Iterator & it);
-
-    private:
-
-        enum eType
-        {
-            None,
-            SequenceType,
-            MapType
-        };
-
-        eType   m_Type; ///< Type of iterator.
-        void *  m_pImp; ///< Implementation of iterator class.
-
-    };
-
-
-    /**
-    * @breif Constant iterator class.
-    *
-    */
-    class ConstIterator
-    {
-
-    public:
-
-        friend class Node;
-
-        /**
-        * @breif Default constructor.
-        *
-        */
-        ConstIterator();
-
-        /**
-        * @breif Copy constructor.
-        *
-        */
-        ConstIterator(const ConstIterator & it);
-
-        /**
-        * @breif Assignment operator.
-        *
-        */
-        ConstIterator & operator = (const ConstIterator & it);
-
-        /**
-        * @breif Destructor.
-        *
-        */
-        ~ConstIterator();
-
-        /**
-        * @breif Get node of iterator.
-        *        First pair item is the key of map value, empty if type is sequence.
-        *
-        */
-        std::pair<const std::string &, const Node &> operator *();
-
-        /**
-        * @breif Post-increment operator.
-        *
-        */
-        ConstIterator & operator ++ (int);
-
-        /**
-        * @breif Post-decrement operator.
-        *
-        */
-        ConstIterator & operator -- (int);
-
-        /**
-        * @breif Check if iterator is equal to other iterator.
-        *
-        */
-        bool operator == (const ConstIterator & it);
-
-        /**
-        * @breif Check if iterator is not equal to other iterator.
-        *
-        */
-        bool operator != (const ConstIterator & it);
-
-    private:
-
-        enum eType
-        {
-            None,
-            SequenceType,
-            MapType
-        };
-
-        eType   m_Type; ///< Type of iterator.
-        void *  m_pImp; ///< Implementation of constant iterator class.
-
-    };
-
-
-    /**
-    * @breif Node class.
-    *
-    */
-    class Node
-    {
-
-    public:
-
-        friend class Iterator;
-
-        /**
-        * @breif Enumeration of node types.
-        *
-        */
-        enum eType
-        {
-            None,
-            SequenceType,
-            MapType,
-            ScalarType
-        };
-
-        /**
-        * @breif Default constructor.
-        *
-        */
-        Node();
-
-        /**
-        * @breif Copy constructor.
-        *
-        */
-        Node(const Node & node);
-
-        /**
-        * @breif Assignment constructors.
-        *        Converts node to scalar type if needed.
-        *
-        */
-        Node(const std::string & value);
-        Node(const char * value);
-
-        /**
-        * @breif Destructor.
-        *
-        */
-        ~Node();
-
-        /**
-        * @breif Functions for checking type of node.
-        *
-        */
-        eType Type() const;
-        bool IsNone() const;
-        bool IsSequence() const;
-        bool IsMap() const;
-        bool IsScalar() const;
-
-        /**
-        * @breif Completely clear node.
-        *
-        */
-        void Clear();
-
-        /**
-        * @breif Get node as given template type.
-        *
-        */
-        template<typename T>
-        T As() const
-        {
-            return impl::StringConverter<T>::Get(AsString());
+    void loadFromFile(const std::string& filename) {
+        std::ifstream file(filename);
+        if (!file.is_open())
+            throw std::runtime_error("Nie można otworzyć pliku: " + filename);
+
+        commandData.clear();
+        std::string currentKey;
+        std::string currentSubKey;
+
+        std::string line;
+        int lineNumber = 0;
+        int keyIndent = -1;
+        int subKeyIndent = -1;
+
+        while (std::getline(file, line)) {
+            ++lineNumber;
+            removeInlineComment(line);
+            if (line.empty() || isWhitespace(line)) continue;
+
+            int indent = countRawIndentation(line);
+            std::string content = trimmed(line);
+
+            if (endsWithColon(content)) {
+                std::string keyName = content.substr(0, content.size() - 1);
+
+                if (keyIndent == -1 || indent <= keyIndent) {
+                    // Top-level key
+                    currentKey = keyName;
+                    currentSubKey.clear();
+                    keyIndent = indent;
+                    subKeyIndent = -1;
+                } else if (subKeyIndent == -1 || indent > keyIndent) {
+                    // Subkey (lock/unlock)
+                    currentSubKey = keyName;
+                    subKeyIndent = indent;
+                    if (currentKey.empty())
+                        throw syntaxError(lineNumber, line, "podklucz bez klucza głównego");
+
+                    if (currentSubKey != "lock" && currentSubKey != "unlock")
+                        throw syntaxError(lineNumber, line, "nieznany podklucz: " + currentSubKey);
+                } else {
+                    throw syntaxError(lineNumber, line, "zbyt głębokie lub nieoczekiwane wcięcie dla podklucza");
+                }
+            } else if (content[0] == '-') {
+                if (currentKey.empty() || currentSubKey.empty())
+                    throw syntaxError(lineNumber, line, "element listy bez poprzedzającego klucza/podklucza");
+
+                std::string cmd = content.substr(1);
+                trim(cmd);
+                if (currentSubKey == "lock")
+                    commandData[currentKey].lock.push_back(cmd);
+                else if (currentSubKey == "unlock")
+                    commandData[currentKey].unlock.push_back(cmd);
+            } else {
+                throw syntaxError(lineNumber, line, "nieoczekiwany format");
+            }
+        }
+    }
+
+    const CommandMap& getCommands() const {
+        return commandData;
+    }
+
+    std::vector<std::string> getCommandsFor(const std::string& timeKey, const std::string& type) const {
+        auto it = commandData.find(timeKey);
+        if (it == commandData.end()) {
+            throw std::runtime_error("Nie znaleziono interwału: " + timeKey);
         }
 
-        /**
-        * @breif Get node as given template type.
-        *
-        */
-        template<typename T>
-        T As(const T & defaultValue) const
-        {
-            return impl::StringConverter<T>::Get(AsString(), defaultValue);
+        if (type == "lock") return it->second.lock;
+        if (type == "unlock") return it->second.unlock;
+        throw std::runtime_error("Niepoprawny typ komendy: " + type);
+    }
+
+private:
+    CommandMap commandData;
+
+    static void removeInlineComment(std::string& s) {
+        bool inQuotes = false;
+        for (size_t i = 0; i < s.length(); ++i) {
+            if (s[i] == '"') inQuotes = !inQuotes;
+            else if (s[i] == '#' && !inQuotes) {
+                s = s.substr(0, i);
+                break;
+            }
         }
+    }
 
-        /**
-        * @breif Get size of node.
-        *        Nodes of type None or Scalar will return 0.
-        *
-        */
-        size_t Size() const;
+    static std::string trimmed(const std::string& s) {
+        size_t start = s.find_first_not_of(" \t\r\n");
+        size_t end = s.find_last_not_of(" \t\r\n");
+        return (start == std::string::npos || end == std::string::npos) ? "" : s.substr(start, end - start + 1);
+    }
 
-        // Sequence operators
+    static void trim(std::string& s) {
+        s = trimmed(s);
+    }
 
-        /**
-        * @breif Insert sequence item at given index.
-        *        Converts node to sequence type if needed.
-        *        Adding new item to end of sequence if index is larger than sequence size.
-        *
-        */
-        Node & Insert(const size_t index);
+    static bool isWhitespace(const std::string& s) {
+        return s.find_first_not_of(" \t\r\n") == std::string::npos;
+    }
 
-        /**
-        * @breif Add new sequence index to back.
-        *        Converts node to sequence type if needed.
-        *
-        */
-        Node & PushFront();
+    static bool endsWithColon(const std::string& s) {
+        return !s.empty() && s.back() == ':';
+    }
 
-         /**
-        * @breif Add new sequence index to front.
-        *        Converts node to sequence type if needed.
-        *
-        */
-        Node & PushBack();
+    static int countRawIndentation(const std::string& s) {
+        int count = 0;
+        for (char c : s) {
+            if (c == ' ') count++;
+            else if (c == '\t') count += 4;
+            else break;
+        }
+        return count;
+    }
 
-        /**
-        * @breif    Get sequence/map item.
-        *           Converts node to sequence/map type if needed.
-        *
-        * @param index  Sequence index. Returns None type Node if index is unknown.
-        * @param key    Map key. Creates a new node if key is unknown.
-        *
-        */
-        Node & operator []  (const size_t index);
-        Node & operator [] (const std::string & key);
-
-        /**
-        * @breif Erase item.
-        *        No action if node is not a sequence or map.
-        *
-        */
-        void Erase(const size_t index);
-        void Erase(const std::string & key);
-
-        /**
-        * @breif Assignment operators.
-        *
-        */
-        Node & operator = (const Node & node);
-        Node & operator = (const std::string & value);
-        Node & operator = (const char * value);
-
-        /**
-        * @breif Get start iterator.
-        *
-        */
-        Iterator Begin();
-        ConstIterator Begin() const;
-
-        /**
-        * @breif Get end iterator.
-        *
-        */
-        Iterator End();
-        ConstIterator End() const;
-
-
-    private:
-
-        /**
-        * @breif Get as string. If type is scalar, else empty.
-        *
-        */
-        const std::string & AsString() const;
-
-        void * m_pImp; ///< Implementation of node class.
-
-    };
-
-
-    /**
-    * @breif Parsing functions.
-    *        Population given root node with deserialized data.
-    *
-    * @param root       Root node to populate.
-    * @param filename   Path of input file.
-    * @param stream     Input stream.
-    * @param string     String of input data.
-    * @param buffer     Char array of input data.
-    * @param size       Buffer size.
-    *
-    * @throw InternalException  An internal error occurred.
-    * @throw ParsingException   Invalid input YAML data.
-    * @throw OperationException If filename or buffer pointer is invalid.
-    *
-    */
-    void Parse(Node & root, const char * filename);
-    void Parse(Node & root, std::iostream & stream);
-    void Parse(Node & root, const std::string & string);
-    void Parse(Node & root, const char * buffer, const size_t size);
-
-
-    /**
-    * @breif    Serialization configuration structure,
-    *           describing output behavior.
-    *
-    */
-    struct SerializeConfig
-    {
-
-        /**
-        * @breif Constructor.
-        *
-        * @param spaceIndentation       Number of spaces per indentation.
-        * @param scalarMaxLength        Maximum length of scalars. Serialized as folder scalars if exceeded.
-        *                               Ignored if equal to 0.
-        * @param sequenceMapNewline     Put maps on a new line if parent node is a sequence.
-        * @param mapScalarNewline       Put scalars on a new line if parent node is a map.
-        *
-        */
-        SerializeConfig(const size_t spaceIndentation = 2,
-                        const size_t scalarMaxLength = 64,
-                        const bool sequenceMapNewline = false,
-                        const bool mapScalarNewline = false);
-
-        size_t SpaceIndentation;    ///< Number of spaces per indentation.
-        size_t ScalarMaxLength;     ///< Maximum length of scalars. Serialized as folder scalars if exceeded.
-        bool SequenceMapNewline;    ///< Put maps on a new line if parent node is a sequence.
-        bool MapScalarNewline;      ///< Put scalars on a new line if parent node is a map.
-    };
-
-
-    /**
-    * @breif Serialization functions.
-    *
-    * @param root       Root node to serialize.
-    * @param filename   Path of output file.
-    * @param stream     Output stream.
-    * @param string     String of output data.
-    * @param config     Serialization configurations.
-    *
-    * @throw InternalException  An internal error occurred.
-    * @throw OperationException If filename or buffer pointer is invalid.
-    *                           If config is invalid.
-    *
-    */
-    void Serialize(const Node & root, const char * filename, const SerializeConfig & config = {2, 64, false, false});
-    void Serialize(const Node & root, std::iostream & stream, const SerializeConfig & config = {2, 64, false, false});
-    void Serialize(const Node & root, std::string & string, const SerializeConfig & config = {2, 64, false, false});
-
-}
+    static std::runtime_error syntaxError(int lineNumber, const std::string& line, const std::string& reason) {
+        return std::runtime_error("Błąd składni YAML w linii " + std::to_string(lineNumber) + ": \"" + line + "\" – " + reason);
+    }
+};
