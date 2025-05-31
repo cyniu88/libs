@@ -101,13 +101,13 @@ public:
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
-    std::string getString() const{
+    std::string getString(const std::string& sep = ":") const{
         std::stringstream ret;
         if (m_h < 10) {
             ret << "0";
         }
         ret << m_h;
-        ret << ":";
+        ret << sep;
         if (m_min < 10) {
             ret << "0";
         }
