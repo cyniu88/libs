@@ -39,9 +39,9 @@ AndroidHelper_cyniu &AndroidHelper_cyniu::operator=(const AndroidHelper_cyniu &a
     return *this;
 }
 
-void AndroidHelper_cyniu::vibrate(int msec)
+void AndroidHelper_cyniu::vibrate(int milliseconds)
 {
-    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "vibrate", "(I)V", msec);
+    QJniObject::callStaticMethod<void>("org/qtproject/example/Chronometer/AndroidHelper", "vibrate", "(I)V", milliseconds);
 }
 
 double AndroidHelper_cyniu::getProximity()

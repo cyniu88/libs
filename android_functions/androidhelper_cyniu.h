@@ -19,7 +19,7 @@ public:
     AndroidHelper_cyniu(const AndroidHelper_cyniu& androidHelper_cyniu);
     ~AndroidHelper_cyniu();
     AndroidHelper_cyniu& operator=(const AndroidHelper_cyniu& androidHelper_cyniu);
-    void vibrate(int msec);
+    void vibrate(int milliseconds);
     double getProximity();
     QString getAccelerometer();
     int fibo(int n);

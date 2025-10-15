@@ -1,7 +1,4 @@
 #include "android_interface.h"
-#ifdef Q_OS_ANDROID
-#include <QtCore/private/qandroidextras_p.h>
-#endif
 
 android_interface::android_interface()
 {
