@@ -2,11 +2,11 @@
 #include <string>
 #include <atomic>
 #include <mutex>
-#include <iostream>
+#include "crypto.hpp"
 
 class TCPClient {
 public:
-    TCPClient(const std::string& ip, int port);
+    TCPClient(const std::string& ip, int port, const std::string& encryption_key);
     ~TCPClient();
 
     void connect();
@@ -21,4 +21,5 @@ private:
     int port;
     std::atomic<bool> connected{false};
     std::mutex sock_mutex;
+    Crypto crypto;
 };

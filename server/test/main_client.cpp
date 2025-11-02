@@ -22,7 +22,18 @@ int main(int argc, char** argv) {
     const int server_port = (argc > 2) ? std::stoi(argv[2]) : 12345;
 
     try {
-        TCPClient client(server_ip, server_port);
+        // Example key (replace with key from server): "0123456789abcdef0123456789abcdef"
+        std::string encryption_key = "476297bba475edfa36da5e0ac0190b59ae25249b65d420aa5ae9e012e30af70b";
+        std::cout << "Enter 32-byte hex key from server: ";
+        std::getline(std::cin, encryption_key);
+        
+        if (!Crypto::isValidHexKey(encryption_key)) {
+            std::cerr << "Invalid key format! Key must be " 
+                      << (Crypto::KEY_LENGTH * 2) << " hex characters." << std::endl;
+            return 1;
+        }
+        
+        TCPClient client(server_ip, server_port, encryption_key);
         g_client = &client;
 
         std::cout << "Connecting to " << server_ip << ":" << server_port << std::endl;

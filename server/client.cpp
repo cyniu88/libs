@@ -4,11 +4,14 @@
 #include <unistd.h>
 #include <stdexcept>
 #include <cstring>
-#include <iostream>
+#include <iostream>  // Add this include for std::cerr and std::endl
 #include <errno.h>
 
-TCPClient::TCPClient(const std::string& ip, int port)
-    : sock(-1), ip_address(ip), port(port) {}
+TCPClient::TCPClient(const std::string& ip, int port, const std::string& encryption_key)
+    : sock(-1), 
+      ip_address(ip), 
+      port(port),
+      crypto(encryption_key) {}
 
 TCPClient::~TCPClient() {
     disconnect();
@@ -63,40 +66,36 @@ void TCPClient::disconnect() {
     }
 }
 
-std::string TCPClient::receive() {
-    if (!connected || sock < 0) {
-        return "";
-    }
-
-    char buffer[1024] = {0};
-    ssize_t received = ::recv(sock, buffer, sizeof(buffer) - 1, 0);
-    
-    if (received > 0) {
-        return std::string(buffer, received);
-    } else if (received == 0 || (received < 0 && errno != EAGAIN)) {
-        connected = false;
-    }
-    return "";
-}
-
 bool TCPClient::send(const std::string& message) {
-    if (!connected || sock < 0) {
+    std::lock_guard<std::mutex> lock(sock_mutex);
+    if (!connected || sock < 0) return false;
+
+    try {
+        std::string encrypted = crypto.encrypt(message);
+        ssize_t sent = ::send(sock, encrypted.c_str(), encrypted.length(), MSG_NOSIGNAL);
+        return (sent == static_cast<ssize_t>(encrypted.length()));
+    } catch (const std::exception& e) {
+        std::cerr << "Encryption error: " << e.what() << std::endl;
         return false;
     }
+}
 
-    size_t total_sent = 0;
-    const char* buffer = message.c_str();
-    size_t length = message.length();
+std::string TCPClient::receive() {
+    std::lock_guard<std::mutex> lock(sock_mutex);
+    if (!connected || sock < 0) return "";
 
-    while (total_sent < length) {
-        ssize_t sent = ::send(sock, buffer + total_sent, length - total_sent, MSG_NOSIGNAL);
-        if (sent < 0) {
-            if (errno == EINTR) continue;
-            std::cerr << "Send error: " << strerror(errno) << std::endl;
+    try {
+        char buffer[1024] = {0};
+        ssize_t received = ::recv(sock, buffer, sizeof(buffer) - 1, 0);
+        
+        if (received > 0) {
+            std::string encrypted(buffer, received);
+            return crypto.decrypt(encrypted);
+        } else if (received == 0 || (received < 0 && errno != EINTR)) {
             connected = false;
-            return false;
         }
-        total_sent += sent;
+    } catch (const std::exception& e) {
+        std::cerr << "Decryption error: " << e.what() << std::endl;
     }
-    return true;
+    return "";
 }

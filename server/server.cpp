@@ -1,8 +1,19 @@
 #include "server.hpp"
 #include <cstring>
 #include <iostream>
+#include <fcntl.h>
+#include <chrono>
+#include <thread>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
-TCPServer::TCPServer(int port) : port(port), server_fd(-1) {
+TCPServer::TCPServer(int port, const std::string& encryption_key) 
+    : server_fd(-1), 
+      port(port),
+      crypto(encryption_key) {
     clients.resize(MAX_CLIENTS);
     for(auto& client : clients) {
         client.socket = -1;
@@ -41,7 +52,7 @@ void TCPServer::start() {
 
     running = true;
     acceptor_thread = std::thread(&TCPServer::acceptClients, this);
-    std::cout << "Server started on port " << port << std::endl;
+    message_processor = std::thread(&TCPServer::processMessages, this);
 }
 
 void TCPServer::acceptClients() {
@@ -84,29 +95,39 @@ void TCPServer::acceptClients() {
 
 void TCPServer::handleClient(int client_socket, int client_id) {
     char buffer[1024];
+    fd_set readfds;
     
     while (running) {
-        memset(buffer, 0, sizeof(buffer));
-        ssize_t bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
+        FD_ZERO(&readfds);
+        FD_SET(client_socket, &readfds);
         
-        if (bytes_read > 0) {
-            std::string message(buffer, bytes_read);
+        struct timeval tv = {0, 10000}; // 10ms timeout
+        int ready = select(client_socket + 1, &readfds, nullptr, nullptr, &tv);
+        
+        if (ready > 0) {
+            memset(buffer, 0, sizeof(buffer));
+            ssize_t bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
             
-            // Tylko wyświetl wiadomość na serwerze, bez przekazywania dalej
-            std::cout << "\rClient " << client_id << ": " << message << std::flush;
-            
-        } else if (bytes_read == 0) {
-            std::cout << "\rClient " << client_id << " rozłączony" << std::endl;
-            break;
-        } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
-            std::cerr << "Błąd odczytu: " << strerror(errno) << std::endl;
+            if (bytes_read > 0) {
+                try {
+                    std::string encrypted(buffer, bytes_read);
+                    std::string decrypted = crypto.decrypt(encrypted);
+                    std::cout << "Client " << client_id << ": " << decrypted;
+                    std::cout.flush();
+                } catch (const std::exception& e) {
+                    std::cerr << "Decryption error: " << e.what() << std::endl;
+                }
+            } else if (bytes_read <= 0 && errno != EINTR) {
+                break;
+            }
+        } else if (ready < 0 && errno != EINTR) {
+            std::cerr << "Select error: " << strerror(errno) << std::endl;
             break;
         }
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        if (!running) break;
     }
 
-    // Cleanup połączenia
     {
         std::lock_guard<std::mutex> lock(clients_mutex);
         if (clients[client_id].active) {
@@ -114,36 +135,70 @@ void TCPServer::handleClient(int client_socket, int client_id) {
             close(client_socket);
             clients[client_id].active = false;
             clients[client_id].socket = -1;
+            std::cout << "Client " << client_id << " disconnected" << std::endl;
         }
     }
 }
 
-void TCPServer::broadcast(const std::string& message) {
-    std::lock_guard<std::mutex> lock(clients_mutex);
-    for (const auto& client : clients) {
-        if (client.active) {
-            ssize_t sent = send(client.socket, message.c_str(), message.length(), MSG_NOSIGNAL);
-            if (sent < 0) {
-                std::cerr << "Failed to send to client: " << strerror(errno) << std::endl;
+void TCPServer::processMessages() {
+    while (running) {
+        std::string message;
+        {
+            std::lock_guard<std::mutex> lock(queue_mutex);
+            if (!message_queue.empty()) {
+                message = message_queue.front();
+                message_queue.pop();
             }
         }
+        
+        if (!message.empty()) {
+            std::cout << message << std::flush;
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+
+void TCPServer::broadcast(const std::string& message) {
+    try {
+        std::string encrypted = crypto.encrypt(message);
+        std::lock_guard<std::mutex> lock(clients_mutex);
+        
+        for (const auto& client : clients) {
+            if (client.active) {
+                size_t total_sent = 0;
+                const size_t msg_len = encrypted.length();
+                
+                while (total_sent < msg_len) {
+                    const ssize_t sent = send(client.socket, 
+                                      encrypted.c_str() + total_sent, 
+                                      msg_len - total_sent, 
+                                      MSG_NOSIGNAL);
+                    
+                    if (sent < 0) {
+                        if (errno == EINTR) continue;
+                        std::cerr << "Send error: " << strerror(errno) << std::endl;
+                        break;
+                    }
+                    total_sent += static_cast<size_t>(sent);
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Encryption error: " << e.what() << std::endl;
     }
 }
 
 void TCPServer::stop() {
     if (!running) return;
     
-    std::cout << "\nStopping server..." << std::endl;
     running = false;
     
-    // First shutdown the listening socket
     if (server_fd >= 0) {
         shutdown(server_fd, SHUT_RDWR);
         close(server_fd);
-        server_fd = -1;
     }
     
-    // Then close all client connections and join threads
     {
         std::lock_guard<std::mutex> lock(clients_mutex);
         for (auto& client : clients) {
@@ -151,9 +206,7 @@ void TCPServer::stop() {
                 shutdown(client.socket, SHUT_RDWR);
                 close(client.socket);
                 client.active = false;
-                client.socket = -1;
             }
-            // Always join thread if joinable
             if (client.handler.joinable()) {
                 client.handler.join();
             }
@@ -164,5 +217,7 @@ void TCPServer::stop() {
         acceptor_thread.join();
     }
     
-    std::cout << "Server stopped." << std::endl;
+    if (message_processor.joinable()) {
+        message_processor.join();
+    }
 }

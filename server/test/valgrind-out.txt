@@ -1,0 +1,37 @@
+==38882== Memcheck, a memory error detector
+==38882== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==38882== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==38882== Command: ./bin/server
+==38882== Parent PID: 1339
+==38882== 
+--38882-- 
+--38882-- Valgrind options:
+--38882--    --leak-check=full
+--38882--    --show-leak-kinds=all
+--38882--    --track-origins=yes
+--38882--    --verbose
+--38882--    --log-file=valgrind-out.txt
+--38882-- Contents of /proc/version:
+--38882--   Linux version 6.6.87.2-microsoft-standard-WSL2 (root@439a258ad544) (gcc (GCC) 11.2.0, GNU ld (GNU Binutils) 2.37) #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025
+--38882-- 
+--38882-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--38882-- Page sizes: currently 4096, max supported 4096
+--38882-- Valgrind library directory: /usr/libexec/valgrind
+--38882-- Reading syms from /mnt/e/inne/PROGRAMOWANIE/malina/iDom_server_OOP/libs/server/test/bin/server
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x23
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x25
+### unhandled dwarf2 abbrev form code 0x23
+==38882== Valgrind: debuginfo reader: ensure_valid failed:
+==38882== Valgrind:   during call to ML_(img_get)
+==38882== Valgrind:   request for range [813231388, +4) exceeds
+==38882== Valgrind:   valid image size of 265584 for image:
+==38882== Valgrind:   "/mnt/e/inne/PROGRAMOWANIE/malina/iDom_server_OOP/libs/server/test/bin/server"
+==38882== 
+==38882== Valgrind: debuginfo reader: Possibly corrupted debuginfo file.
+==38882== Valgrind: I can't recover.  Giving up.  Sorry.
+==38882== 
