@@ -30,7 +30,8 @@ int main()
     try
     {
         // Generate a proper key using libsodium
-        const std::string encryption_key = Crypto::generateKey();
+        //const std::string encryption_key = Crypto::generateKey();
+        std::string encryption_key = "49478e0e901a6ce61dbc3864756c709a914e30f2534921323c127bcb7fcd2303";
         std::cout << "Generated key (save and share securely): " << encryption_key << std::endl;
 
         TCPServer server(port, encryption_key);

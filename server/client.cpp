@@ -3,8 +3,10 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <stdexcept>
+#include <iostream>
 #include <cstring>
-#include <iostream>  // Add this include for std::cerr and std::endl
+#include <fcntl.h>
+#include <poll.h>
 #include <errno.h>
 
 TCPClient::TCPClient(const std::string& ip, int port, const std::string& encryption_key)
@@ -18,30 +20,46 @@ TCPClient::~TCPClient() {
 }
 
 void TCPClient::connect() {
-    std::lock_guard<std::mutex> lock(sock_mutex);
-    if (connected.load()) return;
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        throw std::runtime_error("Socket creation failed");
+    }
 
-    sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) throw std::runtime_error("Socket creation failed");
+    // Set non-blocking mode
+    int flags = fcntl(sock, F_GETFL, 0);
+    fcntl(sock, F_SETFL, flags | O_NONBLOCK);
 
-    struct sockaddr_in serv_addr;
-    std::memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
-
-    if (inet_pton(AF_INET, ip_address.c_str(), &serv_addr.sin_addr) <= 0) {
-        ::close(sock);
-        sock = -1;
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port);
+    
+    if (inet_pton(AF_INET, ip_address.c_str(), &server_addr.sin_addr) <= 0) {
         throw std::runtime_error("Invalid address");
     }
 
-    if (::connect(sock, reinterpret_cast<struct sockaddr*>(&serv_addr), sizeof(serv_addr)) < 0) {
-        ::close(sock);
-        sock = -1;
-        throw std::runtime_error("Connection failed");
+    while (::connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        if (errno == EINPROGRESS || errno == EAGAIN || errno == EINTR) {
+            // Wait for connection
+            struct pollfd pfd = {sock, POLLOUT, 0};
+            int ret = poll(&pfd, 1, 1000);  // 1 second timeout
+            
+            if (ret > 0 && (pfd.revents & POLLOUT)) {
+                // Check if connection succeeded
+                int error = 0;
+                socklen_t len = sizeof(error);
+                if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &error, &len) < 0 || error != 0) {
+                    throw std::runtime_error("Connection failed");
+                }
+                break;
+            }
+        } else {
+            throw std::runtime_error("Connection failed");
+        }
     }
 
-    connected.store(true);
+    connected = true;
+    pfd.fd = sock;
+    pfd.events = POLLIN | POLLOUT;
 }
 
 void TCPClient::disconnect() {
@@ -72,10 +90,26 @@ bool TCPClient::send(const std::string& message) {
 
     try {
         std::string encrypted = crypto.encrypt(message);
-        ssize_t sent = ::send(sock, encrypted.c_str(), encrypted.length(), MSG_NOSIGNAL);
-        return (sent == static_cast<ssize_t>(encrypted.length()));
+        size_t total_sent = 0;
+        const size_t msg_len = encrypted.length();
+
+        while (total_sent < msg_len) {
+            ssize_t sent = ::send(sock, 
+                                encrypted.data() + total_sent, 
+                                msg_len - total_sent, 
+                                MSG_NOSIGNAL);
+            
+            if (sent < 0) {
+                if (errno == EINTR || errno == EAGAIN) continue;
+                std::cerr << "Błąd wysyłania: " << strerror(errno) << std::endl;
+                connected = false;
+                return false;
+            }
+            total_sent += sent;
+        }
+        return true;
     } catch (const std::exception& e) {
-        std::cerr << "Encryption error: " << e.what() << std::endl;
+        std::cerr << "Błąd szyfrowania: " << e.what() << std::endl;
         return false;
     }
 }
@@ -91,11 +125,15 @@ std::string TCPClient::receive() {
         if (received > 0) {
             std::string encrypted(buffer, received);
             return crypto.decrypt(encrypted);
-        } else if (received == 0 || (received < 0 && errno != EINTR)) {
+        } else if (received == 0) {
+            // Serwer zamknął połączenie
+            connected = false;
+        } else if (received < 0 && errno != EAGAIN && errno != EWOULDBLOCK) {
+            std::cerr << "Błąd odbioru: " << strerror(errno) << std::endl;
             connected = false;
         }
     } catch (const std::exception& e) {
-        std::cerr << "Decryption error: " << e.what() << std::endl;
+        std::cerr << "Błąd deszyfrowania: " << e.what() << std::endl;
     }
     return "";
 }

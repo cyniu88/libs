@@ -2,6 +2,8 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <sys/socket.h>
+#include <poll.h>
 #include "crypto.hpp"
 
 class TCPClient {
@@ -22,4 +24,5 @@ private:
     std::atomic<bool> connected{false};
     std::mutex sock_mutex;
     Crypto crypto;
+    struct pollfd pfd;
 };
