@@ -27,9 +27,9 @@ int main(int argc, char** argv) {
     const int server_port = (argc > 2) ? std::stoi(argv[2]) : 12345;
 
     try {
-        std::string encryption_key;
-        std::cout << "Podaj klucz szyfrowania: ";
-        std::getline(std::cin, encryption_key);
+        std::string encryption_key = "49478e0e901a6ce61dbc3864756c709a914e30f2534921323c127bcb7fcd2303";
+        // std::cout << "Podaj klucz szyfrowania: ";
+        // std::getline(std::cin, encryption_key);
 
         TCPClient client(server_ip, server_port, encryption_key);
         g_client = &client;
