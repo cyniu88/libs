@@ -1,0 +1,26 @@
+CXX = clang++
+CXXFLAGS = -std=c++20 -O3 -Wall -Wextra -pthread
+LIBS = -lsodium -lgtest -lgtest_main
+
+SRCDIR = .
+TESTDIR = test
+BINDIR = bin
+
+SOURCES = server.cpp client.cpp crypto.cpp
+TEST_SOURCES = $(TESTDIR)/test_main.cpp $(TESTDIR)/test_crypto.cpp $(TESTDIR)/test_client.cpp $(TESTDIR)/test_server.cpp
+
+.PHONY: all clean test
+
+all: $(BINDIR)/tests
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(BINDIR)/tests: $(SOURCES) $(TEST_SOURCES) | $(BINDIR)
+	$(CXX) $(CXXFLAGS) $(SOURCES) $(TEST_SOURCES) -o $@ $(LIBS)
+
+test: $(BINDIR)/tests
+	./$(BINDIR)/tests
+
+clean:
+	rm -rf $(BINDIR)
