@@ -3,7 +3,7 @@
 #include <chrono>
 
 int main() {
-    ThreadPool pool(3, 3, ThreadPool::EnqueueMode::NonBlocking);
+    ThreadPool pool(3, 3, ThreadPool::EnqueueMode::Blocking);
 
     for (int i = 0; i < 10; ++i) {
         auto result = pool.enqueue([i] {
