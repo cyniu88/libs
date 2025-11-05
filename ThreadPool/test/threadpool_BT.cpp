@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "ThreadPool.h"
+#include "../ThreadPool.h"
 #include <chrono>
 #include <atomic>
 
