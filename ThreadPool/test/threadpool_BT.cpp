@@ -13,7 +13,7 @@ TEST_F(ThreadPoolTest, BasicExecution) {
     ThreadPool pool(2, 10);
     std::atomic<int> counter{0};
     
-    auto future = pool.enqueue([&counter]() {
+    auto future = pool.enqueue("TestTask", [&counter]() {
         counter++;
         return 42;
     });
@@ -29,7 +29,7 @@ TEST_F(ThreadPoolTest, MultipleTasksExecution) {
     
     std::vector<std::optional<std::future<void>>> futures;
     for (int i = 0; i < 5; ++i) {
-        futures.push_back(pool.enqueue([&counter]() {
+        futures.push_back(pool.enqueue("Task_" + std::to_string(i), [&counter]() {
             counter++;
         }));
     }
@@ -66,7 +66,7 @@ TEST_F(ThreadPoolTest, NonBlockingModeRejectsWhenFull) {
 TEST_F(ThreadPoolTest, TasksWithArguments) {
     ThreadPool pool(2, 10);
     
-    auto future = pool.enqueue([](int a, int b) {
+    auto future = pool.enqueue("AddTask", [](int a, int b) {
         return a + b;
     }, 3, 4);
     

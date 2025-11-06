@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++2a -Wall -Wextra -O2 -pthread
 TARGET = threadpool
 TEST_TARGET = test_threadpool
 SOURCES = master.cpp ThreadPool.cpp
-TEST_SOURCES = test_threadpool.cpp ThreadPool.cpp
+TEST_SOURCES = test/threadpool_BT.cpp ThreadPool.cpp
 
 all: $(TARGET)
 

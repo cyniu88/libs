@@ -1,10 +1,10 @@
 #include "ThreadPool.h"
 
 ThreadPool::ThreadPool(size_t threads, size_t maxQueueSize, EnqueueMode mode)
-    : maxQueueSize(maxQueueSize), mode(mode)
+    : threadNames(threads, "NULL"), maxQueueSize(maxQueueSize), mode(mode)
 {
     for (size_t i = 0; i < threads; ++i) {
-        workers.emplace_back(&ThreadPool::workerLoop, this);
+        workers.emplace_back(&ThreadPool::workerLoop, this, i);
     }
 }
 
@@ -26,7 +26,7 @@ void ThreadPool::stop() {
             worker.join();
 }
 
-void ThreadPool::workerLoop() {
+void ThreadPool::workerLoop(size_t workerId) {
     while (true) {
         std::function<void()> task;
 
@@ -36,8 +36,11 @@ void ThreadPool::workerLoop() {
                 return stopFlag || !tasks.empty();
             });
 
-            if (stopFlag && tasks.empty())
+            if (stopFlag && tasks.empty()) {
+                std::lock_guard<std::mutex> nameLock(namesMutex);
+                threadNames[workerId] = "NULL";
                 return;
+            }
 
             task = std::move(tasks.front());
             tasks.pop();
@@ -45,5 +48,39 @@ void ThreadPool::workerLoop() {
         }
 
         task();
+        
+        {
+            std::lock_guard<std::mutex> nameLock(namesMutex);
+            threadNames[workerId] = "NULL";
+        }
     }
+}
+
+void ThreadPool::setThreadName(const std::string& name) {
+    std::thread::id currentId = std::this_thread::get_id();
+    std::lock_guard<std::mutex> lock(namesMutex);
+    
+    for (size_t i = 0; i < workers.size(); ++i) {
+        if (workers[i].get_id() == currentId) {
+            threadNames[i] = name;
+            break;
+        }
+    }
+}
+
+std::string ThreadPool::generateRandomName() const {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(1000, 9999);
+    return "Task_" + std::to_string(dis(gen));
+}
+
+void ThreadPool::printThreadNames() const {
+    std::lock_guard<std::mutex> lock(namesMutex);
+    std::cout << "Thread names: ";
+    for (size_t i = 0; i < threadNames.size(); ++i) {
+        std::cout << "[" << i << ": " << threadNames[i] << "]";
+        if (i < threadNames.size() - 1) std::cout << " ";
+    }
+    std::cout << std::endl;
 }

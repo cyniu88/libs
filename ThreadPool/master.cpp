@@ -3,7 +3,7 @@
 #include <chrono>
 
 int main() {
-    ThreadPool pool(3, 3, ThreadPool::EnqueueMode::Blocking);
+    ThreadPool pool(3, 13, ThreadPool::EnqueueMode::NonBlocking);
 
     std::mutex mtx;
     auto boo = [&mtx] (int i) {
@@ -17,11 +17,13 @@ int main() {
         };
 
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 30; ++i) {
         auto result = pool.enqueue(boo, i);
 
         if (!result)
             std::cout << "❌ Zadanie " << i << " odrzucone (kolejka pełna)\n";
+        
+    pool.printThreadNames();
     }
 
     std::cout << "Wszystkie zadania zostały zlecone.\n";
