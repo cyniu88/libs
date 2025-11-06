@@ -72,7 +72,7 @@ public:
     }
 
     void stop();
-    void printThreadNames() const;
+    std::string printThreadNames() const;
 
 private:
     void workerLoop(size_t workerId);

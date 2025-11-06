@@ -1,5 +1,7 @@
 #include "ThreadPool.h"
 
+#include <sstream>
+
 ThreadPool::ThreadPool(size_t threads, size_t maxQueueSize, EnqueueMode mode)
     : threadNames(threads, "NULL"), maxQueueSize(maxQueueSize), mode(mode)
 {
@@ -75,12 +77,13 @@ std::string ThreadPool::generateRandomName() const {
     return "Task_" + std::to_string(dis(gen));
 }
 
-void ThreadPool::printThreadNames() const {
+std::string ThreadPool::printThreadNames() const {
     std::lock_guard<std::mutex> lock(namesMutex);
-    std::cout << "Thread names: ";
+    std::stringstream ss;
+    ss << "Thread names: ";
     for (size_t i = 0; i < threadNames.size(); ++i) {
-        std::cout << "[" << i << ": " << threadNames[i] << "]";
-        if (i < threadNames.size() - 1) std::cout << " ";
+        ss << "[" << i << ": " << threadNames[i] << "]" << std::endl;
+        if (i < threadNames.size() - 1) ss << std::endl;
     }
-    std::cout << std::endl;
+    return ss.str();
 }
