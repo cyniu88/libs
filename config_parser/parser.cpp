@@ -1,5 +1,6 @@
 #include "parser.hpp"
 #include <fstream>
+#include <stdexcept>
 
 namespace PARSER {
 std::map<std::string, std::string> read_config(const char *file_path)
@@ -13,7 +14,7 @@ std::map<std::string, std::string> read_config(const char *file_path)
 
     config_file.open(file_path, std::ios::in);
     if (config_file.good() == false) {
-        throw "cannot read config";
+        throw std::runtime_error(std::string("cannot read config: ") + file_path);
     }
 
     while (!config_file.eof()) {
