@@ -46,15 +46,15 @@ public:
     ptr = std::make_shared<mockTest>();
     t.tt = ptr;
   }
+  void TearDown() override {
+    t.tt.reset();
+  }
   testHandler t;
-  std::shared_ptr<TestIf> ptr;
-
+  std::shared_ptr<mockTest> ptr;
 };
 
 TEST_F(testTest, main)
 {
-  //testHandler::tt = ptr;
-  //EXPECT_CALL(*testHandler::tt.get(), method(testing::_));
+  EXPECT_CALL(*ptr, method(67));
   t.print(67);
-
 }
