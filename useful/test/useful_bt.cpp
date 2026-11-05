@@ -124,3 +124,114 @@ TEST(usefull_libs, ipCountry)
     std::string country{"Poland"};
     EXPECT_STREQ(country.c_str(), useful_F_libs::ipCountry(ip).value_or("dupa").c_str());
 }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// stateToString / stringToState – pokrycie gałęzi enum (usefull.cpp ~53% linii)
+// ──────────────────────────────────────────────────────────────────────────────
+TEST(StateConversion, stateToString_all_values)
+{
+    EXPECT_EQ(stateToString(STATE::OFF),          "OFF");
+    EXPECT_EQ(stateToString(STATE::ON),           "ON");
+    EXPECT_EQ(stateToString(STATE::PLAY),         "PLAY");
+    EXPECT_EQ(stateToString(STATE::PAUSE),        "PAUSE");
+    EXPECT_EQ(stateToString(STATE::STOP),         "STOP");
+    EXPECT_EQ(stateToString(STATE::ACTIVE),       "ACTIVE");
+    EXPECT_EQ(stateToString(STATE::DEACTIVE),     "DEACTIVE");
+    EXPECT_EQ(stateToString(STATE::WORKING),      "WORKING");
+    EXPECT_EQ(stateToString(STATE::DEFINE),       "DEFINE");
+    EXPECT_EQ(stateToString(STATE::UNDEFINE),     "UNDEFINE");
+    EXPECT_EQ(stateToString(STATE::LOCK),         "LOCK");
+    EXPECT_EQ(stateToString(STATE::UNLOCK),       "UNLOCK");
+    EXPECT_EQ(stateToString(STATE::EMPTY),        "EMPTY");
+    EXPECT_EQ(stateToString(STATE::FULL),         "FULL");
+    EXPECT_EQ(stateToString(STATE::SEND_OK),      "SEND_OK");
+    EXPECT_EQ(stateToString(STATE::SEND_NOK),     "SEND_NOK");
+    EXPECT_EQ(stateToString(STATE::ENABLED),      "ENABLED");
+    EXPECT_EQ(stateToString(STATE::DISABLED),     "DISABLED");
+    EXPECT_EQ(stateToString(STATE::CONNECTED),    "CONNECTED");
+    EXPECT_EQ(stateToString(STATE::DISCONNECTED), "DISCONNECTED");
+    EXPECT_EQ(stateToString(STATE::ARMED),        "ARMED");
+    EXPECT_EQ(stateToString(STATE::DISARMED),     "DISARMED");
+    EXPECT_EQ(stateToString(STATE::UNKNOWN),      "UNKNOWN");
+}
+
+TEST(StateConversion, stringToState_all_values)
+{
+    EXPECT_EQ(stringToState("OFF"),          STATE::OFF);
+    EXPECT_EQ(stringToState("ON"),           STATE::ON);
+    EXPECT_EQ(stringToState("PLAY"),         STATE::PLAY);
+    EXPECT_EQ(stringToState("PAUSE"),        STATE::PAUSE);
+    EXPECT_EQ(stringToState("STOP"),         STATE::STOP);
+    EXPECT_EQ(stringToState("ACTIVE"),       STATE::ACTIVE);
+    EXPECT_EQ(stringToState("DEACTIVE"),     STATE::DEACTIVE);
+    EXPECT_EQ(stringToState("WORKING"),      STATE::WORKING);
+    EXPECT_EQ(stringToState("DEFINE"),       STATE::DEFINE);
+    EXPECT_EQ(stringToState("UNDEFINE"),     STATE::UNDEFINE);
+    EXPECT_EQ(stringToState("LOCK"),         STATE::LOCK);
+    EXPECT_EQ(stringToState("UNLOCK"),       STATE::UNLOCK);
+    EXPECT_EQ(stringToState("EMPTY"),        STATE::EMPTY);
+    EXPECT_EQ(stringToState("FULL"),         STATE::FULL);
+    EXPECT_EQ(stringToState("SEND_OK"),      STATE::SEND_OK);
+    EXPECT_EQ(stringToState("SEND_NOK"),     STATE::SEND_NOK);
+    EXPECT_EQ(stringToState("ENABLED"),      STATE::ENABLED);
+    EXPECT_EQ(stringToState("DISABLED"),     STATE::DISABLED);
+    EXPECT_EQ(stringToState("CONNECTED"),    STATE::CONNECTED);
+    EXPECT_EQ(stringToState("DISCONNECTED"), STATE::DISCONNECTED);
+    EXPECT_EQ(stringToState("ARMED"),        STATE::ARMED);
+    EXPECT_EQ(stringToState("DISARMED"),     STATE::DISARMED);
+    EXPECT_EQ(stringToState("null"),         STATE::UNDEFINE);
+    EXPECT_EQ(stringToState("totally_unknown"), STATE::UNKNOWN);
+}
+
+TEST(StateConversion, roundtrip)
+{
+    // stateToString → stringToState musi dać oryginał
+    for (auto s : {STATE::OFF, STATE::ON, STATE::LOCK, STATE::UNLOCK,
+                   STATE::ARMED, STATE::DISARMED, STATE::CONNECTED, STATE::DISCONNECTED})
+    {
+        EXPECT_EQ(stringToState(stateToString(s)), s);
+    }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// useful_F_libs free functions
+// ──────────────────────────────────────────────────────────────────────────────
+TEST(UsefulLibs, replaceAll_basic)
+{
+    EXPECT_EQ(useful_F_libs::replaceAll("aa bb aa", "aa", "XX"), "XX bb XX");
+    EXPECT_EQ(useful_F_libs::replaceAll("nothingtochange", "ZZ", "XX"), "nothingtochange");
+    EXPECT_EQ(useful_F_libs::replaceAll("aaa", "a", "bb"), "bbbbbb");
+}
+
+TEST(UsefulLibs, stringToHex_basic)
+{
+    EXPECT_EQ(useful_F_libs::stringToHex("A"), "41");
+    EXPECT_EQ(useful_F_libs::stringToHex(""), "");
+    EXPECT_EQ(useful_F_libs::stringToHex(std::string(1, '\x00')), "00");
+}
+
+TEST(UsefulLibs, removeHtmlTag_strips_tags)
+{
+    std::string html = "<b>Hello</b> <i>World</i>";
+    EXPECT_EQ(useful_F_libs::removeHtmlTag(html), "Hello World");
+}
+
+TEST(UsefulLibs, find_tag_extracts_content)
+{
+    EXPECT_EQ(useful_F_libs::find_tag("<tag>value</tag>"), "value");
+    EXPECT_EQ(useful_F_libs::find_tag("<a>123</a>"), "123");
+}
+
+TEST(UsefulLibs, hasSubstring)
+{
+    EXPECT_TRUE(useful_F_libs::hasSubstring("hello world", "world"));
+    EXPECT_FALSE(useful_F_libs::hasSubstring("hello world", "xyz"));
+    EXPECT_TRUE(useful_F_libs::hasSubstring("abc", ""));
+}
+
+TEST(UsefulLibs, toLower)
+{
+    std::string s = "HeLLo WoRLd";
+    useful_F_libs::toLower(s);
+    EXPECT_EQ(s, "hello world");
+}
